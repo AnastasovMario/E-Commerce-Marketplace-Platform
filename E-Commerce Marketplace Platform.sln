@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-Commerce Marketplace Platform", "E-Commerce Marketplace Platform\E-Commerce Marketplace Platform.csproj", "{FBA8BEB6-A6FC-4EAA-9014-ADD1CDA9D8F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-CommerceMarketplace", "E-Commerce Marketplace Platform\E-CommerceMarketplace.csproj", "{FBA8BEB6-A6FC-4EAA-9014-ADD1CDA9D8F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-CommerceMarketplace.Core", "E-CommerMarketplace.Core\E-CommerceMarketplace.Core.csproj", "{D311DCB8-2219-441B-AB16-4C138F640888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-CommerceMarketplace.Infrastructure", "E-CommerceMarketplace.Infrastructure\E-CommerceMarketplace.Infrastructure.csproj", "{B3365D96-B236-4AFA-B521-B84A02A13730}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{FBA8BEB6-A6FC-4EAA-9014-ADD1CDA9D8F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBA8BEB6-A6FC-4EAA-9014-ADD1CDA9D8F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBA8BEB6-A6FC-4EAA-9014-ADD1CDA9D8F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D311DCB8-2219-441B-AB16-4C138F640888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D311DCB8-2219-441B-AB16-4C138F640888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D311DCB8-2219-441B-AB16-4C138F640888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D311DCB8-2219-441B-AB16-4C138F640888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3365D96-B236-4AFA-B521-B84A02A13730}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3365D96-B236-4AFA-B521-B84A02A13730}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3365D96-B236-4AFA-B521-B84A02A13730}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3365D96-B236-4AFA-B521-B84A02A13730}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
