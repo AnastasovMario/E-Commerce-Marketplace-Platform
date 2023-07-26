@@ -22,7 +22,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public decimal Price { get; init; }
 
         [Required]
-        public string ImageUrl { get; init; }
+        public string ImageUrl { get; init; } = null!;
 
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; init; }
@@ -30,6 +30,8 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public Category Category { get; set; } = null!;
 
         [ForeignKey(nameof(Vendor))]
-        public string VendorId { get; init; } = null!;
+        public int VendorId { get; init; } 
+
+        public Vendor Vendor { get; init; } = null!;
     }
 }

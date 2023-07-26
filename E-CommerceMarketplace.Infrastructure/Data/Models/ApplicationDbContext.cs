@@ -14,6 +14,10 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new StatusConfiguration());
+            builder.ApplyConfiguration(new ProductConfiguration());
+            builder.ApplyConfiguration(new VendorConfiguration());
 
             base.OnModelCreating(builder);
         }
