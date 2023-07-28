@@ -37,13 +37,16 @@ namespace E_CommerceMarketplace.Core.Services
         {
             return await repo.AllReadonly<Product>()
                 .OrderByDescending(p => p.Id)
-                .Take(5)
+                .Take(3)
                 .Select(p => new ProductHomeModel
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Price = p.Price,
+                    Price = Math.Round(p.Price, 2, MidpointRounding.AwayFromZero),
                     ImageUrl = p.ImageUrl,
+                    Category = p.Category.Name,
+                    Description = p.Description,
+                    Vendor = p.Vendor.User.FirstName + " " + p.Vendor.User.LastName,
                 })
                 .ToListAsync();
         }

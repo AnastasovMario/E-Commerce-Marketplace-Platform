@@ -27,21 +27,21 @@
 <div class="mb-5"></div>
 
 <div class="card-container">
-	<div class="card-carousel">
+	<div class="card-group">
 		@foreach (var product in Model)
 		{
-			<div class="card" style="width: 18rem;">
+			<div class="card">
 				<img class="card-img-top" src="@product.ImageUrl" alt="Product Image">
 				<div class="card-body">
 					<h5 class="card-title">Name: @product.Name</h5>
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					<p class="card-text">@product.Description</p>
 				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">Price: @product.Price</li>
-					<li class="list-group-item">Category: @product.CategoryId</li>
-					<li class="list-group-item">Vestibulum at eros</li>
+					<li class="list-group-item">Category: @product.Category</li>
+					<li class="list-group-item">Vendor: @product.Vendor</li>
 				</ul>
-				<div class="card-body">
+				<div class="card-footer">
 					<a href="#" class="card-link">Details</a>
 					<a href="#" class="card-link">Put in Cart</a>
 				</div>
@@ -53,3 +53,4 @@
 		<button class="next-button">Next</button>
 	</div>
 </div>
+

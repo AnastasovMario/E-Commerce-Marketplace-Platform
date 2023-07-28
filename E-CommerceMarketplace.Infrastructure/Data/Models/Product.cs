@@ -22,16 +22,19 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public decimal Price { get; init; }
 
         [Required]
-        public string ImageUrl { get; init; } = null!;
+        public string? ImageUrl { get; init; }
 
         [ForeignKey(nameof(Category))]
-        public int CategoryId { get; init; }
+        public int Category_Id { get; init; }
 
         public Category Category { get; set; } = null!;
 
         [ForeignKey(nameof(Vendor))]
-        public int VendorId { get; init; } 
+        public int Vendor_Id { get; init; } 
 
         public Vendor Vendor { get; init; } = null!;
+
+        [MaxLength(2000)]
+        public string? Description { get; set; }
     }
 }

@@ -13,9 +13,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
-        public string UserId { get; set; } = null!;
-
-        [ForeignKey(nameof(UserId))]
+		[ForeignKey(nameof(User))]
+		public string User_Id { get; set; } = null!;
+        
         public ApplicationUser User { get; set; } = null!;
     }
 }

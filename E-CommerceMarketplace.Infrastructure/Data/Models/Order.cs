@@ -16,7 +16,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [ForeignKey(nameof(Buyer))]
-        public string? BuyerId { get; set; }
+        public string? Buyer_Id { get; set; }
 
         public ApplicationUser? Buyer { get; set; } = null!;
 
@@ -26,12 +26,12 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public DateTime? DatePaid { get; set; }
 
         [ForeignKey(nameof(Status))]
-        public int StatusId { get; set; }
+        public int Status_Id { get; set; }
 
         public Status Status { get; set; } = null!;
 
         [ForeignKey(nameof(Payment))]
-        public int? PaymentId { get; set; }
+        public int? Payment_Id { get; set; }
 
         public Payment? Payment { get; set; } = null!;
 
