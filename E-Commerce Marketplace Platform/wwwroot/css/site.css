@@ -1,18 +1,80 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+/* Styling for the item card container */
+.item-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+    /* Styling for the product image */
+    .item-card img {
+        max-width: 100%;
+        height: auto;
+    }
+
+/* Styling for the item details section */
+.item-details {
+    margin-top: 10px;
+}
+
+/* Styling for the product name */
+.item-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Styling for the product price */
+.item-price {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Styling for the product category */
+.item-category {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Styling for the pagination buttons */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+    .pagination button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 0 5px;
+    }
+
+        .pagination button:hover {
+            background-color: #0056b3;
+        }
+

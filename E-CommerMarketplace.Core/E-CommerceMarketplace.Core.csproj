@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\E-CommerceMarketplace.Infrastructure\E-CommerceMarketplace.Infrastructure.csproj" />
   </ItemGroup>
 
