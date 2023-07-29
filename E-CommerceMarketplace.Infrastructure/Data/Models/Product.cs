@@ -14,26 +14,26 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; init; } = null!;
+        public string Name { get; set; } = null!;
 
         [Required]
         [Column(TypeName = "money")]
         [Precision(18, 2)]
-        public decimal Price { get; init; }
+        public decimal Price { get; set; }
 
 		[Required]
 		[StringLength(200)]
 		public string ImageUrl { get; set; } = null!;
 
 		[ForeignKey(nameof(Category))]
-        public int Category_Id { get; init; }
+        public int Category_Id { get; set; }
 
         public Category Category { get; set; } = null!;
 
         [ForeignKey(nameof(Vendor))]
-        public int Vendor_Id { get; init; } 
+        public int Vendor_Id { get; set; } 
 
-        public Vendor Vendor { get; init; } = null!;
+        public Vendor Vendor { get; set; } = null!;
 
         [MaxLength(2000)]
         public string? Description { get; set; }

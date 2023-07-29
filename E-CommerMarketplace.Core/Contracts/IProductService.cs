@@ -1,9 +1,4 @@
 ﻿using E_CommerceMarketplace.Core.Models.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace E_CommerceMarketplace.Core.Contracts
 {
@@ -13,8 +8,24 @@ namespace E_CommerceMarketplace.Core.Contracts
 
         Task<IEnumerable<ProductCategoryModel>> AllCategories();
 
-        Task<bool> CategoryExists(int categoryId);
+		Task<IEnumerable<ProductStatusesModel>> AllProductStatuses();
 
-        Task<int> Create(ProductModel model, int vendorId);
-    }
+		Task<bool> CategoryExists(int categoryId);
+
+        Task<bool> StatusExists(int statusId);
+
+        Task<int> Create(ProductModel productModel, int vendorId);
+
+		Task<int> Edit(int productId, ProductEditModel productModel);
+
+        Task<bool> Exists(int productId);
+
+        Task<bool> HasVendorWithId(int productId, string userId);
+
+        Task<int> GetProductCategoryId(int productId);
+
+        Task<int> GetProductStatusId(int productId);
+
+        //Task<ProductEditModel> GetProductDetailsById(int productId);
+	}
 }

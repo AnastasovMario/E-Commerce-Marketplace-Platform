@@ -3,8 +3,6 @@ using E_CommerceMarketplace.Core.Models.Product;
 using E_CommerceMarketplace.Infrastructure.Common;
 using E_CommerceMarketplace.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace E_CommerceMarketplace.Core.Services
 {
@@ -23,6 +21,19 @@ namespace E_CommerceMarketplace.Core.Services
 				{
 					Id = p.Id,
 					Name = p.Name,
+				})
+				.ToListAsync();
+		}
+
+		public async Task<IEnumerable<ProductStatusesModel>> AllProductStatuses()
+		{
+			return await repo.AllReadonly<Status>()
+				.OrderByDescending(s => s.Id)
+				.Take(2)
+				.Select(s => new ProductStatusesModel
+				{
+					Id = s.Id,
+					Description = s.Description
 				})
 				.ToListAsync();
 		}
@@ -53,7 +64,29 @@ namespace E_CommerceMarketplace.Core.Services
 			return product.Id;
 		}
 
-		public async Task<IEnumerable<ProductHomeModel>> GetLastProducts()
+		public async Task<int> Edit(int productId, ProductEditModel productModel)
+		{
+			var product = await repo.GetByIdAsync<Product>(productId);
+
+			product.Name = productModel.Name;
+			product.Price = productModel.Price;
+			product.ImageUrl = productModel.ImageUrl;
+			product.Description = productModel.Description;
+			product.Category_Id = productModel.CategoryId;
+			product.Status_Id = productModel.StatusId;
+
+			await repo.SaveChangesAsync();
+
+			return product.Id;
+		}
+
+        public async Task<bool> Exists(int productId)
+        {
+			return await repo.AllReadonly<Product>()
+				.AnyAsync(p => p.Id == productId);
+        }
+
+        public async Task<IEnumerable<ProductHomeModel>> GetLastProducts()
 		{
 			return await repo.AllReadonly<Product>()
 				.OrderByDescending(p => p.Id)
@@ -71,5 +104,42 @@ namespace E_CommerceMarketplace.Core.Services
 				.ToListAsync();
 		}
 
-	}
+        public async Task<int> GetProductCategoryId(int productId)
+        {
+			return await repo.AllReadonly<Product>()
+				.Where(p => p.Id == productId)
+				.Select(p => p.Category_Id)
+				.FirstOrDefaultAsync();
+        }
+
+        public async Task<int> GetProductStatusId(int productId)
+        {
+            return await repo.AllReadonly<Product>()
+                .Where(p => p.Id == productId)
+                .Select(p => p.Status_Id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> HasVendorWithId(int productId, string userId)
+        {
+            bool result = false;
+            var product = await repo.AllReadonly<Product>()
+                .Where(p => p.Id == productId)
+                .Include(h => h.Vendor)
+                .FirstOrDefaultAsync();
+
+            if (product?.Vendor != null && product.Vendor.User_Id == userId)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public async Task<bool> StatusExists(int statusId)
+        {
+            return await repo.AllReadonly<Status>()
+                .AnyAsync(s => s.Id == statusId);
+        }
+    }
 }

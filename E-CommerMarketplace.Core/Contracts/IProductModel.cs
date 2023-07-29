@@ -2,5 +2,6 @@
 {
     public interface IProductModel
     {
+        public string Name { get; }
     }
 }

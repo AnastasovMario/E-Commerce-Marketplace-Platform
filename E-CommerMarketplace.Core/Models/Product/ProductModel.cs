@@ -27,7 +27,7 @@ namespace E_CommerceMarketplace.Core.Models.Product
 		public int CategoryId { get; init; }
 
 		[MaxLength(2000)]
-		[Display(Name = "Category")]
+		[Display(Name = "Description")]
 		public string? Description { get; set; }
 
 		public IEnumerable<ProductCategoryModel> ProductCategories { get; set; } = new List<ProductCategoryModel>();
