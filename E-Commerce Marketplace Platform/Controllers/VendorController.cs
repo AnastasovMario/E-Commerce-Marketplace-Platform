@@ -1,4 +1,5 @@
 ﻿using E_Commerce_Marketplace_Platform.Extensions;
+using E_CommerceMarketplace.Core.Constants;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Vendor;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +22,10 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		{
 			if (await vendorService.ExistsById(User.Id()))
 			{
-				throw new ArgumentException("Tried to become a vendor without permission");
+                TempData[MessageConstants.ErrorMessage] = "Вие вече сте Продавач";
+
+                return RedirectToAction("Index", "Home");
+                //throw new ArgumentException("Tried to become a vendor without permission");				
 			}
 
 			var model = new BecomeVendorModel();
@@ -41,14 +45,14 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
 			if (await vendorService.ExistsById(userId))
 			{
-				//TempData[MessageConstant.ErrorMessage] = "Вие вече сте Агент";
+				TempData[MessageConstants.ErrorMessage] = "Вие вече сте Продавач";
 
 				return RedirectToAction("Index", "Home");
 			}
 
 			if (await vendorService.UserWithPhoneNumberExists(model.PhoneNumber))
 			{
-				//TempData[MessageConstant.ErrorMessage] = "Телефона вече съществува";
+				TempData[MessageConstants.ErrorMessage] = "Телефона вече съществува";
 
 				return RedirectToAction("Index", "Home");
 			}
