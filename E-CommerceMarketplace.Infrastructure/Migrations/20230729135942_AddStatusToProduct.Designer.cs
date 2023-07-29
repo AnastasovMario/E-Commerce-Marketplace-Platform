@@ -4,6 +4,7 @@ using E_CommerceMarketplace.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_CommerceMarketplace.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729135942_AddStatusToProduct")]
+    partial class AddStatusToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,16 +104,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4a66e40f-30ae-4988-9406-9f7aeb163133",
+                            ConcurrencyStamp = "bf9fa067-6195-4c76-898a-a91a047f9c41",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJP5kKDqwiGksm/vpeheo5exEGlOt5GRGjLhtdrbwtENRnKL6o06OH0ayy+f7kVWQA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEM30uGJrVpWV4B/rCIwESlldxMWDcdHZ8R0fbiWHYUiP6iNyYlhSww0ACbtFXm6mg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8b584840-fb01-4a16-9ff9-486b3b0e19e4",
+                            SecurityStamp = "82b4f4fb-afff-4bf0-bc89-4adb95e32276",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -119,16 +121,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "711d37a1-71cf-4eb8-8caa-bed642b92cf7",
+                            ConcurrencyStamp = "1d9af40f-a668-4cbf-85b5-79d23a85b300",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEFbIb0m6DWDzDhziVvGQA6x7FzvKkGqivTIKycz9MvWuLNvEB9209GhylOM8xoQIg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENxHRxmsYVIXoywSwtAtYlHsCIOiv74gsLgStQGoCgCcxO0+qkiFT9pgMThXcT6llA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2105d12b-2896-4d75-aa3e-cef7ababf9a7",
+                            SecurityStamp = "9a81201b-71b1-43b0-8c0d-3faf57255f15",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -136,16 +138,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "08001a08-fe25-4413-93e5-33e250230023",
+                            ConcurrencyStamp = "7e27ec2c-b60a-46ab-b77e-2b502e487cab",
                             Email = "mario@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "mario@mail.com",
                             NormalizedUserName = "mario@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMNi9pyJxtCd1siOd/noXt9MvuZOJnwbSnLci8OzRVVxX8zYbbfNwUSJsmafNyPrJQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJmerfr8958JqkTneQYE3Gla1PjSqpfrDpogu/lczLl945hsbGTgK7hhL8cxBQ0Ruw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f1a17060-5e55-41d0-804f-34230722b07b",
+                            SecurityStamp = "ffbc65e0-48de-499a-9b36-9185b3a4e30d",
                             TwoFactorEnabled = false,
                             UserName = "mario@mail.com"
                         });
@@ -282,7 +284,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("money");
 
-                    b.Property<int>("Status_Id")
+                    b.Property<int?>("Status_Id")
                         .HasColumnType("int");
 
                     b.Property<int>("Vendor_Id")
@@ -611,9 +613,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
 
                     b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Status", "Status")
                         .WithMany()
-                        .HasForeignKey("Status_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Status_Id");
 
                     b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Vendor", "Vendor")
                         .WithMany()

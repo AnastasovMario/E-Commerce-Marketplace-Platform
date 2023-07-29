@@ -42,7 +42,8 @@ namespace E_CommerceMarketplace.Core.Services
 				ImageUrl = model.ImageUrl,
 				Category_Id = model.CategoryId,
 				Vendor_Id = vendorId,
-				Description = model.Description
+				Description = model.Description,
+				Status_Id = 4,			
 			};
 
 			await repo.AddAsync(product);
@@ -64,7 +65,7 @@ namespace E_CommerceMarketplace.Core.Services
 					Price = Math.Round(p.Price, 2, MidpointRounding.AwayFromZero),
 					ImageUrl = p.ImageUrl,
 					Category = p.Category.Name,
-					Description = p.Description,
+					Status = p.Status.Description,
 					Vendor = p.Vendor.FirstName + " " + p.Vendor.LastName,
 				})
 				.ToListAsync();

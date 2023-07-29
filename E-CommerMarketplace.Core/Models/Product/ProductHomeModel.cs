@@ -27,10 +27,9 @@ namespace E_CommerceMarketplace.Core.Models.Product
         [Display(Name = "Category")]
         public string Category { get; set; } = null!;
 
-		[StringLength(2000)]
-		public string? Description { get; set; }
-
         public string Vendor { get; set; } = null!;
+
+        public string Status { get; set; } = null!;
 
         public IEnumerable<ProductCategoryModel> ProductCategories { get; set; } = new List<ProductCategoryModel>();
     }

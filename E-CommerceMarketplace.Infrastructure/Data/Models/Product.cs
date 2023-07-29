@@ -37,5 +37,10 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 
         [MaxLength(2000)]
         public string? Description { get; set; }
+
+		[ForeignKey(nameof(Status))]
+		public int Status_Id { get; set; }
+
+        public Status Status { get; set; } = null!;
     }
 }

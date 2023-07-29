@@ -34,7 +34,7 @@
 				<img class="card-img-top" src="@product.ImageUrl" alt="Product Image">
 				<div class="card-body">
 					<h5 class="card-title">Name: @product.Name</h5>
-					<p class="card-text">@product.Description</p>
+					<p class="card-text">@product.Status</p>
 				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">Price: @product.Price</li>
@@ -42,8 +42,10 @@
 					<li class="list-group-item">Vendor: @product.Vendor</li>
 				</ul>
 				<div class="card-footer">
-					<a href="#" class="card-link">Details</a>
-					<a href="#" class="card-link">Put in Cart</a>
+					<h5>
+						<a class="btn btn-primary" asp-controller="Product" asp-action="Details"
+					   asp-route-id="@product.Id"> Details</a>
+					</h5>
 				</div>
 			</div>
 		}

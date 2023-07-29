@@ -8,6 +8,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public int Id { get; init; }
 
         [Required]
-        public string Description { get; init; } = null!;
+		[MaxLength(2000)]
+		public string Description { get; init; } = null!;
     }
 }
