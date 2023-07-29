@@ -13,6 +13,14 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
+		[StringLength(30, MinimumLength = 1)]
+		public string FirstName { get; init; } = null!;
+
+        [Required]
+		[StringLength(30, MinimumLength = 1)]
+		public string LastName { get; init; } = null!;
+
+		[Required]
 		[ForeignKey(nameof(User))]
 		public string User_Id { get; set; } = null!;
         

@@ -25,8 +25,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
                 NormalizedUserName = "agent@mail.com",
                 Email = "agent@mail.com",
                 NormalizedEmail = "agent@mail.com",
-                FirstName = "Linda",
-                LastName = "Michaels",
                 IsActive = true
             };
 
@@ -42,8 +40,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
                 NormalizedEmail = "guest@mail.com",
-                FirstName = "Guest",
-                LastName = "Guestov",
                 IsActive = true
             };
 
@@ -59,8 +55,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
                 NormalizedUserName = "mario@mail.com",
                 Email = "mario@mail.com",
                 NormalizedEmail = "mario@mail.com",
-                FirstName = "Mario",
-                LastName = "Anastasov",
                 IsActive = true
             };
 

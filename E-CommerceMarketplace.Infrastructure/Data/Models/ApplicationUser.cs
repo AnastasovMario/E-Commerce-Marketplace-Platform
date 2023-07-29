@@ -16,13 +16,11 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public const int UserLastNameMaxLength = 12;
         public const int UserLastNameMinLength = 1;
 
-        [Required]
         [MaxLength(UserFirstNameMaxLength)]
-        public string FirstName { get; init; } = null!;
+        public string? FirstName { get; init; }
 
-        [Required]
         [MaxLength(UserLastNameMaxLength)]
-        public string LastName { get; init; } = null!;
+        public string? LastName { get; init; }
 
         [Required]
         public bool IsActive { get; set; }
