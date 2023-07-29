@@ -20,8 +20,4 @@
     <ProjectReference Include="..\E-CommerMarketplace.Core\E-CommerceMarketplace.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Product\" />
-  </ItemGroup>
-
 </Project>

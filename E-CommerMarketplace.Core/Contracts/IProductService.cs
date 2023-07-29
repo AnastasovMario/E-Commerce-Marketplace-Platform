@@ -14,5 +14,7 @@ namespace E_CommerceMarketplace.Core.Contracts
         Task<IEnumerable<ProductCategoryModel>> AllCategories();
 
         Task<bool> CategoryExists(int categoryId);
+
+        Task<int> Create(ProductModel model, int vendorId);
     }
 }

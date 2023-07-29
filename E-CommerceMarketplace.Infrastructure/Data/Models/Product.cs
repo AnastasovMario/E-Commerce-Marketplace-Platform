@@ -21,10 +21,11 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         [Precision(18, 2)]
         public decimal Price { get; init; }
 
-        [Required]
-        public string? ImageUrl { get; init; }
+		[Required]
+		[StringLength(200)]
+		public string ImageUrl { get; set; } = null!;
 
-        [ForeignKey(nameof(Category))]
+		[ForeignKey(nameof(Category))]
         public int Category_Id { get; init; }
 
         public Category Category { get; set; } = null!;
