@@ -65,7 +65,13 @@ namespace E_CommerceMarketplace.Core.Services
 			return product.Id;
 		}
 
-		public async Task<int> Edit(int productId, ProductEditModel productModel)
+        public async Task Delete(int productId)
+        {
+            await repo.DeleteAsync<Product>(productId);
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<int> Edit(int productId, ProductEditModel productModel)
 		{
 			var product = await repo.GetByIdAsync<Product>(productId);
 

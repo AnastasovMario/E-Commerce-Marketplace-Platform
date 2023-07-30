@@ -32,6 +32,6 @@ namespace E_CommerceMarketplace.Core.Contracts
 
         Task<IEnumerable<ProductServiceModel>> GetProductsByUserId(string userId);
 
-        //Task<ProductEditModel> GetProductDetailsById(int productId);
+        Task Delete(int productId);
     }
 }

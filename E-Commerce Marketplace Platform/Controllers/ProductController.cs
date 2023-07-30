@@ -72,7 +72,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         {
             if ((await productService.Exists(id)) == false)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Index");
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
             if ((await productService.HasVendorWithId(id, this.User.Id())) == false)
@@ -131,6 +131,49 @@ namespace E_Commerce_Marketplace_Platform.Controllers
             }
 
             var productId = await productService.Edit(model.Id, model);
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            if ((await productService.Exists(Id)) == false)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
+            if ((await productService.HasVendorWithId(Id, User.Id())) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied");
+            }
+
+            var product = await productService.GetProductDetailsById(Id);
+
+            var model = new ProductDetailsViewModel()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ProductDetailsViewModel model)
+        {
+            if ((await productService.Exists(model.Id)) == false)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+            if ((await productService.HasVendorWithId(model.Id, User.Id())) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied");
+            }
+
+            await productService.Delete(model.Id);
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
