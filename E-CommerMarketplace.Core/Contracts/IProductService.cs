@@ -26,6 +26,10 @@ namespace E_CommerceMarketplace.Core.Contracts
 
         Task<int> GetProductStatusId(int productId);
 
+        Task<IEnumerable<ProductServiceModel>> GetProductsByVendorId(int vendorId);
+
+        Task<IEnumerable<ProductServiceModel>> GetProductsByUserId(string userId);
+
         //Task<ProductEditModel> GetProductDetailsById(int productId);
-	}
+    }
 }

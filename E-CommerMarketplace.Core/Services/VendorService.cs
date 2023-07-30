@@ -42,6 +42,7 @@ namespace E_CommerceMarketplace.Core.Services
 		public async Task<int> GetVendorId(string userId)
 		{
 			return await repository.AllReadonly<Vendor>()
+				.Where(v => v.User_Id == userId)
 				.Select(v => v.Id)
 				.FirstOrDefaultAsync();
 		}

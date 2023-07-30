@@ -28,6 +28,9 @@
 						</li>
 						@if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
 						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Mine">My Products</a>
+							</li>
 							@if (await vendorService.ExistsById(this.User.Id()))
 							{
 								<li class="nav-item">

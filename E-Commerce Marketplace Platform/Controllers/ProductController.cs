@@ -136,5 +136,23 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Mine()
+        {
+            IEnumerable<ProductServiceModel> myProducts;
+            var userId = User.Id();
+            if (await vendorService.ExistsById(userId))
+            {
+                var vendorId = await vendorService.GetVendorId(userId);
+                myProducts = await productService.GetProductsByVendorId(vendorId);
+            }
+            else
+            {
+                myProducts = await productService.GetProductsByUserId(userId);
+            }
+
+            return View(myProducts);
+        }
     }
 }

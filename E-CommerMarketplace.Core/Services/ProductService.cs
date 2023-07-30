@@ -112,6 +112,38 @@ namespace E_CommerceMarketplace.Core.Services
 				.FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<ProductServiceModel>> GetProductsByUserId(string userId)
+        {
+            return await repo.AllReadonly<Product>()
+                .Where(p => p.Buyer_Id == userId)
+                .Select(p => new ProductServiceModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Status = p.Status.Description,
+                    ImageUrl = p.ImageUrl,
+					IsBought = p.Buyer_Id != null
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProductServiceModel>> GetProductsByVendorId(int vendorId)
+        {
+			return await repo.AllReadonly<Product>()
+				.Where(p => p.Vendor_Id == vendorId)
+				.Select(p => new ProductServiceModel
+				{
+					Id = p.Id,
+					Name = p.Name,
+					Price = p.Price,
+					Status = p.Status.Description,
+					ImageUrl = p.ImageUrl,
+					IsBought= p.Buyer_Id != null
+				})
+				.ToListAsync();
+        }
+
         public async Task<int> GetProductStatusId(int productId)
         {
             return await repo.AllReadonly<Product>()
