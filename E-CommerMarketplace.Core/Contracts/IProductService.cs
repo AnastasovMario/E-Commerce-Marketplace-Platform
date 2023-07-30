@@ -20,6 +20,8 @@ namespace E_CommerceMarketplace.Core.Contracts
 
         Task<bool> Exists(int productId);
 
+        Task<ProductDetailsServiceModel> GetProductDetailsById(int productId);
+
         Task<bool> HasVendorWithId(int productId, string userId);
 
         Task<int> GetProductCategoryId(int productId);

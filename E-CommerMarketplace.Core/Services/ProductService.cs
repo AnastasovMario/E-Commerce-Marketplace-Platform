@@ -1,5 +1,6 @@
 ﻿using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Product;
+using E_CommerceMarketplace.Core.Models.Vendor;
 using E_CommerceMarketplace.Infrastructure.Common;
 using E_CommerceMarketplace.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -112,7 +113,31 @@ namespace E_CommerceMarketplace.Core.Services
 				.FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<ProductServiceModel>> GetProductsByUserId(string userId)
+		public Task<ProductDetailsServiceModel> GetProductDetailsById(int productId)
+		{
+			return repo.AllReadonly<Product>()
+				.Where(p => p.Id == productId)
+				.Select(p => new ProductDetailsServiceModel
+				{
+					Id = p.Id,
+					Name = p.Name,
+					Price = p.Price,
+					Description = p.Description,
+					Status = p.Status.Description,
+					Category = p.Category.Name,
+					ImageUrl = p.ImageUrl,
+					IsBought = p.Buyer_Id != null,
+					Vendor = new VendorServiceModel
+					{
+						FirstName = p.Vendor.FirstName,
+						LastName = p.Vendor.LastName,
+						PhoneNumber = p.Vendor.PhoneNumber,
+					}
+				})
+				.FirstAsync();
+		}
+
+		public async Task<IEnumerable<ProductServiceModel>> GetProductsByUserId(string userId)
         {
             return await repo.AllReadonly<Product>()
                 .Where(p => p.Buyer_Id == userId)

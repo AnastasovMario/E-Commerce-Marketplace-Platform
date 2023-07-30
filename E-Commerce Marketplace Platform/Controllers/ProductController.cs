@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Runtime.InteropServices;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace E_Commerce_Marketplace_Platform.Controllers
 {
     [Authorize]
     public class ProductController : Controller
     {
-        private readonly IRepository repo;
         private readonly IProductService productService;
         private readonly IVendorService vendorService;
         public ProductController(IProductService _productService,
@@ -24,7 +24,6 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         {
             productService = _productService;
             vendorService = _vendorService;
-            repo = _repo;
         }
 
         [HttpGet]
@@ -82,8 +81,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
                 return RedirectToPage("/Account/AccessDenied");
             }
 
-            var product = await repo.AllReadonly<Product>()
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var product = await productService.GetProductDetailsById(id);
             var categoryId = await productService.GetProductCategoryId(id);
             var statusId = await productService.GetProductStatusId(id);
 
@@ -153,6 +151,20 @@ namespace E_Commerce_Marketplace_Platform.Controllers
             }
 
             return View(myProducts);
+        }
+
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int Id)
+        {
+            if ((await productService.Exists(Id) == false))
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Index");
+            }
+
+            var model = await productService.GetProductDetailsById(Id);
+
+            return View(model);
         }
     }
 }
