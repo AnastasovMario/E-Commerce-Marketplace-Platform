@@ -15,7 +15,68 @@ namespace E_CommerceMarketplace.Core.Services
 			repo = _repo;
 		}
 
-		public async Task<IEnumerable<ProductCategoryModel>> AllCategories()
+        public async Task<ProductQueryServiceModel> All(string? category = null,
+			string? status = null,
+            string? searchTerm = null,
+            ProductSorting sorting = ProductSorting.Newest,
+			int currentPage = 1,
+			int productsPerPage = 1)
+        {
+            var result = new ProductQueryServiceModel();
+			var query = repo.AllReadonly<Product>();
+
+			if (!string.IsNullOrEmpty(status))
+			{
+				query = query.Where(p => p.Status.Description == status);
+			}
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                query = query.Where(p => p.Category.Name == category);
+            }
+
+			if (!string.IsNullOrEmpty(searchTerm))
+            {
+				query = query
+					.Where(p => p.Name.Contains(searchTerm)
+					|| p.Vendor.FirstName.Contains(searchTerm)
+					|| p.Vendor.LastName.Contains(searchTerm));
+			}
+
+            query = sorting switch
+            {
+                ProductSorting.Price => query
+                    .OrderBy(h => h.Price),
+                ProductSorting.AvaiableFirst => query
+                    .OrderBy(h => h.Status.Id == 4)
+                    .ThenByDescending(h => h.Id),
+                _ => query.OrderByDescending(h => h.Id)
+            };
+
+            var products = await query
+                .Skip((currentPage - 1) * productsPerPage)
+                .Take(productsPerPage)
+                .Select(h => new ProductServiceModel()
+                {
+                    Id = h.Id,
+                    Name = h.Name,
+                    ImageUrl = h.ImageUrl,
+                    Price = h.Price,
+					Status = h.Status.Description,
+					IsBought = h.Status.Id == 4
+                })
+                .ToListAsync();
+
+            var totalHousesCount = await query.CountAsync();
+
+            return new()
+            {
+                TotalProductsCount = totalHousesCount,
+                Products = products,
+            };
+        }
+
+        public async Task<IEnumerable<ProductCategoryModel>> AllCategories()
 		{
 			return await repo.AllReadonly<Category>()
 				.Select(p => new ProductCategoryModel()
@@ -26,7 +87,15 @@ namespace E_CommerceMarketplace.Core.Services
 				.ToListAsync();
 		}
 
-		public async Task<IEnumerable<ProductStatusesModel>> AllProductStatuses()
+        public async Task<IEnumerable<string>> AllCategoriesNames()
+        {
+            return await repo.AllReadonly<Category>()
+                .Select(c => c.Name)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProductStatusesModel>> AllProductStatuses()
 		{
 			return await repo.AllReadonly<Status>()
 				.OrderByDescending(s => s.Id)
@@ -39,7 +108,15 @@ namespace E_CommerceMarketplace.Core.Services
 				.ToListAsync();
 		}
 
-		public async Task<bool> CategoryExists(int categoryId)
+        public async Task<IEnumerable<string>> AllStatusesNames()
+        {
+            return await repo.AllReadonly<Status>()
+                .Select(c => c.Description)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<bool> CategoryExists(int categoryId)
 		{
 			return await repo.AllReadonly<Category>()
 				.AnyAsync(c => c.Id == categoryId);

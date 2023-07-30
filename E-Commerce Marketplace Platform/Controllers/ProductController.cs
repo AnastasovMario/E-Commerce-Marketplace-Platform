@@ -1,4 +1,5 @@
 ﻿using E_Commerce_Marketplace_Platform.Extensions;
+using E_Commerce_Marketplace_Platform.Models;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Product;
 using E_CommerceMarketplace.Core.Services;
@@ -24,6 +25,25 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         {
             productService = _productService;
             vendorService = _vendorService;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> All([FromQuery] AllProductsQueryModel model)
+        {
+            var productsResult = await productService.All(model.Category,
+                model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            model.TotalProductsCount = productsResult.TotalProductsCount;
+            model.Products = productsResult.Products;
+
+            var productCategories = await productService.AllCategoriesNames();
+            var productStatuses = await productService.AllStatusesNames();
+
+            model.Statuses = productStatuses;
+            model.Categories = productCategories;
+
+            return View(model);
         }
 
         [HttpGet]

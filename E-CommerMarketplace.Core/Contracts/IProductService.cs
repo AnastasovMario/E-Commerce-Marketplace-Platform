@@ -28,10 +28,21 @@ namespace E_CommerceMarketplace.Core.Contracts
 
         Task<int> GetProductStatusId(int productId);
 
+        Task<IEnumerable<string>> AllCategoriesNames();
+
+        Task<IEnumerable<string>> AllStatusesNames();
+
         Task<IEnumerable<ProductServiceModel>> GetProductsByVendorId(int vendorId);
 
         Task<IEnumerable<ProductServiceModel>> GetProductsByUserId(string userId);
 
         Task Delete(int productId);
+
+        Task<ProductQueryServiceModel> All(string? category = null,
+            string? status = null,
+            string? searchTerm = null,
+            ProductSorting sorting = ProductSorting.Newest,
+            int currentPage = 1,
+            int productPage = 1);
     }
 }
