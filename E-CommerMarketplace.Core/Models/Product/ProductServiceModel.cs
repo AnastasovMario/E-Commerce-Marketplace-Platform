@@ -10,6 +10,7 @@ namespace E_CommerceMarketplace.Core.Models.Product
 		public decimal Price { get; set; }
 		public string ImageUrl { get; set; }
 		public string Status { get; set; }
+		public string Vendor { get; set; }
 		public bool IsBought { get; set; }
 	}
 }

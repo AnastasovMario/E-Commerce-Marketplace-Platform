@@ -63,7 +63,8 @@ namespace E_CommerceMarketplace.Core.Services
                     ImageUrl = h.ImageUrl,
                     Price = h.Price,
 					Status = h.Status.Description,
-					IsBought = h.Status.Id == 4
+					Vendor = h.Vendor.FirstName + " " + h.Vendor.LastName,
+					IsBought = h.Buyer_Id != null
                 })
                 .ToListAsync();
 

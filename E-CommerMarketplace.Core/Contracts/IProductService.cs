@@ -44,5 +44,7 @@ namespace E_CommerceMarketplace.Core.Contracts
             ProductSorting sorting = ProductSorting.Newest,
             int currentPage = 1,
             int productPage = 1);
+
+        Task<ProductBuyServiceModel> Buy(int productId);
     }
 }
