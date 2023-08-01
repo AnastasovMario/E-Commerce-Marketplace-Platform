@@ -2,15 +2,9 @@
 using E_Commerce_Marketplace_Platform.Models;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Product;
-using E_CommerceMarketplace.Core.Services;
 using E_CommerceMarketplace.Infrastructure.Common;
-using E_CommerceMarketplace.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Runtime.InteropServices;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace E_Commerce_Marketplace_Platform.Controllers
 {
@@ -20,8 +14,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         private readonly IProductService productService;
         private readonly IVendorService vendorService;
         public ProductController(IProductService _productService,
-            IVendorService _vendorService,
-            IRepository _repo)
+            IVendorService _vendorService)
         {
             productService = _productService;
             vendorService = _vendorService;

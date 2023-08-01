@@ -11,6 +11,7 @@ namespace E_Commerce_Marketplace_Platform.Extensions.DependencyInjection
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IProductService, ProductService>();
 			services.AddScoped<IVendorService, VendorService>();
+            services.AddScoped<IItemService, ItemService>();
 			return services;
         }
     }

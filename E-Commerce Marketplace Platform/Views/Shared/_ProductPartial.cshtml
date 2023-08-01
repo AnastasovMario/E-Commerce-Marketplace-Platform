@@ -30,7 +30,7 @@
 			asp-action="Buy" asp-route-id="@Model.Id" method="post">
 			<input class="btn btn-primary" type="submit" value="Buy" />
 			</form>*@
-					<a asp-controller="Product" asp-action="Buy" asp-route-id="@Model.Id"
+					<a asp-controller="Item" asp-action="Buy" asp-route-id="@Model.Id"
 			   class="btn btn-success">Buy</a>
 				}
 				@*else if (await houseService.IsRentedByUser(Model.Id, User.Id()))
