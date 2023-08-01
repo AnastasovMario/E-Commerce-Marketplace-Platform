@@ -43,9 +43,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 
         public Status Status { get; set; } = null!;
 
-        [ForeignKey(nameof(Buyer))]
-        public string? Buyer_Id { get; set; }
-
-        public ApplicationUser? Buyer { get; set; }
-    }
+		public ICollection<ProductSale> ProductSales { get; set; }
+	}
 }

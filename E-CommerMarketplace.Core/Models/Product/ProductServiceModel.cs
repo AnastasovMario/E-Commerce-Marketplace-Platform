@@ -11,6 +11,6 @@ namespace E_CommerceMarketplace.Core.Models.Product
 		public string ImageUrl { get; set; }
 		public string Status { get; set; }
 		public string Vendor { get; set; }
-		public bool IsBought { get; set; }
+		public bool IsAvailable { get; set; }
 	}
 }

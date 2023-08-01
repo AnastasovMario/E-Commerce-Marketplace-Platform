@@ -45,6 +45,6 @@ namespace E_CommerceMarketplace.Core.Contracts
             int currentPage = 1,
             int productPage = 1);
 
-        Task<ProductBuyServiceModel> Buy(int productId);
+        Task<OrderServiceModel> Buy(int productId);
     }
 }

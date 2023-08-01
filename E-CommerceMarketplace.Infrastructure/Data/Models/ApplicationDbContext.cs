@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
@@ -11,8 +12,20 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
             : base(options)
         {
         }
+		public DbSet<Order> Orders { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+		public DbSet<Category> Categories { get; set; }
+
+		public DbSet<Vendor> Vendors { get; set; }
+
+		public DbSet<Product> Products { get; set; }
+
+		public DbSet<Status> Statuses { get; set; }
+
+		public DbSet<Sale> Sales { get; set; }
+
+		public DbSet<ProductSale> ProductSales { get; set; }
+		protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
@@ -21,18 +34,23 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
             builder.ApplyConfiguration(new VendorConfiguration());
 
             base.OnModelCreating(builder);
-        }
 
-        public DbSet<Order> Orders { get; set; }
+			builder.Entity<ProductSale>()
+			.HasKey(ps => new { ps.ProductId, ps.SaleId });
 
-        public DbSet<Category> Categories { get; set; }
+			builder.Entity<ProductSale>()
+				.HasOne(ps => ps.Product)
+				.WithMany(p => p.ProductSales)
+				.HasForeignKey(ps => ps.ProductId)
+				.OnDelete(DeleteBehavior.Restrict);
 
-        public DbSet<Vendor> Vendors { get; set; }
+			builder.Entity<ProductSale>()
+				.HasOne(ps => ps.Sale)
+				.WithMany(s => s.ProductSales)
+				.HasForeignKey(ps => ps.SaleId)
+				.OnDelete(DeleteBehavior.Restrict);
+		}
 
-        public DbSet<Product> Products { get; set; }
-
-        public DbSet<Status> Statuses { get; set; }
-
-        public DbSet<Payment> Payments { get; set; }
-    }
+        
+	}
 }

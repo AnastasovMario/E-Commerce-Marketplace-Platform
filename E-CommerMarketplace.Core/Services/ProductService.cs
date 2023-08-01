@@ -64,7 +64,7 @@ namespace E_CommerceMarketplace.Core.Services
                     Price = h.Price,
 					Status = h.Status.Description,
 					Vendor = h.Vendor.FirstName + " " + h.Vendor.LastName,
-					IsBought = h.Buyer_Id != null
+					IsAvailable = h.Status.Id != 4
                 })
                 .ToListAsync();
 
@@ -117,7 +117,12 @@ namespace E_CommerceMarketplace.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<bool> CategoryExists(int categoryId)
+		public Task<OrderServiceModel> Buy(int productId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public async Task<bool> CategoryExists(int categoryId)
 		{
 			return await repo.AllReadonly<Category>()
 				.AnyAsync(c => c.Id == categoryId);
@@ -210,7 +215,7 @@ namespace E_CommerceMarketplace.Core.Services
 					Status = p.Status.Description,
 					Category = p.Category.Name,
 					ImageUrl = p.ImageUrl,
-					IsBought = p.Buyer_Id != null,
+					IsAvailable = p.Status.Id != 4,
 					Vendor = new VendorServiceModel
 					{
 						FirstName = p.Vendor.FirstName,
@@ -223,17 +228,17 @@ namespace E_CommerceMarketplace.Core.Services
 
 		public async Task<IEnumerable<ProductServiceModel>> GetProductsByUserId(string userId)
         {
-            return await repo.AllReadonly<Product>()
-                .Where(p => p.Buyer_Id == userId)
-                .Select(p => new ProductServiceModel
+            return await repo.AllReadonly<ProductSale>()
+                .Where(s => s.Sale.Buyer_Id == userId)
+                .Select(s => new ProductServiceModel
                 {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    Status = p.Status.Description,
-                    ImageUrl = p.ImageUrl,
-					IsBought = p.Buyer_Id != null
-                })
+                    Id = s.Product.Id,
+                    Name = s.Product.Name,
+                    Price = s.Product.Price,
+                    Status = s.Product.Status.Description,
+                    ImageUrl = s.Product.ImageUrl,
+					IsAvailable = s.Product.Status.Id != 4,
+				})
                 .ToListAsync();
         }
 
@@ -248,7 +253,7 @@ namespace E_CommerceMarketplace.Core.Services
 					Price = p.Price,
 					Status = p.Status.Description,
 					ImageUrl = p.ImageUrl,
-					IsBought= p.Buyer_Id != null
+					IsAvailable= p.Status.Id != 4,
 				})
 				.ToListAsync();
         }
