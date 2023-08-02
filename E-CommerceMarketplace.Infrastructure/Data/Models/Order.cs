@@ -30,6 +30,10 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 
         public Sale? Sale { get; set; } = null!;
 
+        [ForeignKey(nameof(User))]
+        public string User_Id { get; set; }
+        public ApplicationUser User { get; set; }
+
         public List<Product> Products { get; set; }
     }
 }
