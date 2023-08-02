@@ -4,6 +4,6 @@ namespace E_CommerceMarketplace.Core.Contracts
 {
 	public interface IItemService
 	{
-		Task<int> Create(ItemConfirmationModel model, int orderId);
+		Task<int> Create(ItemConfirmationModel model, string userId);
 	}
 }

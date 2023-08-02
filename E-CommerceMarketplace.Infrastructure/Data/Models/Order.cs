@@ -9,7 +9,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
     {
         public Order()
         {
-            Products = new List<Product>();
+            Items = new List<Item>();
         }
 
         [Key]
@@ -34,7 +34,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public string User_Id { get; set; }
         public ApplicationUser User { get; set; }
 
-        public List<Product> Products { get; set; }
+        public List<Item> Items { get; set; }
     }
 }
 

@@ -4,6 +4,6 @@ namespace E_CommerceMarketplace.Core.Contracts
 {
 	public interface IOrderService
 	{
-		Task<IEnumerable<OrderItemViewModel>> GetOrderItems(int orderId, string userId);
+		Task<IEnumerable<OrderItemViewModel>> GetOrderItems(string userId);
 	}
 }

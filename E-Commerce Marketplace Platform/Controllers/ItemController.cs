@@ -1,4 +1,5 @@
-﻿using E_CommerceMarketplace.Core.Contracts;
+﻿using E_Commerce_Marketplace_Platform.Extensions;
+using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Item;
 using E_CommerceMarketplace.Core.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -11,12 +12,17 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 	{
 		private readonly IProductService productService;
 		private readonly IVendorService vendorService;
+		private readonly IItemService itemService;
+
 		public ItemController(IProductService _productService,
-			IVendorService _vendorService)
+			IVendorService _vendorService,
+            IItemService _itemService)
 		{
 			productService = _productService;
 			vendorService = _vendorService;
-		}
+			itemService = _itemService;
+
+        }
 
 		[HttpGet]
 		public async Task<IActionResult> Buy(int id)
@@ -35,13 +41,15 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Buy(ItemConfirmationModel model, int quantity)
+		public async Task<IActionResult> Buy(ItemConfirmationModel model)
 		{
-
+			
 			if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
+
+			var orderId = await itemService.Create(model, User.Id());
 
 			return RedirectToAction(nameof(HomeController.Index), "Home");
 		}

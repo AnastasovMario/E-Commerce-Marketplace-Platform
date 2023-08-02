@@ -1,0 +1,42 @@
+﻿@model ItemConfirmationModel
+
+@{
+    ViewBag.Title = "Buy Item";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<form asp-action="Buy" method="post">
+    <input type="hidden" asp-for="Product_Id" />
+    <input type="hidden" asp-for="Name" />
+    <input type="hidden" asp-for="Price" />
+    <input type="hidden" asp-for="Vendor" />
+    <input type="hidden" asp-for="ImageUrl" />
+    <div class="row">
+        <div class="col-md-4">
+            <img class="card-img-top" src="@Model.ImageUrl" alt="Product Image">
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor" class="control-label"></label>
+                <input asp-for="Vendor" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Buy" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
