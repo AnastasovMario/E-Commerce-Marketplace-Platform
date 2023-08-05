@@ -2,6 +2,7 @@
 using E_CommerceMarketplace.Core.Models.Item;
 using E_CommerceMarketplace.Infrastructure.Common;
 using E_CommerceMarketplace.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_CommerceMarketplace.Core.Services
 {
@@ -34,5 +35,27 @@ namespace E_CommerceMarketplace.Core.Services
 
             return order.Id;
 		}
-	}
+
+        public async Task<OrderItemViewModel> GetItemById(int itemId)
+        {
+            return await repo.AllReadonly<Item>()
+                .Where(i => i.Id == itemId)
+                .Select(i => new OrderItemViewModel
+                {
+                    Id = i.Id,
+                    Name = i.Product.Name,
+                    ImageUrl = i.Product.ImageUrl,
+                    Price = i.Product.Price,
+                    Quantity = i.Quantity,
+                    Total = i.Quantity * i.Product.Price
+                })
+                .FirstAsync();
+        }
+
+        public async Task Remove(int itemId)
+        {
+            await repo.DeleteAsync<Item>(itemId);
+            await repo.SaveChangesAsync();
+        }
+    }
 }

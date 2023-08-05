@@ -202,9 +202,9 @@ namespace E_CommerceMarketplace.Core.Services
 				.FirstOrDefaultAsync();
         }
 
-		public Task<ProductDetailsServiceModel> GetProductDetailsById(int productId)
+		public async Task<ProductDetailsServiceModel> GetProductDetailsById(int productId)
 		{
-			return repo.AllReadonly<Product>()
+			return await repo.AllReadonly<Product>()
 				.Where(p => p.Id == productId)
 				.Select(p => new ProductDetailsServiceModel
 				{

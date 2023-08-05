@@ -53,5 +53,31 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
 			return RedirectToAction(nameof(HomeController.Index), "Home");
 		}
-	}
+
+		[HttpGet]
+		public async Task<IActionResult> Remove(int Id)
+		{
+			var item = await itemService.GetItemById(Id);
+
+			var model = new ItemRemoveViewModel()
+			{
+				Id = item.Id,
+				Name = item.Name,
+				ImageUrl = item.ImageUrl,
+				Total = item.Total
+			};
+
+
+            return View(model);
+		}
+
+		[HttpPost]
+        public async Task<IActionResult> Remove(ItemRemoveViewModel model)
+        {
+
+			await itemService.Remove(model.Id);
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+    }
 }
