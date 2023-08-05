@@ -24,14 +24,6 @@ namespace E_CommerceMarketplace.Core.Services
                 User_Id = userId
             };
 
-            //order.Items.Add(new()
-            //{
-            //    Quantity = model.Quantity,
-            //    Product_Id = model.Product_Id,
-            //    Total = Math.Round(model.Quantity * model.Price),
-            //    Order = order
-            //});
-
             await repo.AddAsync(order);
             await repo.SaveChangesAsync();
 
@@ -41,7 +33,7 @@ namespace E_CommerceMarketplace.Core.Services
         public async Task<OrderDetailsServiceModel> GetCurrentOrderForUser(string userId)
         {
             return await repo.AllReadonly<Order>()
-                .Where(o => o.User_Id == userId)
+                .Where(o => o.User_Id == userId && o.Sale_Id == null)
                 .Select(o => new OrderDetailsServiceModel()
                 {
                     Id = o.Id,
@@ -78,7 +70,7 @@ namespace E_CommerceMarketplace.Core.Services
         public async Task<IEnumerable<OrderItemViewModel>> GetOrderItems(int orderId)
         {
             return await repo.AllReadonly<Item>()
-                .Where(i => i.Order_Id == orderId)
+                .Where(i => i.Order_Id == orderId && i.Order.Sale_Id == null)
                 .Select(i => new OrderItemViewModel
                 {
                     Id = i.Id,
@@ -90,6 +82,29 @@ namespace E_CommerceMarketplace.Core.Services
                     Vendor = i.Product.Vendor.FirstName + " " + i.Product.Vendor.LastName,
                 })
                 .ToListAsync();
+        }
+
+        public async Task PayOrder(int orderId)
+        {       
+            var order = await repo.GetByIdAsync<Order>(orderId);
+
+            var itemsTotal = await repo.AllReadonly<Item>()
+                .Where(i => i.Order_Id == order.Id)
+                .SumAsync(i => i.Total);
+
+            var sale = new Sale()
+            {
+                Total = itemsTotal,
+                Date = DateTime.UtcNow,
+                Buyer_Id = order.User_Id
+            };
+
+			order.DateCompleted = DateTime.UtcNow;
+			order.Status_Id = 1;
+            order.Sale = sale;
+
+			await repo.AddAsync(sale);
+            await repo.SaveChangesAsync();
         }
     }
 }

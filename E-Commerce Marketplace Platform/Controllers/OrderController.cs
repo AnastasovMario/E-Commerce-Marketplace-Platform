@@ -32,6 +32,12 @@ namespace E_Commerce_Marketplace_Platform.Controllers
             return View(model);
 		}
 
-		
+		[HttpPost]
+		public async Task<IActionResult> Pay(int Id)
+		{
+			await orderService.PayOrder(Id);
+
+            return RedirectToAction(nameof(ProductController.All), "Product");
+        }
 	}
 }

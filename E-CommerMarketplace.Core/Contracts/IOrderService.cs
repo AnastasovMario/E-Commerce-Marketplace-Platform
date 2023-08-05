@@ -14,5 +14,7 @@ namespace E_CommerceMarketplace.Core.Contracts
 		Task<OrderDetailsServiceModel> GetOrderDetails(int orderId);
 
 		Task<int> CreateOrder(string userId);
+
+		Task PayOrder(int orderId);
 	}
 }
