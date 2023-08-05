@@ -15,13 +15,6 @@ namespace E_CommerceMarketplace.Core.Services
 			repo = _repo;
 		}
 
-		//public async Task<OrderViewModel> GetOrderForUser(string userId)
-		//{
-		//	var orderItems = await GetOrderItems(userId);
-
-
-		//}
-
 		public async Task<IEnumerable<OrderItemViewModel>> GetOrderItems(string userId)
 		{
 			return await repo.AllReadonly<Item>()
@@ -32,6 +25,9 @@ namespace E_CommerceMarketplace.Core.Services
 					Id = i.Id,
 					Name = i.Product.Name,
 					Quantity = i.Quantity,
+					Price = i.Product.Price,
+					Total = i.Product.Price * i.Quantity,
+					ImageUrl = i.Product.ImageUrl,
 					Vendor = i.Product.Vendor.FirstName + " " + i.Product.Vendor.LastName,
 				})
 				.ToListAsync();

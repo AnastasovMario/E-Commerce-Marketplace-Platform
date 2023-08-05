@@ -1,0 +1,14 @@
+﻿@model OrderItemViewModel;
+
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name">
+    <div class="card-body">
+        <h3>@Model.Name</h3>
+        <p>Vendor: @Model.Vendor</p>
+        <p>Price: $@Math.Round(Model.Price,2,MidpointRounding.AwayFromZero)</p>
+        <p>Quantity: @Model.Quantity</p>
+        <p>Total: $@Math.Round(Model.Total,2,MidpointRounding.AwayFromZero)</p>
+        <a href="#" class="btn btn-danger">Remove</a>
+        <a href="#" class="btn btn-warning">Edit</a>
+    </div>
+</div>

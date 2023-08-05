@@ -26,10 +26,6 @@
 				}
 				@if (!Model.IsAvailable && (await productService.HasVendorWithId(Model.Id, User.Id())) == false)
 				{
-					@*<form class="input-group-sm" asp-controller="Product"
-			asp-action="Buy" asp-route-id="@Model.Id" method="post">
-			<input class="btn btn-primary" type="submit" value="Buy" />
-			</form>*@
 					<a asp-controller="Item" asp-action="Buy" asp-route-id="@Model.Id"
 			   class="btn btn-success">Buy</a>
 				}
