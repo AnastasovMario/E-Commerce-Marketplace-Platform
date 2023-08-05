@@ -29,7 +29,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		{
 
 			var product = await productService.GetProductDetailsById(id);
-			var itemModel = new ItemConfirmationModel()
+			var itemModel = new ItemServiceModel()
 			{
 				ImageUrl = product.ImageUrl,
 				Product_Id = product.Id,
@@ -41,7 +41,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Buy(ItemConfirmationModel model)
+		public async Task<IActionResult> Buy(ItemServiceModel model)
 		{
 			
 			if (!ModelState.IsValid)
@@ -55,6 +55,38 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		}
 
 		[HttpGet]
+        public async Task<IActionResult> Edit(int Id)
+		{
+			var item = await itemService.GetItemById(Id);
+
+			var model = new ItemServiceModel()
+			{
+				Id = item.Id,
+				Quantity = item.Quantity,
+				ImageUrl = item.ImageUrl,
+				Name = item.Name,
+				Price = item.Price,
+				Vendor = item.Vendor
+			};
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(int Id, ItemServiceModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			var itemId = await itemService.Edit(Id, model);
+
+			return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+
+        [HttpGet]
 		public async Task<IActionResult> Remove(int Id)
 		{
 			var item = await itemService.GetItemById(Id);

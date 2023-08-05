@@ -14,7 +14,7 @@ namespace E_CommerceMarketplace.Core.Services
 			repo = _repo;
 		}
 
-        public async Task<int> Create(ItemConfirmationModel model, string userId)
+        public async Task<int> Create(ItemServiceModel model, string userId)
 		{
             var order = new Order()
             {
@@ -35,6 +35,17 @@ namespace E_CommerceMarketplace.Core.Services
 
             return order.Id;
 		}
+
+        public async Task<int> Edit(int itemId, ItemServiceModel model)
+        {
+            var item = await repo.GetByIdAsync<Item>(itemId);
+
+            item.Quantity = model.Quantity;
+
+            await repo.SaveChangesAsync();
+
+            return item.Id;
+        }
 
         public async Task<OrderItemViewModel> GetItemById(int itemId)
         {

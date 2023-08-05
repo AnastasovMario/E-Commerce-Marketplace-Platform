@@ -1,6 +1,6 @@
 ﻿namespace E_CommerceMarketplace.Core.Models.Item
 {
-	public class ItemConfirmationModel
+	public class ItemServiceModel
 	{
 		public int Id { get; set; }
 
