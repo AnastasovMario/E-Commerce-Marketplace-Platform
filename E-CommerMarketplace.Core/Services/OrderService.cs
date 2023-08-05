@@ -15,7 +15,24 @@ namespace E_CommerceMarketplace.Core.Services
             repo = _repo;
         }
 
-        public async Task<int> CreateOrder(string userId)
+		public async Task ClearOrder(int orderId)
+		{
+            var orderItems = await repo.AllReadonly<Item>()
+                .Where(i => i.Order_Id == orderId)
+                .ToListAsync();
+            var order = await repo.GetByIdAsync<Order>(orderId);
+
+            foreach (var item in orderItems)
+            {
+                repo.Delete(item);
+            }
+
+            repo.Delete(order);
+
+            await repo.SaveChangesAsync();
+		}
+
+		public async Task<int> CreateOrder(string userId)
         {
             var order = new Order()
             {

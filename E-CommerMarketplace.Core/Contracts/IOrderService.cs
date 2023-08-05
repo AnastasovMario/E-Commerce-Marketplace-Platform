@@ -16,5 +16,7 @@ namespace E_CommerceMarketplace.Core.Contracts
 		Task<int> CreateOrder(string userId);
 
 		Task PayOrder(int orderId);
+
+		Task ClearOrder(int orderId);
 	}
 }

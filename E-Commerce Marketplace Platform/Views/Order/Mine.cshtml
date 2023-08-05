@@ -11,10 +11,10 @@
             </div>
             <div class="d-flex justify-content-end">
                 <div class="header-buttons">
-                    <a asp-controller="Order" asp-action="Pay" asp-route-id="@Model.Id" class="btn btn-success pay-order"
+                    <a asp-controller="Order" asp-action="Pay" asp-route-id="@Model.Id" class="btn btn-success order"
                        data-method="post">Pay Order</a>
-                    <a asp-controller="Order" asp-action="Clear" asp-route-id="@Model.Id"
-                       class="btn btn-danger">Clear Order</a>
+                    <a asp-controller="Order" asp-action="Clear" asp-route-id="@Model.Id" class="btn btn-danger order"
+                    data-method="post">Clear Order</a>
                 </div>
             </div>
         </div>
@@ -42,10 +42,26 @@ else
 
 <script>
     $(document).ready(function () {
-        $(".pay-order").click(function (e) {
-            e.preventDefault();
+        $(".btn-success.order").click(function (e) {
+            e.preventDefault(); 
 
             var url = $(this).attr("href");
+
+            // Create a new form element
+            var form = $("<form>", {
+                method: "post",
+                action: url
+            });
+
+            $(document.body).append(form);
+            form.submit();
+        });
+
+        $(".btn-danger.order").click(function (e) {
+            e.preventDefault(); 
+
+            var url = $(this).attr("href");
+
             var form = $("<form>", {
                 method: "post",
                 action: url

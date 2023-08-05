@@ -39,5 +39,12 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             return RedirectToAction(nameof(ProductController.All), "Product");
         }
+
+		[HttpPost]
+		public async Task<IActionResult> Clear(int Id)
+		{
+			await orderService.ClearOrder(Id);
+			return RedirectToAction(nameof(ProductController.All), "Product");
+		}
 	}
 }
