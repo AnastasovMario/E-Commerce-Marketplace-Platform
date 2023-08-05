@@ -48,9 +48,9 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 				return View(model);
 			}
 
-			var orderId = await itemService.Create(model, User.Id());
+			await itemService.Create(model, User.Id());
 
-			return RedirectToAction(nameof(HomeController.Index), "Home");
+			return RedirectToAction(nameof(OrderController.Mine), "Order");
 		}
 
 		[HttpGet]

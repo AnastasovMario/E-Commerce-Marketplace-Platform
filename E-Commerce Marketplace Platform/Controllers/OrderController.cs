@@ -31,5 +31,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             return View(model);
 		}
+
+		
 	}
 }

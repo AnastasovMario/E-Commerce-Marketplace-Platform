@@ -1,5 +1,6 @@
 ﻿using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Item;
+using E_CommerceMarketplace.Core.Models.Order;
 using E_CommerceMarketplace.Infrastructure.Common;
 using E_CommerceMarketplace.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,31 +10,36 @@ namespace E_CommerceMarketplace.Core.Services
     public class ItemService : IItemService
 	{
 		private readonly IRepository repo;
-		public ItemService(IRepository _repo)
+        private readonly IOrderService orderService;
+		public ItemService(IRepository _repo,
+            IOrderService _orderService)
 		{
 			repo = _repo;
+            orderService = _orderService;
 		}
 
-        public async Task<int> Create(ItemServiceModel model, string userId)
+        public async Task Create(ItemServiceModel model, string userId)
 		{
-            var order = new Order()
+            var order = await orderService.GetCurrentOrderForUser(userId);
+
+            if (order == null)
             {
-                Date = DateTime.UtcNow,
-                Status_Id = 2,
-                User_Id = userId
-            };
-            order.Items.Add(new()
+                var newOrderId = await orderService.CreateOrder(userId);
+                var newOrder = await orderService.GetOrderDetails(newOrderId);
+
+                order = newOrder;
+            }
+
+            var item = new Item()
             {
                 Quantity = model.Quantity,
                 Product_Id = model.Product_Id,
                 Total = Math.Round(model.Quantity * model.Price),
-                Order = order
-            });
+                Order_Id = order.Id
+            };
 
-            await repo.AddAsync(order);
+            await repo.AddAsync(item);
             await repo.SaveChangesAsync();
-
-            return order.Id;
 		}
 
         public async Task<int> Edit(int itemId, ItemServiceModel model)
@@ -58,7 +64,8 @@ namespace E_CommerceMarketplace.Core.Services
                     ImageUrl = i.Product.ImageUrl,
                     Price = i.Product.Price,
                     Quantity = i.Quantity,
-                    Total = i.Quantity * i.Product.Price
+                    Total = i.Quantity * i.Product.Price,
+                    Vendor = i.Product.Vendor.FirstName + " " + i.Product.Vendor.LastName
                 })
                 .FirstAsync();
         }
