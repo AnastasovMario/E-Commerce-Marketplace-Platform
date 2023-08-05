@@ -6,6 +6,6 @@ namespace E_CommerceMarketplace.Core.Models.Order
 	{
 		public int Id { get; set; }
 		public decimal Total { get; set; }
-		public List<OrderItemViewModel> OrderItems { get; set; }
+		public IEnumerable<OrderItemViewModel> OrderItems { get; set; }
 	}
 }

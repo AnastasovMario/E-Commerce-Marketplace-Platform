@@ -15,11 +15,19 @@ namespace E_CommerceMarketplace.Core.Services
 			repo = _repo;
 		}
 
-		public async Task<IEnumerable<OrderItemViewModel>> GetOrderItems(string userId)
+        public async Task<int> GetOrderId(string userId)
+        {
+			return await repo.AllReadonly<Order>()
+				.Where(o => o.User_Id == userId)
+				.OrderByDescending(o => o.Id)
+				.Select(o => o.Id)
+				.FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<OrderItemViewModel>> GetOrderItems(int orderId)
 		{
 			return await repo.AllReadonly<Item>()
-				.Where(i => i.Order.User_Id == userId)
-				.OrderByDescending(i => i.Order_Id)
+				.Where(i => i.Order_Id == orderId)
 				.Select(i => new OrderItemViewModel
 				{
 					Id = i.Id,

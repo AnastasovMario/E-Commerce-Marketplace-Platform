@@ -1,16 +1,35 @@
-﻿@model IEnumerable<OrderItemViewModel>
-
+﻿@model OrderViewModel
 @{
-    ViewBag.Title = "My Items";
+    ViewBag.Title = "My Order";
 }
 
-<h2 class="text-center">@ViewBag.Title</h2>
-<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="d-flex justify-content-center align-items-center">
+                <h2 class="text-center">My Order</h2>
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="header-buttons">
+                    <a asp-controller="Order" asp-action="Pay" asp-route-id="@Model.Id"
+                       class="btn btn-success">Pay Order</a>
+                    <a asp-controller="Order" asp-action="Clear" asp-route-id="@Model.Id"
+                       class="btn btn-danger">Clear Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-md-1 text-center">
+            <hr />
+        </div>
+    </div>
+</div>
 
-@if (Model.Any())
+@if (Model.OrderItems.Any())
 {
     <div class="row">
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderItems)
         {
             <partial name="_OrderItemPartial" model="@item" />
         }
@@ -18,5 +37,5 @@
 }
 else
 {
-    <h3 class="text-center">You have no current order</h3>
+    <h3 class="text-center">You have no items in your current order</h3>
 }
