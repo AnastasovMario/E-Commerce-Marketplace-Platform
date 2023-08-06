@@ -1,3 +1,4 @@
+using E_Commerce_Marketplace_Platform.ModelBinders;
 using E_CommerceMarketplace.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {
         options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
     })
     .AddRazorRuntimeCompilation();
 builder.Services.AddApplicationServices();
