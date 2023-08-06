@@ -16,7 +16,6 @@ namespace E_CommerceMarketplace.Core.Models.Product
 
         [Required]
         [Display(Name = "Price")]
-        [Range(0.00, 10000.00, ErrorMessage = "Price must be a positive number and less than {2} leva")]
         public decimal Price { get; init; }
 
         [Required]

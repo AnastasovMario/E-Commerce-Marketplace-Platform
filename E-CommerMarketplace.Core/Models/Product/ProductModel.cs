@@ -7,14 +7,16 @@ namespace E_CommerceMarketplace.Core.Models.Product
 	public class ProductModel : IProductModel
 	{
 		public int Id { get; set; }
+
 		[Required]
 		[MaxLength(100)]
 		[Display(Name = "Product Name")]
 		public string Name { get; init; } = null!;
 
 		[Required]
-		[Display(Name = "Price per month")]
+		[Display(Name = "Price")]
 		[Precision(18, 2)]
+		[Range(0.00, 10000.00, ErrorMessage = "Price must be a positive number and less than {2} leva")]
 		public decimal Price { get; init; }
 
 		[Required]

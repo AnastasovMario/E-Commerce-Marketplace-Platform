@@ -1,58 +1,58 @@
 ﻿@model IEnumerable<ProductHomeModel>
 
 @{
-	ViewData["Title"] = "Home Page";
-	bool first = true;
+    ViewData["Title"] = "Home Page";
+    bool first = true;
 }
 
 @if (Model.Count() == 0)
 {
-	<div class="mt-4 p-5 bg-light">
-		<h1 class="display-4">Welcome to the best place for shopping online!</h1>
-		<p class="lead">
-			There are no houses in the system currently available
-			so why don't you just add one?
-		</p>
-		<hr class="my-4">
-		<p class="lead">
-			@*@if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
-		{
-		<a asp-controller="Product" asp-action="Add" class="btn btn-primary btn-lg"
-		role="button">Add Product</a>
-		}*@
-		</p>
-	</div>
+    <div class="mt-4 p-5 bg-light">
+        <h1 class="display-4">Welcome to the best place for shopping online!</h1>
+        <p class="lead">
+            There are no houses in the system currently available
+            so why don't you just add one?
+        </p>
+        <hr class="my-4">
+        <p class="lead">
+            @*@if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
+        {
+        <a asp-controller="Product" asp-action="Add" class="btn btn-primary btn-lg"
+        role="button">Add Product</a>
+        }*@
+        </p>
+    </div>
 }
 
 <div class="mb-5"></div>
 
 <div class="card-container">
-	<div class="card-group">
-		@foreach (var product in Model)
-		{
-			<div class="card">
-				<img class="card-img-top" src="@product.ImageUrl" alt="Product Image">
-				<div class="card-body">
-					<h5 class="card-title">Name: @product.Name</h5>
-					<p class="card-text">Status: @product.Status</p>
-				</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">Price: @product.Price</li>
-					<li class="list-group-item">Category: @product.Category</li>
-					<li class="list-group-item">Vendor: @product.Vendor</li>
-				</ul>
-				<div class="card-footer">
-					<h5>
-						<a class="btn btn-primary" asp-controller="Product" asp-action="Details"
-					   asp-route-id="@product.Id"> Details</a>
-					</h5>
-				</div>
-			</div>
-		}
-	</div>
-	<div class="carousel-buttons">
-		<button class="prev-button">Previous</button>
-		<button class="next-button">Next</button>
-	</div>
+    <div class="card-group">
+        @foreach (var product in Model)
+        {
+            <div class="card">
+                <img class="card-img-top" src="@product.ImageUrl" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    
+                    @*<p class="card-text"><b>@product.Status</b></p>*@
+                </div>
+                <div class="row">
+                    <p class="card-text">Status: <b>@product.Status</b></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Price: $@product.Price</li>
+                    <li class="list-group-item">Category: @product.Category</li>
+                    <li class="list-group-item">Vendor: @product.Vendor</li>
+                </ul>
+                <div class="card-footer">
+                    <h5>
+                        <a class="btn btn-primary" asp-controller="Product" asp-action="Details"
+                       asp-route-id="@product.Id"> Details</a>
+                    </h5>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
