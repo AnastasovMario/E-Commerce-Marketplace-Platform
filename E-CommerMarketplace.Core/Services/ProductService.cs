@@ -179,7 +179,8 @@ namespace E_CommerceMarketplace.Core.Services
         public async Task<IEnumerable<ProductHomeModel>> GetLastProducts()
 		{
 			return await repo.AllReadonly<Product>()
-				.OrderByDescending(p => p.Id)
+				.OrderByDescending(p => p.Status_Id)
+				.ThenByDescending(p => p.Id)
 				.Take(3)
 				.Select(p => new ProductHomeModel
 				{
