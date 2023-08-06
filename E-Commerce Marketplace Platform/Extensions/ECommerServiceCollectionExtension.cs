@@ -2,7 +2,7 @@
 using E_CommerceMarketplace.Core.Services;
 using E_CommerceMarketplace.Infrastructure.Common;
 
-namespace E_Commerce_Marketplace_Platform.Extensions.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ECommerServiceCollectionExtension 
     {
