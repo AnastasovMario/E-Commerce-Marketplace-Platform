@@ -12,7 +12,6 @@
 				<b>@String.Format("{0:f2}", Model.Price) BGN</b>
 			</h6>
 			<h6>Status: @Model.Status</h6>
-			<h6>Vendor: @Model.Vendor</h6>
 			<br />
 			<a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
 			@if (this.User.Identity.IsAuthenticated)

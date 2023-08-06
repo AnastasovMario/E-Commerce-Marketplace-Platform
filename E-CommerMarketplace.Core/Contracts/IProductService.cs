@@ -32,9 +32,7 @@ namespace E_CommerceMarketplace.Core.Contracts
 
         Task<IEnumerable<string>> AllStatusesNames();
 
-        Task<IEnumerable<ProductServiceModel>> GetProductsByVendorId(int vendorId);
-
-        Task<IEnumerable<ProductServiceModel>> GetProductsByUserId(string userId);
+        Task<List<ProductServiceModel>> GetProductsByVendorId(int vendorId);
 
         Task Delete(int productId);
 

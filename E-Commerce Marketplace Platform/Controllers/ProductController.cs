@@ -194,21 +194,16 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
-            IEnumerable<ProductServiceModel> myProducts;
+            var myProducts = new List<ProductServiceModel>();
             var userId = User.Id();
             if (await vendorService.ExistsById(userId))
             {
                 var vendorId = await vendorService.GetVendorId(userId);
                 myProducts = await productService.GetProductsByVendorId(vendorId);
             }
-            else
-            {
-                myProducts = await productService.GetProductsByUserId(userId);
-            }
 
             return View(myProducts);
         }
-
 
         [AllowAnonymous]
         public async Task<IActionResult> Details(int Id)
