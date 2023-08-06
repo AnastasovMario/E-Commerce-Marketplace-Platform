@@ -226,22 +226,6 @@ namespace E_CommerceMarketplace.Core.Services
 				.FirstAsync();
 		}
 
-		//public async Task<IEnumerable<ProductServiceModel>> GetProductsByUserId(string userId)
-  //      {
-  //          return await repo.AllReadonly<ProductSale>()
-  //              .Where(s => s.Sale.Buyer_Id == userId)
-  //              .Select(s => new ProductServiceModel
-  //              {
-  //                  Id = s.Product.Id,
-  //                  Name = s.Product.Name,
-  //                  Price = s.Product.Price,
-  //                  Status = s.Product.Status.Description,
-  //                  ImageUrl = s.Product.ImageUrl,
-		//			IsAvailable = s.Product.Status.Id != 4,
-		//		})
-  //              .ToListAsync();
-  //      }
-
         public async Task<List<ProductServiceModel>> GetProductsByVendorId(int vendorId)
         {
 			return await repo.AllReadonly<Product>()
@@ -254,6 +238,7 @@ namespace E_CommerceMarketplace.Core.Services
 					Status = p.Status.Description,
 					ImageUrl = p.ImageUrl,
 					IsAvailable = p.Status.Id != 4,
+					Vendor = p.Vendor.FirstName + " " + p.Vendor.LastName
 				})
 				.ToListAsync();
         }

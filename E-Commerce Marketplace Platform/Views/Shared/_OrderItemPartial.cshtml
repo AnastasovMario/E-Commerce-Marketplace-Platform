@@ -5,10 +5,9 @@
     <div class="card-body">
         <h3>@Model.Name</h3>
         <p>Vendor: @Model.Vendor</p>
-        <p>Price: $@Math.Round(Model.Price,2,MidpointRounding.AwayFromZero)</p>
+        <p>Price: @String.Format("{0:f2}", Model.Price) BGN</p>
         <p>Quantity: @Model.Quantity</p>
-        <p>Total: $@Math.Round(Model.Total,2,MidpointRounding.AwayFromZero)</p>
-
+        <p>Total: @String.Format("{0:f2}", Model.Total) BGN</p>
         <a asp-controller="Item" asp-action="Edit" asp-route-id="@Model.Id"
            class="btn btn-warning">Edit</a>
         <a asp-controller="Item" asp-action="Remove" asp-route-id="@Model.Id"
