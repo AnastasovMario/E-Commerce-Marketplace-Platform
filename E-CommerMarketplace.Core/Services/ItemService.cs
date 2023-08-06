@@ -70,6 +70,29 @@ namespace E_CommerceMarketplace.Core.Services
                 .FirstAsync();
         }
 
+        public async Task<IEnumerable<OrderItemViewModel>> GetItemsHistory(string userId)
+        {
+            var orderIds = await repo.AllReadonly<Order>()
+                .Where(o => o.User_Id == userId && o.Sale_Id != null)
+                .Select(o => o.Id)
+                .ToListAsync();
+
+            return await repo.AllReadonly<Item>()
+                .Where(i => orderIds.Contains(i.Order_Id))
+                .Select(i => new OrderItemViewModel
+                {
+                    Id = i.Id,
+                    Name = i.Product.Name,
+                    ImageUrl = i.Product.ImageUrl,
+                    Price = i.Product.Price,
+                    Quantity = i.Quantity,
+                    Total = i.Quantity * i.Product.Price,
+                    IsSold = true,
+                    Vendor = i.Product.Vendor.FirstName + " " + i.Product.Vendor.LastName
+                })
+                .ToListAsync();
+        }
+
         public async Task Remove(int itemId)
         {
             await repo.DeleteAsync<Item>(itemId);

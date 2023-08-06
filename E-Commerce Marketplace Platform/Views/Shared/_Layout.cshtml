@@ -32,6 +32,9 @@
 							<li class="nav-item">
 								<a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Mine">Orders</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Item" asp-action="History">History</a>
+							</li>
 							@if (await vendorService.ExistsById(this.User.Id()))
 							{
 								<li class="nav-item">

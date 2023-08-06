@@ -11,5 +11,7 @@ namespace E_CommerceMarketplace.Core.Contracts
 		Task<OrderItemViewModel> GetItemById(int itemId);
 
 		Task<int> Edit(int itemId, ItemServiceModel model);
+
+		Task<IEnumerable<OrderItemViewModel>> GetItemsHistory(string userId);
 	}
 }

@@ -117,11 +117,6 @@ namespace E_CommerceMarketplace.Core.Services
                 .ToListAsync();
         }
 
-		public Task<OrderServiceModel> Buy(int productId)
-		{
-			throw new NotImplementedException();
-		}
-
 		public async Task<bool> CategoryExists(int categoryId)
 		{
 			return await repo.AllReadonly<Category>()

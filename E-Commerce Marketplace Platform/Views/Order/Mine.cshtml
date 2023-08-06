@@ -1,20 +1,33 @@
 ﻿@model OrderViewModel
+
 @{
     ViewBag.Title = "My Order";
+    decimal sumTotal = Model.OrderItems.Sum(i => i.Total);
+    bool showTotal = sumTotal > 0;
+    string text = String.Empty;
 }
 
 <div class="container">
     <div class="row">
         <div class="col-md-10 offset-md-1">
             <div class="d-flex justify-content-center align-items-center">
-                <h2 class="text-center">My Order - Total: @String.Format("{0:f2}", Model.Total) BGN</h2>
+                <h2 class="text-center">
+                    @if (showTotal)
+                    {
+                        text = $"-Total: {Math.Round(sumTotal, 2, MidpointRounding.AwayFromZero)} BGN";
+                    }
+                    @ViewBag.Title @text
+                </h2>
             </div>
             <div class="d-flex justify-content-end">
                 <div class="header-buttons">
-                    <a asp-controller="Order" asp-action="Pay" asp-route-id="@Model.Id" class="btn btn-success order"
-                       data-method="post">Pay Order</a>
-                    <a asp-controller="Order" asp-action="Clear" asp-route-id="@Model.Id" class="btn btn-danger order"
-                    data-method="post">Clear Order</a>
+                    @if (Model.OrderItems.Any())
+                    {
+                        <a asp-controller="Order" asp-action="Pay" asp-route-id="@Model.Id" class="btn btn-success order"
+                           data-method="post">Pay Order</a>
+                        <a asp-controller="Order" asp-action="Clear" asp-route-id="@Model.Id" class="btn btn-danger order"
+                           data-method="post">Clear Order</a>
+                    }
                 </div>
             </div>
         </div>
@@ -47,7 +60,6 @@ else
 
             var url = $(this).attr("href");
 
-            // Create a new form element
             var form = $("<form>", {
                 method: "post",
                 action: url

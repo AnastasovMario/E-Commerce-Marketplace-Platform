@@ -110,5 +110,13 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+		[HttpGet]
+		public async Task<IActionResult> History()
+		{
+			var model = await itemService.GetItemsHistory(User.Id());
+
+			return View(model);
+		}
     }
 }
