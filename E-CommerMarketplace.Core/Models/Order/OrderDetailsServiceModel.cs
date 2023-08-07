@@ -10,8 +10,6 @@ namespace E_CommerceMarketplace.Core.Models.Order
 
         public DateTime? DateCompleted { get; set; }
 
-        public int StatusId { get; set; }
-
         public List<OrderItemViewModel> OrderItems { get; set; } = new List<OrderItemViewModel>();
     }
 }

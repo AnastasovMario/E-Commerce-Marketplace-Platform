@@ -4,6 +4,7 @@ using E_CommerceMarketplace.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_CommerceMarketplace.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230807193919_RemoveProductSales")]
+    partial class RemoveProductSales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,16 +104,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3e4b2bfe-e38a-45bd-83ec-d4b027404017",
+                            ConcurrencyStamp = "748e16d5-b706-4c84-8193-cd3d26775530",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKLlrBAJb0DBsVKPzaURQSsgD7Gq4AwnKms0d8Zu6qll8OGpPgqg0hT0ud3AMf5xAQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPHL/1BbhqwXLxz4CDudx9zesn+Cls3RkU+XKYxWires2vH3iyLFszreg2jAKF8MSA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "80f0f032-9114-4a71-a6c5-bf26313619e2",
+                            SecurityStamp = "a8c3718a-39e2-41da-97c0-7e256e1cb896",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -119,16 +121,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "330e80fa-894f-47e3-b5e3-7ebf4e1c24bf",
+                            ConcurrencyStamp = "4df49c88-93a7-4dc4-af09-0509db8d38f5",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJE54AEQjVB9fGeYJo4BOEPVyma7odEyifslE90PdWvZa4l7w3F+ew2LV5V2Ub1zzw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDZHBmQX9P1h+8MuzV2z6iYRUl33zOR3smL0x9FhuCFp/gp4cFfdJToWXisFDlSebg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "af527741-9e42-441b-ac97-06a589c6ef55",
+                            SecurityStamp = "4afd513f-7adb-46cc-82d7-5bb07fa765c4",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -136,16 +138,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d84850bf-a432-414c-9361-39c84f53da0c",
+                            ConcurrencyStamp = "c8921858-b022-485d-a765-32303800b637",
                             Email = "mario@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "mario@mail.com",
                             NormalizedUserName = "mario@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFYiA/7d3VTsVL5781oA0rP/sltgfGaSvNk5VtiRN+fDdscLhNBoZRZtD4JxT7lkdg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN4fSn0L+3I/qq9aMSA8RX+F6wxy2WQtrgG99qGKSlj+loVIRrJQnYk3otGpkXJkyA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8aead180-eb54-43d6-811d-4a10c9cdcb23",
+                            SecurityStamp = "e4580793-1565-45f9-9b7a-a7a89b0c3692",
                             TwoFactorEnabled = false,
                             UserName = "mario@mail.com"
                         });
@@ -243,6 +245,9 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.Property<int?>("Sale_Id")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status_Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("User_Id")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -250,6 +255,8 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Sale_Id");
+
+                    b.HasIndex("Status_Id");
 
                     b.HasIndex("User_Id");
 
@@ -616,6 +623,12 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("Sale_Id");
 
+                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("Status_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("User_Id")
@@ -623,6 +636,8 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Sale");
+
+                    b.Navigation("Status");
 
                     b.Navigation("User");
                 });

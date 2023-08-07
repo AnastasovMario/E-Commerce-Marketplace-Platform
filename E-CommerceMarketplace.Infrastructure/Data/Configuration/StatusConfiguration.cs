@@ -17,16 +17,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
             {
                 new Status()
                 {
-                    Id = 1,
-                    Description = "Paid"
-                },
-                new Status()
-                {
-                    Id = 2,
-                    Description = "Unpaid"
-                },
-                new Status()
-                {
                     Id = 3,
                     Description = "Unavailable"
                 },

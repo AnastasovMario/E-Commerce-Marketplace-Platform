@@ -20,11 +20,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 
         public DateTime? DateCompleted { get; set; }
 
-        [ForeignKey(nameof(Status))]
-        public int Status_Id { get; set; }
-
-        public Status Status { get; set; } = null!;
-
         [ForeignKey(nameof(Sale))]
         public int? Sale_Id { get; set; }
 

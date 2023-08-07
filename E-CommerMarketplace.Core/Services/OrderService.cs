@@ -37,7 +37,6 @@ namespace E_CommerceMarketplace.Core.Services
             var order = new Order()
             {
                 Date = DateTime.UtcNow,
-                Status_Id = 2,
                 User_Id = userId
             };
 
@@ -54,7 +53,6 @@ namespace E_CommerceMarketplace.Core.Services
                 .Select(o => new OrderDetailsServiceModel()
                 {
                     Id = o.Id,
-                    StatusId = o.Status_Id,
                     Date = o.Date,
                     DateCompleted = o.DateCompleted,
                 })
@@ -68,7 +66,6 @@ namespace E_CommerceMarketplace.Core.Services
                 .Select(o => new OrderDetailsServiceModel
                 {
                     Id = o.Id,
-                    StatusId = o.Status_Id,
                     Date = o.Date,
                     DateCompleted = o.DateCompleted
                 })
@@ -117,7 +114,6 @@ namespace E_CommerceMarketplace.Core.Services
             };
 
 			order.DateCompleted = DateTime.UtcNow;
-			order.Status_Id = 1;
             order.Sale = sale;
 
 			await repo.AddAsync(sale);

@@ -22,11 +22,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 
 		public Product Product { get; set; }
 
-		[ForeignKey(nameof(Sale))]
-		public int? Sale_Id { get; set; }
-
-		public Sale Sale { get; set; }
-
 		[ForeignKey(nameof(Order))]
 		public int Order_Id { get; set; }
 

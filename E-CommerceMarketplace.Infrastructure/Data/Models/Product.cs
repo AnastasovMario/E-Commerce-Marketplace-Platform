@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static System.Net.Mime.MediaTypeNames;
-using System.Diagnostics;
-using System.Xml.Linq;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
@@ -42,7 +39,5 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 		public int Status_Id { get; set; }
 
         public Status Status { get; set; } = null!;
-
-		public ICollection<ProductSale> ProductSales { get; set; }
 	}
 }
