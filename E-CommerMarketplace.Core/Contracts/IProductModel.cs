@@ -3,5 +3,7 @@
     public interface IProductModel
     {
         public string Name { get; }
+
+        public string ImageUrl { get; }
     }
 }

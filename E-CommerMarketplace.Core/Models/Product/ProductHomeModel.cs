@@ -1,12 +1,9 @@
-﻿using E_CommerceMarketplace.Infrastructure.Data.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using E_CommerceMarketplace.Core.Contracts;
 
 namespace E_CommerceMarketplace.Core.Models.Product
 {
-    public class ProductHomeModel
+    public class ProductHomeModel : IProductModel
     {
         public int Id { get; init; }
 

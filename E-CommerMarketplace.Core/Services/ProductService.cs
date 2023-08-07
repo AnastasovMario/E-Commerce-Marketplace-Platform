@@ -149,7 +149,7 @@ namespace E_CommerceMarketplace.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<int> Edit(int productId, ProductEditModel productModel)
+        public async Task Edit(int productId, ProductEditModel productModel)
 		{
 			var product = await repo.GetByIdAsync<Product>(productId);
 
@@ -161,8 +161,6 @@ namespace E_CommerceMarketplace.Core.Services
 			product.Status_Id = productModel.StatusId;
 
 			await repo.SaveChangesAsync();
-
-			return product.Id;
 		}
 
         public async Task<bool> Exists(int productId)

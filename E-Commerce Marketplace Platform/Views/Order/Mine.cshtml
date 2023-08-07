@@ -23,10 +23,10 @@
                 <div class="header-buttons">
                     @if (Model.OrderItems.Any())
                     {
-                        <a asp-controller="Order" asp-action="Pay" asp-route-id="@Model.Id" class="btn btn-success order"
-                           data-method="post">Pay Order</a>
-                        <a asp-controller="Order" asp-action="Clear" asp-route-id="@Model.Id" class="btn btn-danger order"
-                           data-method="post">Clear Order</a>
+                        <a asp-controller="Order" asp-action="Pay" asp-route-id="@Model.Id" 
+                        class="btn btn-success order">Pay Order</a>
+                        <a asp-controller="Order" asp-action="Clear" asp-route-id="@Model.Id" 
+                        class="btn btn-danger order">Clear Order</a>
                     }
                 </div>
             </div>

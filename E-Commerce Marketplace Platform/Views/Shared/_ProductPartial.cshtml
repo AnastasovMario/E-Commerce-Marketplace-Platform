@@ -17,7 +17,8 @@
                 <h6>Vendor: @Model.Vendor</h6>
             }
             <br />
-            <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
+            <a asp-controller="Product" asp-action="Details" 
+            asp-route-information="@Model.GetInformation()" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
             @if (this.User.Identity.IsAuthenticated)
             {
                 @if (await productService.HasVendorWithId(Model.Id, User.Id()))
@@ -32,13 +33,6 @@
                     <a asp-controller="Item" asp-action="Buy" asp-route-id="@Model.Id"
                        class="btn btn-success">Buy</a>
                 }
-                @*else if (await houseService.IsRentedByUser(Model.Id, User.Id()))
-            {
-            <form asp-controller="House" asp-action="Leave"
-            asp-route-id="@Model.Id" method="post">
-            <input class="btn btn-primary" type="submit" value="Leave" />
-            </form>
-            }*@
             }
         </div>
     </div>

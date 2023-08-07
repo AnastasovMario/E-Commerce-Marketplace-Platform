@@ -16,7 +16,7 @@ namespace E_CommerceMarketplace.Core.Contracts
 
         Task<int> Create(ProductModel productModel, int vendorId);
 
-		Task<int> Edit(int productId, ProductEditModel productModel);
+		Task Edit(int productId, ProductEditModel productModel);
 
         Task<bool> Exists(int productId);
 

@@ -1,10 +1,12 @@
 ﻿using E_Commerce_Marketplace_Platform.Extensions;
 using E_Commerce_Marketplace_Platform.Models;
 using E_CommerceMarketplace.Core.Contracts;
+using E_CommerceMarketplace.Core.Extensions;
 using E_CommerceMarketplace.Core.Models.Product;
 using E_CommerceMarketplace.Infrastructure.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace E_Commerce_Marketplace_Platform.Controllers
 {
@@ -77,7 +79,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             var id = await productService.Create(model, vendorId);
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(Details), new { id = id, information = model.GetInformation() });
         }
 
         [HttpGet]
@@ -143,9 +145,9 @@ namespace E_Commerce_Marketplace_Platform.Controllers
                 return View(model);
             }
 
-            var productId = await productService.Edit(model.Id, model);
+            await productService.Edit(model.Id, model);
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(Details), new { id = model.Id, information = model.GetInformation() });
         }
 
         [HttpGet]
@@ -206,14 +208,21 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int Id)
+        public async Task<IActionResult> Details(int Id, string information)
         {
             if ((await productService.Exists(Id) == false))
             {
-                return RedirectToAction(nameof(HomeController.Index), "Index");
+                return RedirectToAction(nameof(All));
             }
 
             var model = await productService.GetProductDetailsById(Id);
+
+            if (information != model.GetInformation())
+            {
+                TempData["ErrorMessage"] = "Don't touch my precious!";
+
+                return RedirectToAction("Index", "Home");
+            }
 
             return View(model);
         }
