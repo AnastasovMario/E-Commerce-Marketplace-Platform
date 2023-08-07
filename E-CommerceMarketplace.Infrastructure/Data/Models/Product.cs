@@ -11,7 +11,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public int Id { get; init; }
 
         [Required]
-        [MaxLength(DbConstants.CategoryNameLength)]
+        [MaxLength(DbConstants.ProductNameLength)]
         public string Name { get; set; } = null!;
 
         [Required]

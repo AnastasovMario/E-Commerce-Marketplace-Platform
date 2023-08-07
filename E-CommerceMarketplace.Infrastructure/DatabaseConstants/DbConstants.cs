@@ -12,9 +12,9 @@
 
 		public const int CategoryNameLength = 50;
 
-		public const int ProductNameLength = 50;
+		public const int ProductNameLength = 100;
 
-		public const int ImageUrlMaxLength = 50;
+		public const int ImageUrlMaxLength = 200;
 
 		public const int StatusLength = 50;
 	}

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using E_CommerceMarketplace.Core.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace E_CommerceMarketplace.Core.Models.Item
 {
@@ -17,7 +18,7 @@ namespace E_CommerceMarketplace.Core.Models.Item
 		public decimal Price { get; set; }
 
 		[Display(Name = "Quantity")]
-		[Range(1, 10, ErrorMessage = "Quantity must be a positive number and less than 10")]
+		[Range(ValidationConstants.MinimumQuantity, ValidationConstants.MaximumQuantity, ErrorMessage = "Quantity must be a positive number and less than 10")]
 		public int Quantity { get; set; }
 	}
 }

@@ -8,7 +8,6 @@ namespace E_CommerceMarketplace.Core.Models.Product
         public int Id { get; init; }
 
         [Required]
-        [StringLength(100)]
         public string Name { get; init; } = null!;
 
         [Required]

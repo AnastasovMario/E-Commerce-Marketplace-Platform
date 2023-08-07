@@ -1,4 +1,6 @@
-﻿using E_CommerceMarketplace.Core.Contracts;
+﻿using E_CommerceMarketplace.Core.Constants;
+using E_CommerceMarketplace.Core.Contracts;
+using E_CommerceMarketplace.Infrastructure.DatabseConstants;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,18 +11,18 @@ namespace E_CommerceMarketplace.Core.Models.Product
 		public int Id { get; set; }
 
 		[Required]
-		[MaxLength(100)]
+		[MaxLength(DbConstants.ProductNameLength)]
 		[Display(Name = "Product Name")]
 		public string Name { get; init; } = null!;
 
 		[Required]
 		[Display(Name = "Price")]
 		[Precision(18, 2)]
-		[Range(0.00, 10000.00, ErrorMessage = "Price must be a positive number and less than {2} leva")]
+		[Range(ValidationConstants.MinimumPrice, ValidationConstants.MaximumPrice, ErrorMessage = "Price must be a positive number and less than {2} leva")]
 		public decimal Price { get; init; }
 
 		[Required]
-		[StringLength(200)]
+		[StringLength(DbConstants.ImageUrlMaxLength)]
 		[Display(Name = "Image URL")]
 		public string ImageUrl { get; set; } = null!;
 
@@ -28,7 +30,7 @@ namespace E_CommerceMarketplace.Core.Models.Product
 		[Display(Name = "Category")]
 		public int CategoryId { get; init; }
 
-		[MaxLength(2000)]
+		[MaxLength(DbConstants.DescriptionLength)]
 		[Display(Name = "Description")]
 		public string? Description { get; set; }
 
