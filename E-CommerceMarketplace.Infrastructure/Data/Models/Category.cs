@@ -1,4 +1,5 @@
-﻿ using System.ComponentModel.DataAnnotations;
+﻿using E_CommerceMarketplace.Infrastructure.DatabseConstants;
+using System.ComponentModel.DataAnnotations;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
@@ -11,8 +12,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 
         [Key]
         public int Id { get; set; }
+
         [Required]
-        [StringLength(50)]
+        [StringLength(DbConstants.CategoryNameLength)]
         public string Name { get; set; } = null!;
 
         public List<Product> Products { get; init; }

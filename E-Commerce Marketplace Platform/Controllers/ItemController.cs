@@ -74,8 +74,6 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(int Id, ItemServiceModel model)
 		{
-
-
 			if (!ModelState.IsValid)
 			{
 				return View(model);

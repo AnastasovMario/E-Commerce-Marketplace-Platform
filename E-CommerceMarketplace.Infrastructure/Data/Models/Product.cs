@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using E_CommerceMarketplace.Infrastructure.DatabseConstants;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,7 +11,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public int Id { get; init; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(DbConstants.CategoryNameLength)]
         public string Name { get; set; } = null!;
 
         [Required]
@@ -19,7 +20,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public decimal Price { get; set; }
 
 		[Required]
-		[StringLength(200)]
+		[StringLength(DbConstants.ImageUrlMaxLength)]
 		public string ImageUrl { get; set; } = null!;
 
 		[ForeignKey(nameof(Category))]
@@ -32,7 +33,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 
         public Vendor Vendor { get; set; } = null!;
 
-        [MaxLength(2000)]
+        [MaxLength(DbConstants.DescriptionLength)]
         public string? Description { get; set; }
 
 		[ForeignKey(nameof(Status))]

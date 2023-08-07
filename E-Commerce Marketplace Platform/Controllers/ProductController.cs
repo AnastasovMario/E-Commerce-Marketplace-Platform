@@ -153,7 +153,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         {
             if ((await productService.Exists(Id)) == false)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(All));
             }
 
             if ((await productService.HasVendorWithId(Id, User.Id())) == false)
@@ -179,7 +179,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         {
             if ((await productService.Exists(model.Id)) == false)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(All));
             }
             if ((await productService.HasVendorWithId(model.Id, User.Id())) == false)
             {
@@ -188,7 +188,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             await productService.Delete(model.Id);
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+           return RedirectToAction(nameof(All));
         }
 
         [HttpGet]

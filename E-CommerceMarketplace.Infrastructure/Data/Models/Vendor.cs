@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using E_CommerceMarketplace.Infrastructure.DatabseConstants;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
@@ -9,15 +10,16 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
+        [Phone]
         [StringLength(15)]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
-		[StringLength(30, MinimumLength = 1)]
+		[StringLength(DbConstants.UserFirstNameMaxLength, MinimumLength = DbConstants.UserFirstNameMinLength)]
 		public string FirstName { get; init; } = null!;
 
         [Required]
-		[StringLength(30, MinimumLength = 1)]
+		[StringLength(DbConstants.UserLastNameMaxLength, MinimumLength =DbConstants.UserLastNameMinLength)]
 		public string LastName { get; init; } = null!;
 
 		[Required]
