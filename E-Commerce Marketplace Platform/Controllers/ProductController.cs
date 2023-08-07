@@ -3,10 +3,8 @@ using E_Commerce_Marketplace_Platform.Models;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Extensions;
 using E_CommerceMarketplace.Core.Models.Product;
-using E_CommerceMarketplace.Infrastructure.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 
 namespace E_Commerce_Marketplace_Platform.Controllers
 {

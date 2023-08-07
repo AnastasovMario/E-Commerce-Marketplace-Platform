@@ -74,14 +74,16 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(int Id, ItemServiceModel model)
 		{
-			if (ModelState.IsValid)
+
+
+			if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
 
 			var itemId = await itemService.Edit(Id, model);
 
-			return RedirectToAction(nameof(HomeController.Index), "Home");
+			return RedirectToAction(nameof(OrderController.Mine), "Order");
         }
 
 
@@ -108,7 +110,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
 			await itemService.Remove(model.Id);
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(OrderController.Mine), "Order");
         }
 
 		[HttpGet]

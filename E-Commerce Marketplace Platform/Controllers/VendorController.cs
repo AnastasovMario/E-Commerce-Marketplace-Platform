@@ -59,7 +59,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
 			await vendorService.Create(userId, model);
 
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("All", "Product");
 		}
 	}
 }
