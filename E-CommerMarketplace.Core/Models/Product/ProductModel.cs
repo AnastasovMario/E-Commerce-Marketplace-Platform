@@ -13,7 +13,7 @@ namespace E_CommerceMarketplace.Core.Models.Product
 		[Required]
 		[MaxLength(DbConstants.ProductNameLength)]
 		[Display(Name = "Product Name")]
-		public string Name { get; init; } = null!;
+		public string Name { get; set; } = null!;
 
 		[Required]
 		[Display(Name = "Price")]

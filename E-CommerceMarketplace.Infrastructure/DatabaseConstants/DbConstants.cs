@@ -17,5 +17,8 @@
 		public const int ImageUrlMaxLength = 200;
 
 		public const int StatusLength = 50;
+
+		public const int PhoneNumberMinLength = 7;
+		public const int PhoneNumberMaxLength = 15;
 	}
 }

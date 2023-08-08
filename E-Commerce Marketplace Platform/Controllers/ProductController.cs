@@ -1,4 +1,5 @@
 ﻿using E_Commerce_Marketplace_Platform.Extensions;
+using E_Commerce_Marketplace_Platform.Helpers;
 using E_Commerce_Marketplace_Platform.Models;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Extensions;
@@ -13,17 +14,22 @@ namespace E_Commerce_Marketplace_Platform.Controllers
     {
         private readonly IProductService productService;
         private readonly IVendorService vendorService;
+        private readonly SanitizerHelper sanitizer;
         public ProductController(IProductService _productService,
-            IVendorService _vendorService)
+            IVendorService _vendorService,
+            SanitizerHelper _sanitizer)
         {
             productService = _productService;
             vendorService = _vendorService;
+            sanitizer = _sanitizer;
         }
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> All([FromQuery] AllProductsQueryModel model)
         {
+            model.SearchTerm = sanitizer.Sanitize(model.SearchTerm);
+
             var productsResult = await productService.All(model.Category,
                 model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
 
@@ -58,6 +64,10 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(ProductModel model)
         {
+            model.Name = sanitizer.Sanitize(model.Name);
+            model.Description = sanitizer.Sanitize(model.Description);
+            model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+
             if ((await vendorService.ExistsById(User.Id()) == false))
             {
                 return RedirectToAction(nameof(VendorController.Become), "Vendor");
@@ -117,6 +127,10 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ProductEditModel model)
         {
+            model.Name = sanitizer.Sanitize(model.Name);
+            model.Description = sanitizer.Sanitize(model.Description);
+            model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+
             if ((await productService.Exists(model.Id)) == false)
             {
                 return RedirectToAction(nameof(HomeController.Index), "Index");

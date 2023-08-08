@@ -1,4 +1,5 @@
 ﻿using E_Commerce_Marketplace_Platform.Extensions;
+using E_Commerce_Marketplace_Platform.Helpers;
 using E_CommerceMarketplace.Core.Constants;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Vendor;
@@ -11,10 +12,13 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 	public class VendorController : Controller
 	{
 		private readonly IVendorService vendorService;
+		private readonly SanitizerHelper sanitizer;
 
-		public VendorController(IVendorService _vendorService)
+        public VendorController(IVendorService _vendorService,
+            SanitizerHelper _sanitizer)
 		{
 			vendorService = _vendorService;
+			sanitizer = _sanitizer;
 		}
 
 		[HttpGet]
@@ -37,8 +41,11 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		public async Task<IActionResult> Become(BecomeVendorModel model)
 		{
 			var userId = User.Id();
+            model.FirstName = sanitizer.Sanitize(model.FirstName);
+            model.LastName = sanitizer.Sanitize(model.LastName);
+            model.PhoneNumber = sanitizer.Sanitize(model.PhoneNumber);
 
-			if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
@@ -57,7 +64,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 				return RedirectToAction("Index", "Home");
 			}
 
-			await vendorService.Create(userId, model);
+            await vendorService.Create(userId, model);
 
 			return RedirectToAction("All", "Product");
 		}

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace E_CommerceMarketplace.Infrastructure
+namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {

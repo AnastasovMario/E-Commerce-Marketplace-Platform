@@ -9,7 +9,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public int Id { get; init; }
 
         [Required]
-		[MaxLength(DbConstants.StatusLength]
+		[MaxLength(DbConstants.StatusLength)]
 		public string Description { get; init; } = null!;
     }
 }
