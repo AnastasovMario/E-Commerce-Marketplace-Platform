@@ -188,6 +188,22 @@ namespace E_CommerceMarketplace.Core.Services
 				.ToListAsync();
 		}
 
+        public async Task<IEnumerable<ProductServiceModel>> GetMyProducts(string userId)
+        {
+			return await repo.AllReadonly<Product>()
+				.Where(i => i.Vendor.User_Id == userId && i.Status_Id == 4)
+				.Select(i => new ProductServiceModel
+				{
+					Id = i.Id,
+					Name = i.Name,
+					ImageUrl = i.ImageUrl,
+					Price = i.Price,
+					Status = i.Status.Description,
+					Vendor = i.Vendor.FirstName + " " + i.Vendor.LastName
+				})
+				.ToListAsync();
+        }
+
         public async Task<int> GetProductCategoryId(int productId)
         {
 			return await repo.AllReadonly<Product>()
