@@ -4,12 +4,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
-    public class ApplicationUser : IdentityUser<string>
+    public class ApplicationUser : IdentityUser
     {
-        public string? FirstName { get; set; }
 
-        public string? LastName { get; set; }
+        [MaxLength(DbConstants.UserFirstNameMaxLength)]
+        public string? FirstName { get; init; }
 
-        public bool IsActive { get; set; } = true;
+        [MaxLength(DbConstants.UserLastNameMaxLength)]
+        public string? LastName { get; init; }
+
+        [Required]
+        public bool IsActive { get; set; }
     }
 }

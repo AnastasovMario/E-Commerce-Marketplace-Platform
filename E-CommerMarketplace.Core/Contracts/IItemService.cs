@@ -4,7 +4,6 @@ namespace E_CommerceMarketplace.Core.Contracts
 {
 	public interface IItemService
 	{
-		Task<IEnumerable<ItemServiceModel>> GetMinePurchasedItems(string userId);
 		Task Create(ItemServiceModel model, string userId);
 
 		Task Remove(int itemId);
