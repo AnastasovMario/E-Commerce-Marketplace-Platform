@@ -6,6 +6,7 @@ using E_CommerceMarketplace.Core.Extensions;
 using E_CommerceMarketplace.Core.Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static E_Commerce_Marketplace_Platform.Areas.Admin.Constants.AdminConstants;
 
 namespace E_Commerce_Marketplace_Platform.Controllers
 {
@@ -208,6 +209,11 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
+            if (User.IsInRole(AdminRolleName))
+            {
+                return RedirectToAction("Mine", "Product", new { area = AreaName });
+            }
+
             var myProducts = new List<ProductServiceModel>();
             var userId = User.Id();
             if (await vendorService.ExistsById(userId))

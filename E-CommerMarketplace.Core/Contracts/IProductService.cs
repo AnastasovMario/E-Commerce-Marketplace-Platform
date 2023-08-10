@@ -4,6 +4,7 @@ namespace E_CommerceMarketplace.Core.Contracts
 {
     public interface IProductService
     {
+        Task<IEnumerable<ProductServiceModel>> GetUserProducts(string userId);
         Task<IEnumerable<ProductHomeModel>> GetLastProducts();
 
         Task<IEnumerable<ProductCategoryModel>> AllCategories();

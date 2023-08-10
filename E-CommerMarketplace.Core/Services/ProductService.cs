@@ -245,7 +245,22 @@ namespace E_CommerceMarketplace.Core.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> HasVendorWithId(int productId, string userId)
+		public async Task<IEnumerable<ProductServiceModel>> GetUserProducts(string userId)
+		{
+			return await repo.AllReadonly<Product>()
+				.Where(p => p.Vendor.User_Id == userId && p.Status_Id == 4)
+				.Select(p => new ProductServiceModel
+				{
+					Name = p.Name,
+					Price = p.Price,
+					ImageUrl = p.ImageUrl,
+					Status = p.Status.Description,
+					Vendor = p.Vendor.FirstName + " " + p.Vendor.LastName
+				})
+				.ToListAsync();
+		}
+
+		public async Task<bool> HasVendorWithId(int productId, string userId)
         {
             bool result = false;
             var product = await repo.AllReadonly<Product>()

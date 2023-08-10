@@ -93,7 +93,22 @@ namespace E_CommerceMarketplace.Core.Services
                 .ToListAsync();
         }
 
-        public async Task Remove(int itemId)
+		public async Task<IEnumerable<ItemServiceModel>> GetUsersBoughtProducts(string userId)
+		{
+            return await repo.AllReadonly<Item>()
+                .Where(i => i.Order.User_Id == userId && i.Order.Sale_Id != null)
+                .Select(i => new ItemServiceModel
+                {
+                    Name = i.Product.Name,
+                    ImageUrl = i.Product.ImageUrl,
+                    Price = i.Product.Price,
+                    Quantity = i.Quantity,
+                    Vendor = i.Product.Vendor.FirstName + " " + i.Product.Vendor.LastName
+                })
+                .ToListAsync();
+		}
+
+		public async Task Remove(int itemId)
         {
             await repo.DeleteAsync<Item>(itemId);
             await repo.SaveChangesAsync();

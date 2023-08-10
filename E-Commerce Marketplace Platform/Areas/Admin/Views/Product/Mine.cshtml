@@ -1,0 +1,36 @@
+﻿@model MyProductsViewModel
+
+@{
+    ViewBag.Title = "My Products";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<h4>My Added Products</h4>
+
+@if (!Model.AddedProducts.Any())
+{
+    <h2 class="text-center">You haven't added any products yet!</h2>
+}
+
+<div class="row">
+    @foreach (var product in Model.AddedProducts)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_ProductPartial.cshtml", product)
+    }
+</div>
+
+<h4>Mine Bought Products</h4>
+
+@if (!Model.BoughtItems.Any())
+{
+    <h2 class="text-center">You haven't bought any items yet!</h2>
+}
+
+<div class="row">
+    @foreach (var item in Model.BoughtItems)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_ItemFormPartial.cshtml", item)
+    }
+</div>

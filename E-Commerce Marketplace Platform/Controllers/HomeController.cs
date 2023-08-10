@@ -2,6 +2,7 @@
 using E_CommerceMarketplace.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static E_Commerce_Marketplace_Platform.Areas.Admin.Constants.AdminConstants;
 
 namespace E_Commerce_Marketplace_Platform.Controllers
 {
@@ -20,7 +21,11 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = await _productService.GetLastProducts();
+			if (User.IsInRole(AdminRolleName))
+			{
+				return RedirectToAction("Index", "Admin", new { area = "Admin" });
+			}
+			var model = await _productService.GetLastProducts();
 
             return View(model);
         }
