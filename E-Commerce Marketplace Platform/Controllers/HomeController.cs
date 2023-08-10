@@ -1,6 +1,8 @@
 ﻿using E_Commerce_Marketplace_Platform.Models;
 using E_CommerceMarketplace.Core.Contracts;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using static E_Commerce_Marketplace_Platform.Areas.Admin.Constants.AdminConstants;
 
@@ -34,6 +36,10 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+            _logger.LogError(feature.Error, "TraceIdentifier: {0}", Activity.Current?.Id ?? HttpContext.TraceIdentifier);
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

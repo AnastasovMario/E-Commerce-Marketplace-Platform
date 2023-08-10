@@ -15,14 +15,17 @@ namespace E_Commerce_Marketplace_Platform.Controllers
     {
         private readonly IProductService productService;
         private readonly IVendorService vendorService;
+        private readonly ILogger logger;
         private readonly SanitizerHelper sanitizer;
         public ProductController(IProductService _productService,
             IVendorService _vendorService,
-            SanitizerHelper _sanitizer)
+            SanitizerHelper _sanitizer,
+            ILogger<ProductController> _logger)
         {
             productService = _productService;
             vendorService = _vendorService;
             sanitizer = _sanitizer;
+            logger = _logger;
         }
 
         [AllowAnonymous]
@@ -77,10 +80,14 @@ namespace E_Commerce_Marketplace_Platform.Controllers
             if ((await productService.CategoryExists(model.CategoryId)) == false)
             {
                 ModelState.AddModelError(nameof(model.CategoryId), "Category does not exists");
+                model.ProductCategories = await productService.AllCategories();
+
+                return View(model);
             }
 
             if (!ModelState.IsValid)
             {
+                model.ProductCategories = await productService.AllCategories();
                 return View(model);
             }
 
@@ -96,11 +103,12 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         {
             if ((await productService.Exists(id)) == false)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(All));
             }
 
-            if ((await productService.HasVendorWithId(id, this.User.Id())) == false)
+            if ((await productService.HasVendorWithId(id, User.Id())) == false)
             {
+                logger.LogInformation("User with id {0} attempted to edit other vendor's product", User.Id());
 
                 return RedirectToPage("/Account/AccessDenied");
             }
@@ -128,29 +136,46 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ProductEditModel model)
         {
+            if (id != model.Id)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
             model.Name = sanitizer.Sanitize(model.Name);
             model.Description = sanitizer.Sanitize(model.Description);
             model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
 
             if ((await productService.Exists(model.Id)) == false)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Index");
+                ModelState.AddModelError("", "Product does not exist");
+                model.ProductStatuses = await productService.AllProductStatuses();
+                model.ProductCategories = await productService.AllCategories();
+
+                return View(model);
             }
 
             if ((await productService.HasVendorWithId(model.Id, this.User.Id())) == false)
             {
-
-                return RedirectToPage("/Account/AccessDenied");
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
             if ((await productService.CategoryExists(model.CategoryId)) == false)
             {
-                ModelState.AddModelError(nameof(model.CategoryId), "Category does not exists");
+
+                ModelState.AddModelError("", "Category does not exist");
+                model.ProductStatuses = await productService.AllProductStatuses();
+                model.ProductCategories = await productService.AllCategories();
+
+                return View(model);
             }
 
             if ((await productService.StatusExists(model.StatusId)) == false)
             {
-                ModelState.AddModelError(nameof(model.StatusId), "Status does not exists");
+                ModelState.AddModelError("", "Status does not exists");
+                model.ProductStatuses = await productService.AllProductStatuses();
+                model.ProductCategories = await productService.AllCategories();
+
+                return View(model);
             }
 
             if (!ModelState.IsValid)
@@ -173,7 +198,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             if ((await productService.HasVendorWithId(Id, User.Id())) == false)
             {
-                return RedirectToPage("/Account/AccessDenied");
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
             var product = await productService.GetProductDetailsById(Id);
@@ -190,23 +215,22 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(ProductDetailsViewModel model)
+        public async Task<IActionResult> Delete(int id, ProductDetailsViewModel model)
         {
-            if ((await productService.Exists(model.Id)) == false)
+            if ((await productService.Exists(id)) == false)
             {
                 return RedirectToAction(nameof(All));
             }
             if ((await productService.HasVendorWithId(model.Id, User.Id())) == false)
             {
-                return RedirectToPage("/Account/AccessDenied");
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
-            await productService.Delete(model.Id);
+            await productService.Delete(id);
 
            return RedirectToAction(nameof(All));
         }
 
-        [HttpGet]
         public async Task<IActionResult> Mine()
         {
             if (User.IsInRole(AdminRolleName))
@@ -216,6 +240,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             var myProducts = new List<ProductServiceModel>();
             var userId = User.Id();
+
             if (await vendorService.ExistsById(userId))
             {
                 var vendorId = await vendorService.GetVendorId(userId);

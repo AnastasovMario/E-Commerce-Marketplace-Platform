@@ -13,7 +13,7 @@ namespace E_Commerce_Marketplace_Platform.ModelBinders
 
             if (context.Metadata.ModelType == typeof(Decimal) || context.Metadata.ModelType == typeof(Decimal?))
             {
-                return new DecimalModelBinders();
+                return new DecimalModelBinder();
             }
 
             return null;

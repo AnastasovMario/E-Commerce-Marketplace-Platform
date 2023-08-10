@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace E_Commerce_Marketplace_Platform.ModelBinders
 {
-    public class DecimalModelBinders : IModelBinder
+    public class DecimalModelBinder : IModelBinder
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {

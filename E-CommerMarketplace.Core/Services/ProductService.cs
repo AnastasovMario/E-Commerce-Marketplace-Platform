@@ -4,16 +4,22 @@ using E_CommerceMarketplace.Core.Models.Vendor;
 using E_CommerceMarketplace.Infrastructure.Common;
 using E_CommerceMarketplace.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace E_CommerceMarketplace.Core.Services
 {
 	public class ProductService : IProductService
 	{
 		private readonly IRepository repo;
-		public ProductService(IRepository _repo)
+
+        private readonly ILogger logger;
+
+        public ProductService(IRepository _repo,
+            ILogger<ProductService> _logger)
 		{
 			repo = _repo;
-		}
+            logger = _logger;
+        }
 
         public async Task<ProductQueryServiceModel> All(string? category = null,
 			string? status = null,
@@ -136,9 +142,18 @@ namespace E_CommerceMarketplace.Core.Services
 				Status_Id = 4,			
 			};
 
-			await repo.AddAsync(product);
-			await repo.SaveChangesAsync();
+			try
+			{
+                await repo.AddAsync(product);
+                await repo.SaveChangesAsync();
 
+            }
+            catch (Exception ex)
+			{
+                logger.LogError(nameof(Create), ex);
+                throw new ApplicationException("Database failed to save info", ex);
+            }
+			
 
 			return product.Id;
 		}

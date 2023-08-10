@@ -28,7 +28,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 			{
                 TempData[MessageConstants.ErrorMessage] = "Вие вече сте Продавач";
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(HomeController.Index), "Home");
                 //throw new ArgumentException("Tried to become a vendor without permission");				
 			}
 
@@ -54,19 +54,19 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 			{
 				TempData[MessageConstants.ErrorMessage] = "Вие вече сте Продавач";
 
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction(nameof(HomeController.Index), "Home");
 			}
 
 			if (await vendorService.UserWithPhoneNumberExists(model.PhoneNumber))
 			{
 				TempData[MessageConstants.ErrorMessage] = "Телефона вече съществува";
 
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction(nameof(HomeController.Index), "Home");
 			}
 
             await vendorService.Create(userId, model);
 
-			return RedirectToAction("All", "Product");
+			return RedirectToAction(nameof(ProductController.All), "Product");
 		}
 	}
 }
