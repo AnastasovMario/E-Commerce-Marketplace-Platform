@@ -14,6 +14,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public string? LastName { get; init; }
 
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }
