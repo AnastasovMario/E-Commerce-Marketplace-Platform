@@ -10,22 +10,41 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 	public class ItemController : Controller
 	{
 		private readonly IProductService productService;
-		private readonly IVendorService vendorService;
 		private readonly IItemService itemService;
+		private readonly ILogger logger;
 
 		public ItemController(IProductService _productService,
-			IVendorService _vendorService,
-            IItemService _itemService)
+            IItemService _itemService,
+            ILogger<ItemController> _logger)
 		{
 			productService = _productService;
-			vendorService = _vendorService;
 			itemService = _itemService;
-
+			logger = _logger;
         }
 
 		[HttpGet]
 		public async Task<IActionResult> Buy(int id)
 		{
+			if ((await productService.Exists(id)) == false)
+			{
+				logger.LogInformation($"User {User.Id()} attempted to buy a product that doesn't exists");
+
+				RedirectToAction(nameof(ProductController.All), "Product");
+			}
+
+			if (await productService.HasVendorWithId(id, User.Id()))
+			{
+                logger.LogInformation($"User with id [{User.Id()}] attempted to buy his own product [{id}]");
+
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+			if ((await productService.IsProductAvailable(id)) == false)
+			{
+                logger.LogInformation($"User {User.Id()} attempted to buy a product [{id}] that is not avaiable");
+
+                RedirectToAction(nameof(ProductController.All), "Product");
+            }
 
 			var product = await productService.GetProductDetailsById(id);
 			var itemModel = new ItemServiceModel()
@@ -42,8 +61,28 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Buy(ItemServiceModel model)
 		{
-			
-			if (!ModelState.IsValid)
+            if ((await productService.Exists(model.Id)) == false)
+            {
+                logger.LogInformation($"User {User.Id()} attempted to buy a product that doesn't exist.");
+
+                RedirectToAction(nameof(ProductController.All), "Product");
+            }
+
+            if (await productService.HasVendorWithId(model.Id, User.Id()))
+            {
+                logger.LogInformation($"User with id [{User.Id()}] attempted to buy his own product [{model.Id}]");
+
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if ((await productService.IsProductAvailable(model.Id)) == false)
+            {
+                logger.LogInformation($"User {User.Id()} attempted to buy a product [{model.Id}] that is not avaiable");
+
+                RedirectToAction(nameof(ProductController.All), "Product");
+            }
+
+            if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
@@ -54,9 +93,9 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		}
 
 		[HttpGet]
-        public async Task<IActionResult> Edit(int Id)
+        public async Task<IActionResult> Edit(int id)
 		{
-			var item = await itemService.GetItemById(Id);
+            var item = await itemService.GetItemById(id);
 
 			var model = new ItemServiceModel()
 			{

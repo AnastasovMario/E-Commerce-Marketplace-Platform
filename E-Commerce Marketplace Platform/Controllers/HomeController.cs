@@ -2,7 +2,6 @@
 using E_CommerceMarketplace.Core.Contracts;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using static E_Commerce_Marketplace_Platform.Areas.Admin.Constants.AdminConstants;
 

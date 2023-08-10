@@ -110,7 +110,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
             {
                 logger.LogInformation("User with id {0} attempted to edit other vendor's product", User.Id());
 
-                return RedirectToPage("/Account/AccessDenied");
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
             var product = await productService.GetProductDetailsById(id);

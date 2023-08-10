@@ -291,6 +291,16 @@ namespace E_CommerceMarketplace.Core.Services
             return result;
         }
 
+        public async Task<bool> IsProductAvailable(int productId)
+        {
+			var statusId = await repo.AllReadonly<Product>()
+				.Where(p => p.Id == productId)
+				.Select(p => p.Status_Id)
+				.FirstOrDefaultAsync();
+
+			return statusId == Status.Stocked.Id;
+        }
+
         public async Task<bool> StatusExists(int statusId)
         {
             return await repo.AllReadonly<Status>()
