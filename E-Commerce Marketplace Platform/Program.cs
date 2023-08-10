@@ -21,6 +21,14 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+//builder.Services.ConfigureApplicationCookie(options =>
+//{
+//    options.LoginPath = "";
+//    options.LogoutPath = "";
+//    options.AccessDeniedPath = "";
+//});
+
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {
@@ -57,7 +65,12 @@ app.UseEndpoints(endpoints =>
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-    endpoints.MapControllerRoute(
+	endpoints.MapControllerRoute(
+	  name: "areas",
+	  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+	);
+
+	endpoints.MapControllerRoute(
       name: "productDetails",
       pattern: "Product/Details/{id}/{information}"
     );
