@@ -17,7 +17,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.19")
+                .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -42,15 +42,17 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("LastName")
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -102,16 +104,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3e4b2bfe-e38a-45bd-83ec-d4b027404017",
+                            ConcurrencyStamp = "cfda19f4-f108-45b5-a401-fff4b720b0b4",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKLlrBAJb0DBsVKPzaURQSsgD7Gq4AwnKms0d8Zu6qll8OGpPgqg0hT0ud3AMf5xAQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIPnt6XH+qcEZCY4AiiQQsbW/TMIsStNeSfV+KQP9yy76IdrtZ5JQE3UHDacnTszqw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "80f0f032-9114-4a71-a6c5-bf26313619e2",
+                            SecurityStamp = "bced9119-5316-48f0-9b09-86dedbb738b7",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -119,16 +121,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "330e80fa-894f-47e3-b5e3-7ebf4e1c24bf",
+                            ConcurrencyStamp = "78e411b3-55b6-446a-af66-8858d4021bc0",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJE54AEQjVB9fGeYJo4BOEPVyma7odEyifslE90PdWvZa4l7w3F+ew2LV5V2Ub1zzw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEATV/v3Dx6vxQKRQgVl2OFqHm/PLNRjLj47GYxhKmITbp5LJmW7wLb8cJxZS2yDV7Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "af527741-9e42-441b-ac97-06a589c6ef55",
+                            SecurityStamp = "69f4bc28-701c-4d67-bbd1-dcabdec62d65",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -136,16 +138,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d84850bf-a432-414c-9361-39c84f53da0c",
+                            ConcurrencyStamp = "2baee3c2-741c-4caa-80af-68ac0075e21e",
                             Email = "mario@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "mario@mail.com",
                             NormalizedUserName = "mario@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFYiA/7d3VTsVL5781oA0rP/sltgfGaSvNk5VtiRN+fDdscLhNBoZRZtD4JxT7lkdg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEji9zn976Q7Y12Eo68pMvT3HBQHcAL9su3nFK5kj8d6dhA3cNx7RPSGFpKT0A9ljA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8aead180-eb54-43d6-811d-4a10c9cdcb23",
+                            SecurityStamp = "6e9ce912-788f-4a8f-8ee8-7e5d352bc25b",
                             TwoFactorEnabled = false,
                             UserName = "mario@mail.com"
                         });
@@ -309,7 +311,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://www.pdevice.com/wp-content/uploads/2015/09/Gigaset-ME-pure-600x600.jpeg",
                             Name = "Smartphone XZ200",
                             Price = 799.99m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         },
                         new
@@ -319,7 +321,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://www.jottnar.com/cdn/shop/products/Productimage-Lodur-Turbulence-min_c13cd744-2711-4fa0-81d0-f312ed4a6a1a_3200x1800_crop_center.jpg?v=1681214994",
                             Name = "Men's Classic T-Shirt",
                             Price = 19.99m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         },
                         new
@@ -329,7 +331,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3B-zF-TdhbybX7l-51SJSrfSoDZLKEgxPuN-Och_y&s",
                             Name = "Garden Tool Set",
                             Price = 39.95m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         },
                         new
@@ -339,7 +341,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://cdn.anscommerce.com/catalog/brandstore/johnson/17_7_20/Sale.jpg",
                             Name = "Luxury Watch",
                             Price = 899.50m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         },
                         new
@@ -349,7 +351,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://m.media-amazon.com/images/I/61x-NhdKBmL.jpg",
                             Name = "Cookware Set",
                             Price = 149.99m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         });
                 });
@@ -390,8 +392,8 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -400,12 +402,12 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 3,
+                            Id = 1,
                             Description = "Unavailable"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 2,
                             Description = "Stocked"
                         });
                 });

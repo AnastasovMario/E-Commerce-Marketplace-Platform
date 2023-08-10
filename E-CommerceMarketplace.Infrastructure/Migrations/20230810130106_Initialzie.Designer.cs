@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_CommerceMarketplace.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230807193919_RemoveProductSales")]
-    partial class RemoveProductSales
+    [Migration("20230810130106_Initialzie")]
+    partial class Initialzie
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.19")
+                .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -44,15 +44,17 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("LastName")
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -104,16 +106,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "748e16d5-b706-4c84-8193-cd3d26775530",
+                            ConcurrencyStamp = "cfda19f4-f108-45b5-a401-fff4b720b0b4",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPHL/1BbhqwXLxz4CDudx9zesn+Cls3RkU+XKYxWires2vH3iyLFszreg2jAKF8MSA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIPnt6XH+qcEZCY4AiiQQsbW/TMIsStNeSfV+KQP9yy76IdrtZ5JQE3UHDacnTszqw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a8c3718a-39e2-41da-97c0-7e256e1cb896",
+                            SecurityStamp = "bced9119-5316-48f0-9b09-86dedbb738b7",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -121,16 +123,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4df49c88-93a7-4dc4-af09-0509db8d38f5",
+                            ConcurrencyStamp = "78e411b3-55b6-446a-af66-8858d4021bc0",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDZHBmQX9P1h+8MuzV2z6iYRUl33zOR3smL0x9FhuCFp/gp4cFfdJToWXisFDlSebg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEATV/v3Dx6vxQKRQgVl2OFqHm/PLNRjLj47GYxhKmITbp5LJmW7wLb8cJxZS2yDV7Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4afd513f-7adb-46cc-82d7-5bb07fa765c4",
+                            SecurityStamp = "69f4bc28-701c-4d67-bbd1-dcabdec62d65",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -138,16 +140,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c8921858-b022-485d-a765-32303800b637",
+                            ConcurrencyStamp = "2baee3c2-741c-4caa-80af-68ac0075e21e",
                             Email = "mario@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "mario@mail.com",
                             NormalizedUserName = "mario@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN4fSn0L+3I/qq9aMSA8RX+F6wxy2WQtrgG99qGKSlj+loVIRrJQnYk3otGpkXJkyA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEji9zn976Q7Y12Eo68pMvT3HBQHcAL9su3nFK5kj8d6dhA3cNx7RPSGFpKT0A9ljA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e4580793-1565-45f9-9b7a-a7a89b0c3692",
+                            SecurityStamp = "6e9ce912-788f-4a8f-8ee8-7e5d352bc25b",
                             TwoFactorEnabled = false,
                             UserName = "mario@mail.com"
                         });
@@ -245,9 +247,6 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.Property<int?>("Sale_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status_Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("User_Id")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -255,8 +254,6 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Sale_Id");
-
-                    b.HasIndex("Status_Id");
 
                     b.HasIndex("User_Id");
 
@@ -316,7 +313,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://www.pdevice.com/wp-content/uploads/2015/09/Gigaset-ME-pure-600x600.jpeg",
                             Name = "Smartphone XZ200",
                             Price = 799.99m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         },
                         new
@@ -326,7 +323,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://www.jottnar.com/cdn/shop/products/Productimage-Lodur-Turbulence-min_c13cd744-2711-4fa0-81d0-f312ed4a6a1a_3200x1800_crop_center.jpg?v=1681214994",
                             Name = "Men's Classic T-Shirt",
                             Price = 19.99m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         },
                         new
@@ -336,7 +333,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3B-zF-TdhbybX7l-51SJSrfSoDZLKEgxPuN-Och_y&s",
                             Name = "Garden Tool Set",
                             Price = 39.95m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         },
                         new
@@ -346,7 +343,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://cdn.anscommerce.com/catalog/brandstore/johnson/17_7_20/Sale.jpg",
                             Name = "Luxury Watch",
                             Price = 899.50m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         },
                         new
@@ -356,7 +353,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                             ImageUrl = "https://m.media-amazon.com/images/I/61x-NhdKBmL.jpg",
                             Name = "Cookware Set",
                             Price = 149.99m,
-                            Status_Id = 4,
+                            Status_Id = 2,
                             Vendor_Id = 1
                         });
                 });
@@ -397,8 +394,8 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -407,12 +404,12 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 3,
+                            Id = 1,
                             Description = "Unavailable"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 2,
                             Description = "Stocked"
                         });
                 });
@@ -623,12 +620,6 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("Sale_Id");
 
-                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("Status_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("User_Id")
@@ -636,8 +627,6 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Sale");
-
-                    b.Navigation("Status");
 
                     b.Navigation("User");
                 });
