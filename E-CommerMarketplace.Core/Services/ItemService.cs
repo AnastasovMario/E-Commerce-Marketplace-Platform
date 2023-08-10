@@ -93,7 +93,6 @@ namespace E_CommerceMarketplace.Core.Services
                     Price = i.Product.Price,
                     Quantity = i.Quantity,
                     Total = i.Quantity * i.Product.Price,
-                    IsSold = true,
                     Vendor = i.Product.Vendor.FirstName + " " + i.Product.Vendor.LastName
                 })
                 .ToListAsync();

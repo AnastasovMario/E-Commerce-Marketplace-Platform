@@ -237,7 +237,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             if (await itemService.IsItemBought(model.Id))
             {
-                ModelState.AddModelError("", "Item is already bought.");
+                ModelState.AddModelError("", "Item is already bought and cannot be removed.");
 
                 logger.LogInformation($"User {User.Id()} attempted to remove an item [{model.Id}] that is already bought.");
 

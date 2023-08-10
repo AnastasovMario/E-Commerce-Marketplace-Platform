@@ -15,8 +15,23 @@ namespace E_CommerceMarketplace.Core.Services
             repo = _repo;
         }
 
-		public async Task ClearOrder(int orderId)
-		{
+        public async Task<bool> AreAllItemsAvailable(int orderId)
+        {
+            var orderItems = await GetOrderItems(orderId);
+
+            var orderItemsProductIds = orderItems
+                .Select(i => i.Product_Id)
+                .ToList();
+
+            bool anyUnavailable = await repo.AllReadonly<Product>()
+                .Where(p => orderItemsProductIds.Contains(p.Id) && p.Status_Id == Status.Unavailable.Id)
+                .AnyAsync();
+
+            return !anyUnavailable;
+        }
+
+        public async Task ClearOrder(int orderId)
+        {
             var orderItems = await repo.AllReadonly<Item>()
                 .Where(i => i.Order_Id == orderId)
                 .ToListAsync();
@@ -30,9 +45,9 @@ namespace E_CommerceMarketplace.Core.Services
             repo.Delete(order);
 
             await repo.SaveChangesAsync();
-		}
+        }
 
-		public async Task<int> CreateOrder(string userId)
+        public async Task<int> CreateOrder(string userId)
         {
             var order = new Order()
             {
@@ -44,6 +59,12 @@ namespace E_CommerceMarketplace.Core.Services
             await repo.SaveChangesAsync();
 
             return order.Id;
+        }
+
+        public async Task<bool> Exists(int orderId)
+        {
+            return await repo.AllReadonly<Order>()
+                .AnyAsync(o => o.Id == orderId);
         }
 
         public async Task<OrderDetailsServiceModel> GetCurrentOrderForUser(string userId)
@@ -88,6 +109,7 @@ namespace E_CommerceMarketplace.Core.Services
                 .Select(i => new OrderItemViewModel
                 {
                     Id = i.Id,
+                    Product_Id = i.Product_Id,
                     Name = i.Product.Name,
                     Quantity = i.Quantity,
                     Price = i.Product.Price,
@@ -98,8 +120,14 @@ namespace E_CommerceMarketplace.Core.Services
                 .ToListAsync();
         }
 
+        public async Task<bool> HasUserWithId(int orderId, string userId)
+        {
+            return await repo.AllReadonly<Order>()
+                .AnyAsync(o => o.Id == orderId && o.User_Id == userId);
+        }
+
         public async Task PayOrder(int orderId)
-        {       
+        {
             var order = await repo.GetByIdAsync<Order>(orderId);
 
             var itemsTotal = await repo.AllReadonly<Item>()
@@ -113,10 +141,10 @@ namespace E_CommerceMarketplace.Core.Services
                 Buyer_Id = order.User_Id
             };
 
-			order.DateCompleted = DateTime.UtcNow;
+            order.DateCompleted = DateTime.UtcNow;
             order.Sale = sale;
 
-			await repo.AddAsync(sale);
+            await repo.AddAsync(sale);
             await repo.SaveChangesAsync();
         }
     }
