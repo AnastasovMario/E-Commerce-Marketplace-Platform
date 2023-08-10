@@ -27,9 +27,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Name = "Smartphone XZ200",
 			Price = 799.99m,
 			ImageUrl = "https://www.pdevice.com/wp-content/uploads/2015/09/Gigaset-ME-pure-600x600.jpeg",
-			Category_Id = 1,
+			Category_Id = Category.Electronics.Id,
 			Vendor_Id = 1,
-			Status_Id = 4,
+			Status_Id = Status.Stocked.Id,
 		},
 
 		new Product()
@@ -38,9 +38,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Name = "Men's Classic T-Shirt",
 			Price = 19.99m,
 			ImageUrl = "https://www.jottnar.com/cdn/shop/products/Productimage-Lodur-Turbulence-min_c13cd744-2711-4fa0-81d0-f312ed4a6a1a_3200x1800_crop_center.jpg?v=1681214994",
-			Category_Id = 2,
+			Category_Id = Category.ClothingAndFashion.Id,
 			Vendor_Id = 1,
-			Status_Id = 4,
+			Status_Id = Status.Stocked.Id,
 		},
 
 		new Product()
@@ -49,9 +49,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Name = "Garden Tool Set",
 			Price = 39.95m,
 			ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3B-zF-TdhbybX7l-51SJSrfSoDZLKEgxPuN-Och_y&s",
-			Category_Id = 3,
+			Category_Id = Category.HomeAndGarden.Id,
 			Vendor_Id = 1,
-			Status_Id = 4,
+			Status_Id = Status.Stocked.Id,
 		},
 
 		new Product()
@@ -60,9 +60,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Name = "Luxury Watch",
 			Price = 899.50m,
 			ImageUrl = "https://cdn.anscommerce.com/catalog/brandstore/johnson/17_7_20/Sale.jpg",
-			Category_Id = 1,
+			Category_Id = Category.Electronics.Id,
 			Vendor_Id = 1,
-			Status_Id = 4,
+			Status_Id = Status.Stocked.Id,
 		},
 
 		new Product()
@@ -71,9 +71,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Name = "Cookware Set",
 			Price = 149.99m,
 			ImageUrl = "https://m.media-amazon.com/images/I/61x-NhdKBmL.jpg",
-			Category_Id = 4,
+			Category_Id = Category.HealthAndBeauty.Id,
 			Vendor_Id = 1,
-			Status_Id = 4,
+			Status_Id = Status.Stocked.Id,
 		}
 	};
 

@@ -9,7 +9,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            //Подаваме списък с CreateUsers, и HasData го сийдва
+            builder
+                .Property(p => p.IsActive)
+                .HasDefaultValue(true);
             builder.HasData(CreateUsers());
         }
 
@@ -25,7 +27,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
                 NormalizedUserName = "agent@mail.com",
                 Email = "agent@mail.com",
                 NormalizedEmail = "agent@mail.com",
-                IsActive = true
             };
 
             user.PasswordHash =
@@ -40,7 +41,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
                 NormalizedEmail = "guest@mail.com",
-                IsActive = true
             };
 
             user.PasswordHash =
@@ -55,7 +55,6 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
                 NormalizedUserName = "mario@mail.com",
                 Email = "mario@mail.com",
                 NormalizedEmail = "mario@mail.com",
-                IsActive = true
             };
 
             user.PasswordHash =

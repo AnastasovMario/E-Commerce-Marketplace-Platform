@@ -139,7 +139,7 @@ namespace E_CommerceMarketplace.Core.Services
 				Category_Id = model.CategoryId,
 				Vendor_Id = vendorId,
 				Description = model.Description,
-				Status_Id = 4,			
+				Status_Id = Status.Stocked.Id,			
 			};
 
 			try
@@ -187,7 +187,7 @@ namespace E_CommerceMarketplace.Core.Services
         public async Task<IEnumerable<ProductHomeModel>> GetLastProducts()
 		{
 			return await repo.AllReadonly<Product>()
-				.OrderByDescending(p => p.Status_Id)
+				.OrderByDescending(p => p.Status_Id == Status.Stocked.Id)
 				.ThenByDescending(p => p.Id)
 				.Take(3)
 				.Select(p => new ProductHomeModel
@@ -263,7 +263,7 @@ namespace E_CommerceMarketplace.Core.Services
 		public async Task<IEnumerable<ProductServiceModel>> GetUserProducts(string userId)
 		{
 			return await repo.AllReadonly<Product>()
-				.Where(p => p.Vendor.User_Id == userId && p.Status_Id == 4)
+				.Where(p => p.Vendor.User_Id == userId && p.Status_Id == Status.Stocked.Id)
 				.Select(p => new ProductServiceModel
 				{
 					Name = p.Name,

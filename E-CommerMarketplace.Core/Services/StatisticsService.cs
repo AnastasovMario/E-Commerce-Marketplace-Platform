@@ -18,7 +18,7 @@ namespace E_CommerceMarketplace.Core.Services
             int totalProducts = await repo.AllReadonly<Product>()
                 .CountAsync();
             int totalAvailableProducts = await repo.AllReadonly<Product>()
-                .CountAsync(p => p.Status_Id == 4);
+                .CountAsync(p => p.Status_Id == Status.Stocked.Id);
 
             return new()
             {

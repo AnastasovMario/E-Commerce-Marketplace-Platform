@@ -17,12 +17,12 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
             {
                 new Status()
                 {
-                    Id = 3,
+                    Id = 1,
                     Description = "Unavailable"
                 },
                 new Status()
                 {
-                    Id = 4,
+                    Id = 2,
                     Description = "Stocked"
                 },
             };

@@ -1,5 +1,6 @@
 ﻿using E_CommerceMarketplace.Infrastructure.DatabseConstants;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
@@ -18,5 +19,20 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public string Name { get; set; } = null!;
 
         public List<Product> Products { get; init; }
+
+        [NotMapped]
+        public static Category Electronics { get; set; } = new() { Id = 1 };
+
+        [NotMapped]
+        public static Category ClothingAndFashion { get; set; } = new() { Id = 2 };
+
+        [NotMapped]
+        public static Category HomeAndGarden { get; set; } = new() { Id = 3 };
+
+        [NotMapped]
+        public static Category HealthAndBeauty { get; set; } = new() { Id = 4 };
+
+        [NotMapped]
+        public static Category BooksAndMagazines { get; set; } = new() { Id = 5 };
     }
 }
