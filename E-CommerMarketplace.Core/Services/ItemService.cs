@@ -53,6 +53,12 @@ namespace E_CommerceMarketplace.Core.Services
             return item.Id;
         }
 
+        public async Task<bool> Exists(int itemId)
+        {
+            return await repo.AllReadonly<Item>()
+                .AnyAsync(i => i.Id == itemId);
+        }
+
         public async Task<OrderItemViewModel> GetItemById(int itemId)
         {
             return await repo.AllReadonly<Item>()
@@ -108,7 +114,19 @@ namespace E_CommerceMarketplace.Core.Services
                 .ToListAsync();
 		}
 
-		public async Task Remove(int itemId)
+        public async Task<bool> HasBuyerWithId(int itemId, string userId)
+        {
+            return await repo.AllReadonly<Item>()
+                .AnyAsync(i => i.Id == itemId && i.Order.User_Id == userId);
+        }
+
+        public async Task<bool> IsItemBought(int itemId)
+        {
+            return await repo.AllReadonly<Item>()
+                .AnyAsync(i => i.Order.Sale_Id != null);
+        }
+
+        public async Task Remove(int itemId)
         {
             await repo.DeleteAsync<Item>(itemId);
             await repo.SaveChangesAsync();

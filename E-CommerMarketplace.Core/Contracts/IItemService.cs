@@ -4,6 +4,12 @@ namespace E_CommerceMarketplace.Core.Contracts
 {
 	public interface IItemService
 	{
+		Task<bool> HasBuyerWithId(int itemId, string userId);
+
+		Task<bool> Exists(int itemId);
+
+		Task<bool> IsItemBought(int itemId);
+
 		Task<IEnumerable<ItemServiceModel>> GetUsersBoughtProducts(string userId);
 
 		Task Create(ItemServiceModel model, string userId);

@@ -70,14 +70,14 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             if (await productService.HasVendorWithId(model.Id, User.Id()))
             {
-                logger.LogInformation($"User with id [{User.Id()}] attempted to buy his own product [{model.Id}]");
+                logger.LogInformation($"User with id [{User.Id()}] attempted to buy his own product [{model.Product_Id}]");
 
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
             if ((await productService.IsProductAvailable(model.Id)) == false)
             {
-                logger.LogInformation($"User {User.Id()} attempted to buy a product [{model.Id}] that is not avaiable");
+                logger.LogInformation($"User {User.Id()} attempted to buy a product [{model.Product_Id}] that is not available");
 
                 RedirectToAction(nameof(ProductController.All), "Product");
             }
@@ -95,6 +95,26 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		[HttpGet]
         public async Task<IActionResult> Edit(int id)
 		{
+            if ((await itemService.Exists(id)) == false)
+            {
+                logger.LogInformation($"User {User.Id()} attempted to edit an item that doesn't exist.");
+
+                RedirectToAction(nameof(OrderController.Mine), "Order");
+            }
+
+            if ((await itemService.HasBuyerWithId(id, User.Id())) == false)
+            {
+                logger.LogInformation($"User with id [{User.Id()}] attempted to edit an item [{id}] that is not his.");
+
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if (await itemService.IsItemBought(id))
+            {
+                logger.LogInformation($"User {User.Id()} attempted to edit an item [{id}] that is already bought.");
+
+                RedirectToAction(nameof(OrderController.Mine), "Order");
+            }
             var item = await itemService.GetItemById(id);
 
 			var model = new ItemServiceModel()
@@ -113,7 +133,37 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(int Id, ItemServiceModel model)
 		{
-			if (!ModelState.IsValid)
+            if (Id != model.Id)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if ((await itemService.Exists(Id)) == false)
+            {
+                ModelState.AddModelError("", "Item does not exist");
+
+                logger.LogInformation($"User {User.Id()} attempted to edit an item that doesn't exist.");
+
+                RedirectToAction(nameof(OrderController.Mine), "Order");
+            }
+
+            if ((await itemService.HasBuyerWithId(Id, User.Id())) == false)
+            {
+                logger.LogInformation($"User with id [{User.Id()}] attempted to edit an item [{Id}] that is not his.");
+
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if (await itemService.IsItemBought(Id))
+            {
+                ModelState.AddModelError("", "Item is already bought.");
+
+                logger.LogInformation($"User {User.Id()} attempted to edit an item [{Id}] that is already bought.");
+
+                RedirectToAction(nameof(OrderController.Mine), "Order");
+            }
+
+            if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
@@ -127,7 +177,32 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpGet]
 		public async Task<IActionResult> Remove(int Id)
 		{
-			var item = await itemService.GetItemById(Id);
+            if ((await itemService.Exists(Id)) == false)
+            {
+                ModelState.AddModelError("", "Item does not exist");
+
+                logger.LogInformation($"User {User.Id()} attempted to remove an item that doesn't exist.");
+
+                RedirectToAction(nameof(OrderController.Mine), "Order");
+            }
+
+            if ((await itemService.HasBuyerWithId(Id, User.Id())) == false)
+            {
+                logger.LogInformation($"User with id [{User.Id()}] attempted to remove an item [{Id}]that is not his.");
+
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if (await itemService.IsItemBought(Id))
+            {
+                ModelState.AddModelError("", "Item is already bought.");
+
+                logger.LogInformation($"User {User.Id()} attempted to remove an item [{Id}] that is already bought.");
+
+                RedirectToAction(nameof(OrderController.Mine), "Order");
+            }
+
+            var item = await itemService.GetItemById(Id);
 
 			var model = new ItemRemoveViewModel()
 			{
@@ -144,13 +219,36 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		[HttpPost]
         public async Task<IActionResult> Remove(ItemRemoveViewModel model)
         {
+            if ((await itemService.Exists(model.Id)) == false)
+            {
+                ModelState.AddModelError("", "Item does not exist");
 
-			await itemService.Remove(model.Id);
+                logger.LogInformation($"User {User.Id()} attempted to remove an item that doesn't exist.");
+
+                RedirectToAction(nameof(OrderController.Mine), "Order");
+            }
+
+            if ((await itemService.HasBuyerWithId(model.Id, User.Id())) == false)
+            {
+                logger.LogInformation($"User with id [{User.Id()}] attempted to remove an item [{model.Id}] that is not his.");
+
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if (await itemService.IsItemBought(model.Id))
+            {
+                ModelState.AddModelError("", "Item is already bought.");
+
+                logger.LogInformation($"User {User.Id()} attempted to remove an item [{model.Id}] that is already bought.");
+
+                RedirectToAction(nameof(OrderController.Mine), "Order");
+            }
+
+            await itemService.Remove(model.Id);
 
             return RedirectToAction(nameof(OrderController.Mine), "Order");
         }
 
-		[HttpGet]
 		public async Task<IActionResult> History()
 		{
 			var model = await itemService.GetItemsHistory(User.Id());
