@@ -1,6 +1,7 @@
 ﻿using E_Commerce_Marketplace_Platform.Extensions;
 using E_Commerce_Marketplace_Platform.Helpers;
 using E_Commerce_Marketplace_Platform.Models;
+using E_CommerceMarketplace.Core.Constants;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Extensions;
 using E_CommerceMarketplace.Core.Models.Product;
@@ -95,6 +96,8 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             var id = await productService.Create(model, vendorId);
 
+            TempData[MessageConstants.SuccessMessage] = "Продуктът беше добавен успешно.";
+
             return RedirectToAction(nameof(Details), new { id = id, information = model.GetInformation() });
         }
 
@@ -154,7 +157,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
                 return View(model);
             }
 
-            if ((await productService.HasVendorWithId(model.Id, this.User.Id())) == false)
+            if ((await productService.HasVendorWithId(model.Id, User.Id())) == false)
             {
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
@@ -182,6 +185,8 @@ namespace E_Commerce_Marketplace_Platform.Controllers
             {
                 return View(model);
             }
+
+            TempData[MessageConstants.SuccessMessage] = "Продуктът беше обновен.";
 
             await productService.Edit(model.Id, model);
 
@@ -228,7 +233,9 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
             await productService.Delete(id);
 
-           return RedirectToAction(nameof(All));
+            TempData[MessageConstants.ErrorMessage] = "Продуктът беше изтрит.";
+
+            return RedirectToAction(nameof(All));
         }
 
         public async Task<IActionResult> Mine()
@@ -255,6 +262,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         {
             if ((await productService.Exists(Id) == false))
             {
+                TempData[MessageConstants.ErrorMessage] = "Продуктът не съществува.";
                 return RedirectToAction(nameof(All));
             }
 

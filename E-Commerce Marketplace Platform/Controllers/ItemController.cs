@@ -1,4 +1,5 @@
 ﻿using E_Commerce_Marketplace_Platform.Extensions;
+using E_CommerceMarketplace.Core.Constants;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Item;
 using Microsoft.AspNetCore.Authorization;
@@ -87,7 +88,9 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 				return View(model);
 			}
 
-			await itemService.Create(model, User.Id());
+            await itemService.Create(model, User.Id());
+
+            TempData[MessageConstants.SuccessMessage] = "Артикулът беше добавен в поръчката.";
 
 			return RedirectToAction(nameof(OrderController.Mine), "Order");
 		}
@@ -168,7 +171,9 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 				return View(model);
 			}
 
-			var itemId = await itemService.Edit(Id, model);
+            var itemId = await itemService.Edit(Id, model);
+
+            TempData[MessageConstants.WarningMessage] = "Артикулът беше редактиран.";
 
 			return RedirectToAction(nameof(OrderController.Mine), "Order");
         }
@@ -245,6 +250,8 @@ namespace E_Commerce_Marketplace_Platform.Controllers
             }
 
             await itemService.Remove(model.Id);
+
+            TempData[MessageConstants.ErrorMessage] = "Артикулът беше премахнат от поръчката.";
 
             return RedirectToAction(nameof(OrderController.Mine), "Order");
         }

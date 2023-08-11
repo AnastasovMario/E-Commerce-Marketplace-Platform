@@ -122,7 +122,7 @@ namespace E_CommerceMarketplace.Core.Services
         public async Task<bool> IsItemBought(int itemId)
         {
             return await repo.AllReadonly<Item>()
-                .AnyAsync(i => i.Order.Sale_Id != null);
+                .AnyAsync(i => i.Id == itemId && i.Order.Sale_Id != null);
         }
 
         public async Task Remove(int itemId)
