@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace E_CommerceMarketplace.Infrastructure.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,9 +28,9 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -57,26 +57,11 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Payments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Total = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,7 +70,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,20 +184,43 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sales",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Total = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Buyer_Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sales", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sales_AspNetUsers_Buyer_Id",
+                        column: x => x.Buyer_Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Vendors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vendors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vendors_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Vendors_AspNetUsers_User_Id",
+                        column: x => x.User_Id,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -224,31 +232,25 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BuyerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DatePaid = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    PaymentId = table.Column<int>(type: "int", nullable: true)
+                    DateCompleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Sale_Id = table.Column<int>(type: "int", nullable: true),
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_BuyerId",
-                        column: x => x.BuyerId,
+                        name: "FK_Orders_AspNetUsers_User_Id",
+                        column: x => x.User_Id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Payments_PaymentId",
-                        column: x => x.PaymentId,
-                        principalTable: "Payments",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Statuses_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "Statuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Sales_Sale_Id",
+                        column: x => x.Sale_Id,
+                        principalTable: "Sales",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -259,41 +261,109 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Price = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    VendorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
+                    ImageUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Category_Id = table.Column<int>(type: "int", nullable: false),
+                    Vendor_Id = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    Status_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
-                        column: x => x.CategoryId,
+                        name: "FK_Products_Categories_Category_Id",
+                        column: x => x.Category_Id,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Products_Orders_OrderId",
-                        column: x => x.OrderId,
+                        name: "FK_Products_Statuses_Status_Id",
+                        column: x => x.Status_Id,
+                        principalTable: "Statuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_Vendors_Vendor_Id",
+                        column: x => x.Vendor_Id,
+                        principalTable: "Vendors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Total = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false),
+                    Product_Id = table.Column<int>(type: "int", nullable: false),
+                    Order_Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Items_Orders_Order_Id",
+                        column: x => x.Order_Id,
                         principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Items_Products_Product_Id",
+                        column: x => x.Product_Id,
+                        principalTable: "Products",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "4254895e-31d0-418b-8f37-b5e7c0f794df", "mario@mail.com", false, "Mario", true, "Anastasov", false, null, "mario@mail.com", "mario@mail.com", "AQAAAAEAACcQAAAAEONh7fee3YP7hzKwbmLsUASbBApaA7zPBJD0/XlqtoPFx4mejXvcEEXKoXTJ76SSGA==", null, false, "fef33a18-e4c7-4cf5-bb42-e276654c5af3", false, "mario@mail.com" });
+                values: new object[,]
+                {
+                    { "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "9eb6d9fb-3899-4945-9f70-3712ac5be0b4", "mario@mail.com", false, null, true, null, false, null, "mario@mail.com", "mario@mail.com", "AQAAAAEAACcQAAAAECbCKHyyH9hUgimx0OnswwW5awhhIO5ODUuysOmkOh7K0AUG+VXUk1mns97qiF96tw==", null, false, "38627e2d-fb6e-4911-a90b-d41ddd70584d", false, "mario@mail.com" },
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "d8c0e394-7991-445c-9c5d-1ec38d434910", "guest@mail.com", false, null, true, null, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEEsTlJrRjsZjxTa8W0GuF8PTfbcU1JodekqcOSNLZrUgy1uygQ1bshEdLT9jkYkYng==", null, false, "4e98bf70-90e7-4e93-b8b8-fadf949b365f", false, "guest@mail.com" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "194f31f8-e3cc-4962-be08-01831ba47380", "agent@mail.com", false, null, true, null, false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEOHqkNP5RrMMuDxlCmYV8j94Vt6uhvnI5lz1C1U4ZAYcDxeZmIhwoZzJG3QIS5vkGw==", null, false, "96ecd4f5-2489-4da9-9e39-f7083acabafc", false, "agent@mail.com" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "b4025eff-9bd3-4062-bb18-3df51e256352", "guest@mail.com", false, "Guest", true, "Guestov", false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEF3+nYWZY8j3MSjiogn5jC9GqKwlF44sod5Y/UkKphU51LdTzhzWAEnAOqzdGZeGkw==", null, false, "0c32fd3f-b56c-4f4a-8632-6f1c703224a2", false, "guest@mail.com" });
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Electronics" },
+                    { 2, "Clothing & Fashion" },
+                    { 3, "Home & Garden" },
+                    { 4, "Health & Beauty" },
+                    { 5, "Books & Magazines" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "dea12856-c198-4129-b3f3-b893d8395082", 0, "312536d2-8dfa-4b2b-914e-6b02f6502c6c", "agent@mail.com", false, "Linda", true, "Michaels", false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEAx/1Tqw+ry95uuBjSJeZtTDpIYh44aUrxXQZlw/YkGw2iSv5m+gogtY0xq44oSTcw==", null, false, "e154d056-f45a-46ac-a302-b9aadece977a", false, "agent@mail.com" });
+                table: "Statuses",
+                columns: new[] { "Id", "Description" },
+                values: new object[,]
+                {
+                    { 1, "Unavailable" },
+                    { 2, "Stocked" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Vendors",
+                columns: new[] { "Id", "FirstName", "LastName", "PhoneNumber", "User_Id" },
+                values: new object[] { 1, "Linda", "Michaels", "+359888888888", "dea12856-c198-4129-b3f3-b893d8395082" });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Category_Id", "Description", "ImageUrl", "Name", "Price", "Status_Id", "Vendor_Id" },
+                values: new object[,]
+                {
+                    { 1, 1, null, "https://www.pdevice.com/wp-content/uploads/2015/09/Gigaset-ME-pure-600x600.jpeg", "Smartphone XZ200", 799.99m, 2, 1 },
+                    { 2, 2, null, "https://www.jottnar.com/cdn/shop/products/Productimage-Lodur-Turbulence-min_c13cd744-2711-4fa0-81d0-f312ed4a6a1a_3200x1800_crop_center.jpg?v=1681214994", "Men's Classic T-Shirt", 19.99m, 2, 1 },
+                    { 3, 3, null, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3B-zF-TdhbybX7l-51SJSrfSoDZLKEgxPuN-Och_y&s", "Garden Tool Set", 39.95m, 2, 1 },
+                    { 4, 1, null, "https://cdn.anscommerce.com/catalog/brandstore/johnson/17_7_20/Sale.jpg", "Luxury Watch", 899.50m, 2, 1 },
+                    { 5, 4, null, "https://m.media-amazon.com/images/I/61x-NhdKBmL.jpg", "Cookware Set", 149.99m, 2, 1 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -335,34 +405,49 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_BuyerId",
-                table: "Orders",
-                column: "BuyerId");
+                name: "IX_Items_Order_Id",
+                table: "Items",
+                column: "Order_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_PaymentId",
-                table: "Orders",
-                column: "PaymentId");
+                name: "IX_Items_Product_Id",
+                table: "Items",
+                column: "Product_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_StatusId",
+                name: "IX_Orders_Sale_Id",
                 table: "Orders",
-                column: "StatusId");
+                column: "Sale_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
+                name: "IX_Orders_User_Id",
+                table: "Orders",
+                column: "User_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Category_Id",
                 table: "Products",
-                column: "CategoryId");
+                column: "Category_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_OrderId",
+                name: "IX_Products_Status_Id",
                 table: "Products",
-                column: "OrderId");
+                column: "Status_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vendors_UserId",
+                name: "IX_Products_Vendor_Id",
+                table: "Products",
+                column: "Vendor_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sales_Buyer_Id",
+                table: "Sales",
+                column: "Buyer_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vendors_User_Id",
                 table: "Vendors",
-                column: "UserId");
+                column: "User_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -383,28 +468,31 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "Vendors");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "Sales");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Statuses");
+
+            migrationBuilder.DropTable(
+                name: "Vendors");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

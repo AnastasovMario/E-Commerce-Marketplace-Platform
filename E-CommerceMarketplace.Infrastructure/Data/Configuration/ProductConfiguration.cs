@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 {
-	internal class ProductConfiguration : IEntityTypeConfiguration<Product>
+	public class ProductConfiguration : IEntityTypeConfiguration<Product>
 	{
 
 		public void Configure(EntityTypeBuilder<Product> builder)
@@ -30,7 +30,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Category_Id = Category.Electronics.Id,
 			Vendor_Id = 1,
 			Status_Id = Status.Stocked.Id,
-		},
+        },
 
 		new Product()
 		{
@@ -39,9 +39,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Price = 19.99m,
 			ImageUrl = "https://www.jottnar.com/cdn/shop/products/Productimage-Lodur-Turbulence-min_c13cd744-2711-4fa0-81d0-f312ed4a6a1a_3200x1800_crop_center.jpg?v=1681214994",
 			Category_Id = Category.ClothingAndFashion.Id,
-			Vendor_Id = 1,
+            Vendor_Id = 1,
 			Status_Id = Status.Stocked.Id,
-		},
+        },
 
 		new Product()
 		{
@@ -50,9 +50,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Price = 39.95m,
 			ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3B-zF-TdhbybX7l-51SJSrfSoDZLKEgxPuN-Och_y&s",
 			Category_Id = Category.HomeAndGarden.Id,
-			Vendor_Id = 1,
+            Vendor_Id = 1,
 			Status_Id = Status.Stocked.Id,
-		},
+        },
 
 		new Product()
 		{
@@ -61,9 +61,9 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Price = 899.50m,
 			ImageUrl = "https://cdn.anscommerce.com/catalog/brandstore/johnson/17_7_20/Sale.jpg",
 			Category_Id = Category.Electronics.Id,
-			Vendor_Id = 1,
+            Vendor_Id = 1,
 			Status_Id = Status.Stocked.Id,
-		},
+        },
 
 		new Product()
 		{
@@ -72,7 +72,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 			Price = 149.99m,
 			ImageUrl = "https://m.media-amazon.com/images/I/61x-NhdKBmL.jpg",
 			Category_Id = Category.HealthAndBeauty.Id,
-			Vendor_Id = 1,
+            Vendor_Id = 1,
 			Status_Id = Status.Stocked.Id,
 		}
 	};

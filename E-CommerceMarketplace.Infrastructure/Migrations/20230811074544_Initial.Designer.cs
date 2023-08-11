@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_CommerceMarketplace.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230725202351_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230811074544_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.19")
+                .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -44,17 +44,17 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -106,18 +106,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "312536d2-8dfa-4b2b-914e-6b02f6502c6c",
+                            ConcurrencyStamp = "194f31f8-e3cc-4962-be08-01831ba47380",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
-                            FirstName = "Linda",
                             IsActive = true,
-                            LastName = "Michaels",
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAx/1Tqw+ry95uuBjSJeZtTDpIYh44aUrxXQZlw/YkGw2iSv5m+gogtY0xq44oSTcw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOHqkNP5RrMMuDxlCmYV8j94Vt6uhvnI5lz1C1U4ZAYcDxeZmIhwoZzJG3QIS5vkGw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e154d056-f45a-46ac-a302-b9aadece977a",
+                            SecurityStamp = "96ecd4f5-2489-4da9-9e39-f7083acabafc",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -125,18 +123,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b4025eff-9bd3-4062-bb18-3df51e256352",
+                            ConcurrencyStamp = "d8c0e394-7991-445c-9c5d-1ec38d434910",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
-                            FirstName = "Guest",
                             IsActive = true,
-                            LastName = "Guestov",
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF3+nYWZY8j3MSjiogn5jC9GqKwlF44sod5Y/UkKphU51LdTzhzWAEnAOqzdGZeGkw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEsTlJrRjsZjxTa8W0GuF8PTfbcU1JodekqcOSNLZrUgy1uygQ1bshEdLT9jkYkYng==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0c32fd3f-b56c-4f4a-8632-6f1c703224a2",
+                            SecurityStamp = "4e98bf70-90e7-4e93-b8b8-fadf949b365f",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -144,18 +140,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4254895e-31d0-418b-8f37-b5e7c0f794df",
+                            ConcurrencyStamp = "9eb6d9fb-3899-4945-9f70-3712ac5be0b4",
                             Email = "mario@mail.com",
                             EmailConfirmed = false,
-                            FirstName = "Mario",
                             IsActive = true,
-                            LastName = "Anastasov",
                             LockoutEnabled = false,
                             NormalizedEmail = "mario@mail.com",
                             NormalizedUserName = "mario@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEONh7fee3YP7hzKwbmLsUASbBApaA7zPBJD0/XlqtoPFx4mejXvcEEXKoXTJ76SSGA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECbCKHyyH9hUgimx0OnswwW5awhhIO5ODUuysOmkOh7K0AUG+VXUk1mns97qiF96tw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fef33a18-e4c7-4cf5-bb42-e276654c5af3",
+                            SecurityStamp = "38627e2d-fb6e-4911-a90b-d41ddd70584d",
                             TwoFactorEnabled = false,
                             UserName = "mario@mail.com"
                         });
@@ -169,10 +163,6 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -181,6 +171,63 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Electronics"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Clothing & Fashion"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Home & Garden"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Health & Beauty"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Books & Magazines"
+                        });
+                });
+
+            modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Order_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Product_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Total")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("money");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Order_Id");
+
+                    b.HasIndex("Product_Id");
+
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Order", b =>
@@ -191,50 +238,26 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("BuyerId")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateCompleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Sale_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("User_Id")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DatePaid")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("BuyerId");
+                    b.HasIndex("Sale_Id");
 
-                    b.HasIndex("PaymentId");
-
-                    b.HasIndex("StatusId");
+                    b.HasIndex("User_Id");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Total")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("money");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Product", b =>
@@ -245,36 +268,120 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("Category_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("money");
 
-                    b.Property<string>("VendorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Vendor_Id")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("Category_Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("Status_Id");
+
+                    b.HasIndex("Vendor_Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Category_Id = 1,
+                            ImageUrl = "https://www.pdevice.com/wp-content/uploads/2015/09/Gigaset-ME-pure-600x600.jpeg",
+                            Name = "Smartphone XZ200",
+                            Price = 799.99m,
+                            Status_Id = 2,
+                            Vendor_Id = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Category_Id = 2,
+                            ImageUrl = "https://www.jottnar.com/cdn/shop/products/Productimage-Lodur-Turbulence-min_c13cd744-2711-4fa0-81d0-f312ed4a6a1a_3200x1800_crop_center.jpg?v=1681214994",
+                            Name = "Men's Classic T-Shirt",
+                            Price = 19.99m,
+                            Status_Id = 2,
+                            Vendor_Id = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Category_Id = 3,
+                            ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3B-zF-TdhbybX7l-51SJSrfSoDZLKEgxPuN-Och_y&s",
+                            Name = "Garden Tool Set",
+                            Price = 39.95m,
+                            Status_Id = 2,
+                            Vendor_Id = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Category_Id = 1,
+                            ImageUrl = "https://cdn.anscommerce.com/catalog/brandstore/johnson/17_7_20/Sale.jpg",
+                            Name = "Luxury Watch",
+                            Price = 899.50m,
+                            Status_Id = 2,
+                            Vendor_Id = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Category_Id = 4,
+                            ImageUrl = "https://m.media-amazon.com/images/I/61x-NhdKBmL.jpg",
+                            Name = "Cookware Set",
+                            Price = 149.99m,
+                            Status_Id = 2,
+                            Vendor_Id = 1
+                        });
+                });
+
+            modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Sale", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Buyer_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Total")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("money");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Buyer_Id");
+
+                    b.ToTable("Sales");
                 });
 
             modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Status", b =>
@@ -287,11 +394,24 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Unavailable"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Stocked"
+                        });
                 });
 
             modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Vendor", b =>
@@ -302,20 +422,40 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("User_Id")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("User_Id");
 
                     b.ToTable("Vendors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Linda",
+                            LastName = "Michaels",
+                            PhoneNumber = "+359888888888",
+                            User_Id = "dea12856-c198-4129-b3f3-b893d8395082"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -455,49 +595,85 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Order", b =>
+            modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Item", b =>
                 {
-                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.ApplicationUser", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerId");
-
-                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Payment", "Payment")
-                        .WithMany()
-                        .HasForeignKey("PaymentId");
-
-                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
+                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Order", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("Order_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Buyer");
+                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("Product_Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.Navigation("Payment");
+                    b.Navigation("Order");
 
-                    b.Navigation("Status");
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Order", b =>
+                {
+                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Sale", "Sale")
+                        .WithMany()
+                        .HasForeignKey("Sale_Id");
+
+                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sale");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Product", b =>
                 {
                     b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("Category_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Order", null)
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
+                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("Status_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.Vendor", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("Vendor_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("Status");
+
+                    b.Navigation("Vendor");
+                });
+
+            modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Sale", b =>
+                {
+                    b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.ApplicationUser", "Buyer")
+                        .WithMany()
+                        .HasForeignKey("Buyer_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
                 });
 
             modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Vendor", b =>
                 {
                     b.HasOne("E_CommerceMarketplace.Infrastructure.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("User_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -562,7 +738,7 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
 
             modelBuilder.Entity("E_CommerceMarketplace.Infrastructure.Data.Models.Order", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

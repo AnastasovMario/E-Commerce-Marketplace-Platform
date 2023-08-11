@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 {
-    internal class VendorConfiguration : IEntityTypeConfiguration<Vendor>
+    public class VendorConfiguration : IEntityTypeConfiguration<Vendor>
     {
         public void Configure(EntityTypeBuilder<Vendor> builder)
         {

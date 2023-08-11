@@ -6,7 +6,7 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-        @if ((await this.vendorService.ExistsById(this.User.Id())) == false)
+        @if ((await this.vendorService.ExistsById(this.User.Id())) == true)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Vendor" asp-action="Become">Become Vendor</a>
