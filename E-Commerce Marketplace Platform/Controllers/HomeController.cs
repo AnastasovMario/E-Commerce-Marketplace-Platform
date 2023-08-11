@@ -11,7 +11,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
     {
         private readonly IProductService _productService;
 
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger _logger;
 
         public HomeController(ILogger<HomeController> logger,
             IProductService productService)
@@ -35,7 +35,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+            var feature = HttpContext.Features.Get<IExceptionHandlerFeature>();
 
             _logger.LogError(feature.Error, "TraceIdentifier: {0}", Activity.Current?.Id ?? HttpContext.TraceIdentifier);
 

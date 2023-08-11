@@ -12,13 +12,16 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 	public class VendorController : Controller
 	{
 		private readonly IVendorService vendorService;
+		private readonly ILogger logger;
 		private readonly SanitizerHelper sanitizer;
 
         public VendorController(IVendorService _vendorService,
-            SanitizerHelper _sanitizer)
+            SanitizerHelper _sanitizer,
+            ILogger<VendorController> _logger)
 		{
 			vendorService = _vendorService;
 			sanitizer = _sanitizer;
+			logger = _logger;
 		}
 
 		[HttpGet]
@@ -52,6 +55,8 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
 			if (await vendorService.ExistsById(userId))
 			{
+				logger.LogInformation($"User {userId} is already a vendor.");
+
 				TempData[MessageConstants.ErrorMessage] = "Вие вече сте Продавач";
 
 				return RedirectToAction(nameof(HomeController.Index), "Home");
@@ -59,7 +64,9 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 
 			if (await vendorService.UserWithPhoneNumberExists(model.PhoneNumber))
 			{
-				TempData[MessageConstants.ErrorMessage] = "Телефона вече съществува";
+                logger.LogInformation($"User {userId} tried to become a vendor with a number that already exists.");
+
+                TempData[MessageConstants.ErrorMessage] = "Телефона вече съществува";
 
 				return RedirectToAction(nameof(HomeController.Index), "Home");
 			}
