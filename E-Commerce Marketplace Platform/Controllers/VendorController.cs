@@ -44,9 +44,18 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 		public async Task<IActionResult> Become(BecomeVendorModel model)
 		{
 			var userId = User.Id();
-            model.FirstName = sanitizer.Sanitize(model.FirstName);
-            model.LastName = sanitizer.Sanitize(model.LastName);
-            model.PhoneNumber = sanitizer.Sanitize(model.PhoneNumber);
+			try
+			{
+                model.FirstName = sanitizer.Sanitize(model.FirstName);
+                model.LastName = sanitizer.Sanitize(model.LastName);
+                model.PhoneNumber = sanitizer.Sanitize(model.PhoneNumber);
+            }
+			catch (Exception ex)
+			{
+                TempData[MessageConstants.ErrorMessage] = ex.Message;
+				return View(model);
+            }
+            
 
             if (!ModelState.IsValid)
 			{

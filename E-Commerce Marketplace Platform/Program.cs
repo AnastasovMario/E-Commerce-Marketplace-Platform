@@ -37,6 +37,7 @@ builder.Services.AddControllersWithViews()
     })
     .AddRazorRuntimeCompilation();
 builder.Services.AddApplicationServices();
+builder.Services.AddResponseCaching();
 
 var app = builder.Build();
 
@@ -77,5 +78,7 @@ app.UseEndpoints(endpoints =>
 
     endpoints.MapRazorPages();
 });
+
+app.UseResponseCaching();
 
 app.Run();

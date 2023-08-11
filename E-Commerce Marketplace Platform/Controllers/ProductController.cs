@@ -33,16 +33,26 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpGet]
         public async Task<IActionResult> All([FromQuery] AllProductsQueryModel model)
         {
-            model.SearchTerm = sanitizer.Sanitize(model.SearchTerm);
+            var productCategories = await productService.AllCategoriesNames();
+            var productStatuses = await productService.AllStatusesNames();
+            try
+            {
+                model.SearchTerm = sanitizer.Sanitize(model.SearchTerm);
+            }
+            catch (Exception ex)
+            {
+                TempData[MessageConstants.ErrorMessage] = ex.Message;
+
+                model.Categories = productCategories;
+                model.Statuses = productStatuses;
+                return View(model);
+            }
 
             var productsResult = await productService.All(model.Category,
                 model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
 
             model.TotalProductsCount = productsResult.TotalProductsCount;
             model.Products = productsResult.Products;
-
-            var productCategories = await productService.AllCategoriesNames();
-            var productStatuses = await productService.AllStatusesNames();
 
             model.Statuses = productStatuses;
             model.Categories = productCategories;
@@ -69,9 +79,19 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(ProductModel model)
         {
-            model.Name = sanitizer.Sanitize(model.Name);
-            model.Description = sanitizer.Sanitize(model.Description);
-            model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+            try
+            {
+                model.Name = sanitizer.Sanitize(model.Name);
+                model.Description = sanitizer.Sanitize(model.Description);
+                model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+            }
+            catch (Exception ex)
+            {
+                TempData[MessageConstants.ErrorMessage] = ex.Message;
+                model.ProductCategories = await productService.AllCategories();
+                return View(model);
+            }
+            
 
             if ((await vendorService.ExistsById(User.Id()) == false))
             {
@@ -143,10 +163,20 @@ namespace E_Commerce_Marketplace_Platform.Controllers
             {
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
-
-            model.Name = sanitizer.Sanitize(model.Name);
-            model.Description = sanitizer.Sanitize(model.Description);
-            model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+            try
+            {
+                model.Name = sanitizer.Sanitize(model.Name);
+                model.Description = sanitizer.Sanitize(model.Description);
+                model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+            }
+            catch (Exception ex)
+            {
+                TempData[MessageConstants.ErrorMessage] = ex.Message;
+                model.ProductStatuses = await productService.AllProductStatuses();
+                model.ProductCategories = await productService.AllCategories();
+                return View(model);
+            }
+            
 
             if ((await productService.Exists(model.Id)) == false)
             {

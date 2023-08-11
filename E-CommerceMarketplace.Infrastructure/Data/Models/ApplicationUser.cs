@@ -8,10 +8,10 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
     {
 
         [MaxLength(DbConstants.UserFirstNameMaxLength)]
-        public string? FirstName { get; init; }
+        public string? FirstName { get; set; }
 
         [MaxLength(DbConstants.UserLastNameMaxLength)]
-        public string? LastName { get; init; }
+        public string? LastName { get; set; }
 
         [Required]
         public bool IsActive { get; set; } = true;

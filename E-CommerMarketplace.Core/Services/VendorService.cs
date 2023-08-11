@@ -29,6 +29,9 @@ namespace E_CommerceMarketplace.Core.Services
 				User_Id = user.Id,
 			};
 
+			user.FirstName = model.FirstName;
+			user.LastName = model.LastName;
+
 			await repository.AddAsync(vendor);
 			await repository.SaveChangesAsync();
 		}
