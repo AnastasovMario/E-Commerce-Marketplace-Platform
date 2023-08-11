@@ -62,15 +62,15 @@ namespace E_CommerceMarketplace.Core.Services
             var products = await query
                 .Skip((currentPage - 1) * productsPerPage)
                 .Take(productsPerPage)
-                .Select(h => new ProductServiceModel()
+                .Select(p => new ProductServiceModel()
                 {
-                    Id = h.Id,
-                    Name = h.Name,
-                    ImageUrl = h.ImageUrl,
-                    Price = h.Price,
-					Status = h.Status.Description,
-					Vendor = h.Vendor.FirstName + " " + h.Vendor.LastName,
-					IsAvailable = h.Status.Id != 4
+                    Id = p.Id,
+                    Name = p.Name,
+                    ImageUrl = p.ImageUrl,
+                    Price = p.Price,
+					Status = p.Status.Description,
+					Vendor = p.Vendor.FirstName + " " + p.Vendor.LastName,
+					IsAvailable = p.Status_Id == Status.Stocked.Id
                 })
                 .ToListAsync();
 
@@ -224,7 +224,7 @@ namespace E_CommerceMarketplace.Core.Services
 					Status = p.Status.Description,
 					Category = p.Category.Name,
 					ImageUrl = p.ImageUrl,
-					IsAvailable = p.Status.Id != 4,
+					IsAvailable = p.Status_Id == Status.Stocked.Id,
 					Vendor = new VendorServiceModel
 					{
 						FirstName = p.Vendor.FirstName,
@@ -246,7 +246,7 @@ namespace E_CommerceMarketplace.Core.Services
 					Price = p.Price,
 					Status = p.Status.Description,
 					ImageUrl = p.ImageUrl,
-					IsAvailable = p.Status.Id != 4,
+					IsAvailable = p.Status_Id == Status.Stocked.Id,
 					Vendor = p.Vendor.FirstName + " " + p.Vendor.LastName
 				})
 				.ToListAsync();

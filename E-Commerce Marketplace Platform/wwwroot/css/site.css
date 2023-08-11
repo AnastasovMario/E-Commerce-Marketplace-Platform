@@ -27,3 +27,7 @@ body {
     padding: 10px;
     text-align: center;
 }
+
+.custom-offset {
+    margin-left: 17px;
+}

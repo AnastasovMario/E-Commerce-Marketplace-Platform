@@ -2,82 +2,84 @@
 @inject IVendorService vendorService
 
 @{
-	ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Newest Available Products";
 }
-
+<h1 class="text-center">@ViewBag.Title</h1>
 @if (Model.Count() == 0)
 {
-	<div class="mt-4 p-5 bg-light">
-		<h1 class="display-4">Welcome to the best place for shopping online!</h1>
-		<p class="lead">
-			There are no products in the system currently available
-			so why don't you just add one?
-		</p>
-		<hr class="my-4">
-		<p class="lead">
-			@if (this.User?.Identity != null && this.User.Identity.IsAuthenticated
-			&& await vendorService.ExistsById(this.User.Id()))
-			{
-				<a asp-controller="Product" asp-action="Add" class="btn btn-primary btn-lg"
-		   role="button">Add Product</a>
-			}
-		</p>
-	</div>
+    <div class="mt-4 p-5 bg-light">
+        <h1 class="display-4">Welcome to the best place for shopping online!</h1>
+        <p class="lead">
+            There are no products in the system currently available
+            so why don't you just add one?
+        </p>
+        <hr class="my-4">
+        <p class="lead">
+            @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated
+           && await vendorService.ExistsById(this.User.Id()))
+            {
+                <a asp-controller="Product" asp-action="Add" class="btn btn-primary btn-lg"
+                   role="button">Add Product</a>
+            }
+        </p>
+    </div>
 }
 
 <div class="mb-5"></div>
 
 <div class="card-container">
-	<div class="card-group">
-		@foreach (var product in Model)
-		{
-			<div class="card">
-				<img class="card-img-top" src="@product.ImageUrl" alt="Product Image">
-				<div class="card-body">
-					<h5 class="card-title">@product.Name</h5>
-				</div>
-				<div class="row">
-					<p class="card-text">Status: <b>@product.Status</b></p>
-				</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">Price: @String.Format("{0:f2}", product.Price) BGN</li>
-					<li class="list-group-item">Category: @product.Category</li>
-					<li class="list-group-item">Vendor: @product.Vendor</li>
-				</ul>
-				<div class="card-footer">
-					<h5>
-						<a class="btn btn-primary" asp-controller="Product" asp-action="Details"
-					   asp-route-information="@product.GetInformation()" asp-route-id="@product.Id"> Details</a>
-					</h5>
-				</div>
-			</div>
-		}
-	</div>
+    <div class="card-group">
+        @foreach (var product in Model)
+        {
+            <div class="card">
+                <img class="card-img-top" src="@product.ImageUrl" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 custom-offset">
+                        <p class="card-text">Status: <b>@product.Status</b></p>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Price: @String.Format("{0:f2}", product.Price) BGN</li>
+                    <li class="list-group-item">Category: @product.Category</li>
+                    <li class="list-group-item">Vendor: @product.Vendor</li>
+                </ul>
+                <div class="card-footer">
+                    <h5>
+                        <a class="btn btn-primary" asp-controller="Product" asp-action="Details"
+                           asp-route-information="@product.GetInformation()" asp-route-id="@product.Id"> Details</a>
+                    </h5>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 <div class="mb-5"></div>
 
 <div class="row">
-	<div class="col-12 text-center">
-		<button class="btn btn-primary" id="statistics-button">Show Statistics</button>
-	</div>
+    <div class="col-12 text-center">
+        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
+    </div>
 </div>
 
 <div class="mt-4 p-5 bg-light d-none" id="statistics">
-	<div class="row">
-		<h2 class="col-md-6 text-center" id="total-products"></h2>
-		<h2 class="col-md-6 text-center" id="total-availableProducts"></h2>
-	</div>
+    <div class="row">
+        <h2 class="col-md-6 text-center" id="total-products"></h2>
+        <h2 class="col-md-6 text-center" id="total-availableProducts"></h2>
+    </div>
 </div>
 @section Scripts {
-	<script>
-		$('#statistics-button').on('click', ev => {
-			$.get('https://localhost:7199/api/statistics', (data) => {
-				$('#total-products').text(data.totalProducts + " Products");
-				$('#total-availableProducts').text(data.totalAvailableProducts + " Available Products");
-				$('#statistics').removeClass('d-none');
-				$('#statistics-button').hide();
-			});
-		});
-	</script>
+    <script>
+        $('#statistics-button').on('click', ev => {
+            $.get('https://localhost:7199/api/statistics', (data) => {
+                $('#total-products').text(data.totalProducts + " Products");
+                $('#total-availableProducts').text(data.totalAvailableProducts + " Available Products");
+                $('#statistics').removeClass('d-none');
+                $('#statistics-button').hide();
+            });
+        });
+    </script>
 }

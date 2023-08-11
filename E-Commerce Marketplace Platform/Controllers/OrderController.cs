@@ -1,4 +1,5 @@
 ﻿using E_Commerce_Marketplace_Platform.Extensions;
+using E_CommerceMarketplace.Core.Constants;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Item;
 using E_CommerceMarketplace.Core.Models.Order;
@@ -63,6 +64,8 @@ namespace E_Commerce_Marketplace_Platform.Controllers
             }
             await orderService.PayOrder(Id);
 
+            TempData[MessageConstants.SuccessMessage] = "Поръчката беше платена";
+
             return RedirectToAction(nameof(ProductController.All), "Product");
         }
 
@@ -84,6 +87,8 @@ namespace E_Commerce_Marketplace_Platform.Controllers
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
             await orderService.ClearOrder(Id);
+
+            TempData[MessageConstants.WarningMessage] = "Кошницата беше изчистена";
             return RedirectToAction(nameof(ProductController.All), "Product");
         }
     }

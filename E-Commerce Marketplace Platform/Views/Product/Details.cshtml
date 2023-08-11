@@ -23,7 +23,10 @@
             </p>
             <p>Category: <b>@Model.Category</b></p>
             <p>Status: <b> @Model.Status</b></p>
-            <p>Description: @Model.Description</p>
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <p>Description: @Model.Description</p>
+            }
             <div class="form-inline">
                 @if (this.User.Identity.IsAuthenticated)
                 {
@@ -34,20 +37,11 @@
                         <a class="ml-2 btn btn-danger" asp-controller="Product" asp-action="Delete"
                    asp-route-id="@Model.Id">Delete</a>
                     }
-                    @*@if (!Model.IsRented && (await agentService.ExistsById(User.Id())) == false)
+                    @if (Model.IsAvailable && (await productService.HasVendorWithId(Model.Id, User.Id())) == false)
                     {
-                        <form class="ml-2" asp-controller="House"
-                      asp-action="Rent" asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Rent" />
-                        </form>
+                        <a asp-area="" asp-controller="Item" asp-action="Buy" asp-route-id="@Model.Id"
+                           class="btn btn-success">Buy</a>
                     }
-                    else if (await houseService.IsRentedByUser(Model.Id, User.Id()))
-                    {
-                        <form class="ml-2" asp-controller="House" asp-action="Leave"
-                      asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Leave" />
-                        </form>
-                    }*@
                 }
             </div>
             <p></p>

@@ -28,7 +28,7 @@
                     <a asp-area="" asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id"
                        class="btn btn-danger">Delete</a>
                 }
-                @if (!Model.IsAvailable && (await productService.HasVendorWithId(Model.Id, User.Id())) == false)
+                @if (Model.IsAvailable && (await productService.HasVendorWithId(Model.Id, User.Id())) == false)
                 {
                     <a asp-area="" asp-controller="Item" asp-action="Buy" asp-route-id="@Model.Id"
                        class="btn btn-success">Buy</a>
