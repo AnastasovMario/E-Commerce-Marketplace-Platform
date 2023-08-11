@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_CommerceMarketplace.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230811074544_Initial")]
+    [Migration("20230811192222_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,35 +104,52 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            Id = "484e91df-4642-4a62-bd59-c448209c2def",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "194f31f8-e3cc-4962-be08-01831ba47380",
-                            Email = "agent@mail.com",
+                            ConcurrencyStamp = "d75cd658-5420-479b-8c9b-dc86c6f46cd0",
+                            Email = "admin@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "agent@mail.com",
-                            NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOHqkNP5RrMMuDxlCmYV8j94Vt6uhvnI5lz1C1U4ZAYcDxeZmIhwoZzJG3QIS5vkGw==",
+                            NormalizedEmail = "admin@mail.com",
+                            NormalizedUserName = "admin@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJpwlIlHndk5FycqxInWCH9cbOtiT8j6mVSlOXTvN5Ed3k/FG14emVDE5lYa1OlMpw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "96ecd4f5-2489-4da9-9e39-f7083acabafc",
+                            SecurityStamp = "ba7650ed-98d8-46e2-856c-4621a6164ab6",
                             TwoFactorEnabled = false,
-                            UserName = "agent@mail.com"
+                            UserName = "admin@mail.com"
+                        },
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "69a69e24-7d14-427e-b588-627598f9f134",
+                            Email = "vendor@mail.com",
+                            EmailConfirmed = false,
+                            IsActive = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "vendor@mail.com",
+                            NormalizedUserName = "vendor@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOYaYcYcu6kF+ex8R3fzRj/eYZSKVDn7GlKwN+W9fAL63T5FUClZ+Yp72cM8u+zmsw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "44b25c67-c756-4e5f-9f30-6404a19ca516",
+                            TwoFactorEnabled = false,
+                            UserName = "vendor@mail.com"
                         },
                         new
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d8c0e394-7991-445c-9c5d-1ec38d434910",
+                            ConcurrencyStamp = "1b99e851-ffe3-4ea7-a824-f7d04c84a82a",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEsTlJrRjsZjxTa8W0GuF8PTfbcU1JodekqcOSNLZrUgy1uygQ1bshEdLT9jkYkYng==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMcBRaq5teaMhHHM5Y41+wJT5BSX1ZhISVxfNi7r5w0INpsMANB+5KStaxvWQXUUkw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4e98bf70-90e7-4e93-b8b8-fadf949b365f",
+                            SecurityStamp = "e03a01d9-3367-43e3-a6af-b06a182b87e9",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -140,16 +157,16 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         {
                             Id = "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9eb6d9fb-3899-4945-9f70-3712ac5be0b4",
+                            ConcurrencyStamp = "ab4eb1bc-9b65-43b0-b512-3c4aeb9c1662",
                             Email = "mario@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "mario@mail.com",
                             NormalizedUserName = "mario@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAECbCKHyyH9hUgimx0OnswwW5awhhIO5ODUuysOmkOh7K0AUG+VXUk1mns97qiF96tw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPWZsWS760Q8kvwa5DWjrAinFA90C6qqJqaGYPYX9tCjO2fJo/OSzSxZ/z+BuoO9/w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "38627e2d-fb6e-4911-a90b-d41ddd70584d",
+                            SecurityStamp = "e098c172-b1a7-4e17-aa0a-57b6cc8b008f",
                             TwoFactorEnabled = false,
                             UserName = "mario@mail.com"
                         });
@@ -483,6 +500,22 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "5f0b58c7-a226-4fc4-8177-a63ca6a23714",
+                            ConcurrencyStamp = "a579f4e5-08b5-412a-9724-f7f689120aa7",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "809e5eef-aa05-4952-9caf-93bd802be499",
+                            ConcurrencyStamp = "2b7499f6-211f-4315-97ec-4dee4402f35f",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -572,6 +605,28 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "484e91df-4642-4a62-bd59-c448209c2def",
+                            RoleId = "5f0b58c7-a226-4fc4-8177-a63ca6a23714"
+                        },
+                        new
+                        {
+                            UserId = "dea12856-c198-4129-b3f3-b893d8395082",
+                            RoleId = "809e5eef-aa05-4952-9caf-93bd802be499"
+                        },
+                        new
+                        {
+                            UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            RoleId = "809e5eef-aa05-4952-9caf-93bd802be499"
+                        },
+                        new
+                        {
+                            UserId = "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            RoleId = "809e5eef-aa05-4952-9caf-93bd802be499"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

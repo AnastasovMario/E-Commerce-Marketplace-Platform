@@ -318,13 +318,23 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "5f0b58c7-a226-4fc4-8177-a63ca6a23714", "a579f4e5-08b5-412a-9724-f7f689120aa7", "Administrator", "ADMINISTRATOR" },
+                    { "809e5eef-aa05-4952-9caf-93bd802be499", "2b7499f6-211f-4315-97ec-4dee4402f35f", "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "9eb6d9fb-3899-4945-9f70-3712ac5be0b4", "mario@mail.com", false, null, true, null, false, null, "mario@mail.com", "mario@mail.com", "AQAAAAEAACcQAAAAECbCKHyyH9hUgimx0OnswwW5awhhIO5ODUuysOmkOh7K0AUG+VXUk1mns97qiF96tw==", null, false, "38627e2d-fb6e-4911-a90b-d41ddd70584d", false, "mario@mail.com" },
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "d8c0e394-7991-445c-9c5d-1ec38d434910", "guest@mail.com", false, null, true, null, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEEsTlJrRjsZjxTa8W0GuF8PTfbcU1JodekqcOSNLZrUgy1uygQ1bshEdLT9jkYkYng==", null, false, "4e98bf70-90e7-4e93-b8b8-fadf949b365f", false, "guest@mail.com" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "194f31f8-e3cc-4962-be08-01831ba47380", "agent@mail.com", false, null, true, null, false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEOHqkNP5RrMMuDxlCmYV8j94Vt6uhvnI5lz1C1U4ZAYcDxeZmIhwoZzJG3QIS5vkGw==", null, false, "96ecd4f5-2489-4da9-9e39-f7083acabafc", false, "agent@mail.com" }
+                    { "484e91df-4642-4a62-bd59-c448209c2def", 0, "d75cd658-5420-479b-8c9b-dc86c6f46cd0", "admin@mail.com", false, null, true, null, false, null, "admin@mail.com", "admin@mail.com", "AQAAAAEAACcQAAAAEJpwlIlHndk5FycqxInWCH9cbOtiT8j6mVSlOXTvN5Ed3k/FG14emVDE5lYa1OlMpw==", null, false, "ba7650ed-98d8-46e2-856c-4621a6164ab6", false, "admin@mail.com" },
+                    { "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "ab4eb1bc-9b65-43b0-b512-3c4aeb9c1662", "mario@mail.com", false, null, true, null, false, null, "mario@mail.com", "mario@mail.com", "AQAAAAEAACcQAAAAEPWZsWS760Q8kvwa5DWjrAinFA90C6qqJqaGYPYX9tCjO2fJo/OSzSxZ/z+BuoO9/w==", null, false, "e098c172-b1a7-4e17-aa0a-57b6cc8b008f", false, "mario@mail.com" },
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "1b99e851-ffe3-4ea7-a824-f7d04c84a82a", "guest@mail.com", false, null, true, null, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEMcBRaq5teaMhHHM5Y41+wJT5BSX1ZhISVxfNi7r5w0INpsMANB+5KStaxvWQXUUkw==", null, false, "e03a01d9-3367-43e3-a6af-b06a182b87e9", false, "guest@mail.com" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "69a69e24-7d14-427e-b588-627598f9f134", "vendor@mail.com", false, null, true, null, false, null, "vendor@mail.com", "vendor@mail.com", "AQAAAAEAACcQAAAAEOYaYcYcu6kF+ex8R3fzRj/eYZSKVDn7GlKwN+W9fAL63T5FUClZ+Yp72cM8u+zmsw==", null, false, "44b25c67-c756-4e5f-9f30-6404a19ca516", false, "vendor@mail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -346,6 +356,17 @@ namespace E_CommerceMarketplace.Infrastructure.Migrations
                 {
                     { 1, "Unavailable" },
                     { 2, "Stocked" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "5f0b58c7-a226-4fc4-8177-a63ca6a23714", "484e91df-4642-4a62-bd59-c448209c2def" },
+                    { "809e5eef-aa05-4952-9caf-93bd802be499", "6d4200ce-d726-4fc8-83d9-d6b3ac1f591e" },
+                    { "809e5eef-aa05-4952-9caf-93bd802be499", "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e" },
+                    { "809e5eef-aa05-4952-9caf-93bd802be499", "dea12856-c198-4129-b3f3-b893d8395082" }
                 });
 
             migrationBuilder.InsertData(

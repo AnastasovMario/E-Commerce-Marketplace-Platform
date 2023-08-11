@@ -22,15 +22,29 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 
             var user = new ApplicationUser()
             {
-                Id = "dea12856-c198-4129-b3f3-b893d8395082",
-                UserName = "agent@mail.com",
-                NormalizedUserName = "agent@mail.com",
-                Email = "agent@mail.com",
-                NormalizedEmail = "agent@mail.com",
+                Id = "484e91df-4642-4a62-bd59-c448209c2def",
+                UserName = "admin@mail.com",
+                NormalizedUserName = "admin@mail.com",
+                Email = "admin@mail.com",
+                NormalizedEmail = "admin@mail.com",
             };
 
             user.PasswordHash =
-                 hasher.HashPassword(user, "agent123");
+                 hasher.HashPassword(user, "admin123");
+
+            users.Add(user);
+
+            user = new ApplicationUser()
+            {
+                Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                UserName = "vendor@mail.com",
+                NormalizedUserName = "vendor@mail.com",
+                Email = "vendor@mail.com",
+                NormalizedEmail = "vendor@mail.com",
+            };
+
+            user.PasswordHash =
+                 hasher.HashPassword(user, "vendor");
 
             users.Add(user);
 
