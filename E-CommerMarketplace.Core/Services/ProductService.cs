@@ -105,8 +105,6 @@ namespace E_CommerceMarketplace.Core.Services
         public async Task<IEnumerable<ProductStatusesModel>> AllProductStatuses()
 		{
 			return await repo.AllReadonly<Status>()
-				.OrderByDescending(s => s.Id)
-				.Take(2)
 				.Select(s => new ProductStatusesModel
 				{
 					Id = s.Id,
@@ -160,22 +158,42 @@ namespace E_CommerceMarketplace.Core.Services
 
         public async Task Delete(int productId)
         {
-            await repo.DeleteAsync<Product>(productId);
-            await repo.SaveChangesAsync();
+			try
+			{
+                await repo.DeleteAsync<Product>(productId);
+                await repo.SaveChangesAsync();
+
+            }
+			catch (Exception ex)
+			{
+                logger.LogError(nameof(Delete), ex);
+                throw new ApplicationException($"Database failed to delete product with [{productId}]", ex);
+            }
+            
         }
 
         public async Task Edit(int productId, ProductEditModel productModel)
 		{
-			var product = await repo.GetByIdAsync<Product>(productId);
+			try
+			{
+                var product = await repo.GetByIdAsync<Product>(productId);
 
-			product.Name = productModel.Name;
-			product.Price = productModel.Price;
-			product.ImageUrl = productModel.ImageUrl;
-			product.Description = productModel.Description;
-			product.Category_Id = productModel.CategoryId;
-			product.Status_Id = productModel.StatusId;
+                product.Name = productModel.Name;
+                product.Price = productModel.Price;
+                product.ImageUrl = productModel.ImageUrl;
+                product.Description = productModel.Description;
+                product.Category_Id = productModel.CategoryId;
+                product.Status_Id = productModel.StatusId;
 
-			await repo.SaveChangesAsync();
+                await repo.SaveChangesAsync();
+            }
+			catch (Exception ex)
+			{
+
+                logger.LogError(nameof(Edit), ex);
+                throw new ApplicationException($"Database failed to edit product with [{productId}]", ex);
+            }
+
 		}
 
         public async Task<bool> Exists(int productId)
