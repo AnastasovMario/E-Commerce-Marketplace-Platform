@@ -8,7 +8,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.HasData(CreateCategories());
+            //builder.HasData(CreateCategories());
         }
         private List<Category> CreateCategories()
         {
