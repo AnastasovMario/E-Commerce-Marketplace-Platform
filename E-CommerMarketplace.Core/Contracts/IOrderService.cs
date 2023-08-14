@@ -6,6 +6,7 @@ namespace E_CommerceMarketplace.Core.Contracts
 	public interface IOrderService
 	{
 		Task<bool> Exists(int orderId);
+
 		Task<bool> HasUserWithId(int orderId, string userId);
 
 		Task<bool> AreAllItemsAvailable(int orderId);
