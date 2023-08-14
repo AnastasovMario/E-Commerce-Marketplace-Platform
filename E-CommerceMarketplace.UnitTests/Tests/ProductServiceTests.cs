@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 
-namespace E_CommerceMarketplace.UnitTests
+namespace E_CommerceMarketplace.UnitTests.Tests
 {
     [TestFixture]
     public class ProductServiceTests
