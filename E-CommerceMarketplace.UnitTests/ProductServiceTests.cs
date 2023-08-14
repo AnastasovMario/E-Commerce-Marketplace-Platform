@@ -1,3 +1,4 @@
+using E_Commerce_Marketplace_Platform.Models;
 using E_CommerceMarketplace.Core.Contracts;
 using E_CommerceMarketplace.Core.Models.Product;
 using E_CommerceMarketplace.Core.Models.Vendor;
@@ -29,26 +30,41 @@ namespace E_CommerceMarketplace.UnitTests
             User_Id = "ef9ccfe6-5024-4250-88d8-8ce947882b16"
         };
 
-        private Category _category = new Category()
+        private Vendor _vendor2 = new Vendor()
         {
-            Id = 1,
+            Id = 3,
+            FirstName = "Stoyan",
+            LastName = "Stoyanov",
+            PhoneNumber = "+124564745",
+            User_Id = "ef9ccfe6-5024-4200-88d8-8ce947882b16"
+        };
+
+        private Category _category1 = new Category()
+        {
+            Id = Category.Electronics.Id,
             Name = "Electronics"
         };
 
-        private Status _statusStocked = new Status()
+        private Category _category2 = new Category()
         {
-            Id = 1,
-            Description = "Stocked"
+            Id = Category.HomeAndGarden.Id,
+            Name = "Home & Garden"
         };
 
         private Status _statusUnavailable = new Status()
         {
-            Id = 2,
+            Id = Status.Unavailable.Id,
             Description = "Unavailable"
         };
+
+        private Status _statusStocked = new Status()
+        {
+            Id = Status.Stocked.Id,
+            Description = "Stocked"
+        };
+
         private Product _product = new Product()
         {
-            Id = 1,
             Name = "",
             ImageUrl = "",
             Price = 15,
@@ -69,6 +85,232 @@ namespace E_CommerceMarketplace.UnitTests
         }
 
         [Test]
+        public async Task AllProductsTest()
+        {
+            var model = new AllProductsQueryModel();
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            await repo.AddRangeAsync(new List<Product>()
+            {
+                new Product(){Id = 1, Name="Product 1", ImageUrl="imgUrl1", Price = 10, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 2, Name="Product 2", ImageUrl="imgUrl2", Price = 20, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 3, Name="Test 1", ImageUrl="imgUrl3", Price = 40, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(3));
+            Assert.That(result.Products.Count, Is.EqualTo(3));
+        }
+
+        [Test]
+        public async Task AllProductsPaginationTest()
+        {
+            var model = new AllProductsQueryModel();
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            await repo.AddRangeAsync(new List<Product>()
+            {
+                new Product(){Id = 1, Name="Product 1", ImageUrl="imgUrl1", Price = 10, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 2, Name="Product 2", ImageUrl="imgUrl2", Price = 20, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 3, Name="Test 1", ImageUrl="imgUrl3", Price = 40, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+                new Product(){Id = 4, Name="Test 2", ImageUrl="imgUrl4", Price = 50, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(4));
+            Assert.That(result.Products.Count, Is.EqualTo(3));
+
+            model.CurrentPage = 2;
+
+            result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(4));
+            Assert.That(result.Products.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public async Task AllProductsCategoryTest()
+        {
+            var model = new AllProductsQueryModel();
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            await repo.AddRangeAsync(new List<Product>()
+            {
+                new Product(){Id = 1, Name="Product 1", ImageUrl="imgUrl1", Price = 10, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 2, Name="Product 2", ImageUrl="imgUrl2", Price = 20, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 3, Name="Test 1", ImageUrl="imgUrl3", Price = 40, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+                new Product(){Id = 4, Name="Test 2", ImageUrl="imgUrl4", Price = 50, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+            });
+
+            await repo.SaveChangesAsync();
+
+            model.Category = "Electronics";
+
+            var result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(2));
+            Assert.That(result.Products.Count, Is.EqualTo(2));
+            Assert.True(result.Products.All(p => p.Category == "Electronics"));
+        }
+
+        [Test]
+        public async Task AllProductsStatusTest()
+        {
+            var model = new AllProductsQueryModel();
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            await repo.AddRangeAsync(new List<Product>()
+            {
+                new Product(){Id = 1, Name="Product 1", ImageUrl="imgUrl1", Price = 10, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 2, Name="Product 2", ImageUrl="imgUrl2", Price = 20, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 3, Name="Test 1", ImageUrl="imgUrl3", Price = 40, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+                new Product(){Id = 4, Name="Test 2", ImageUrl="imgUrl4", Price = 50, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+            });
+
+            await repo.SaveChangesAsync();
+
+            model.Status = "Stocked";
+
+            var result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(2));
+            Assert.That(result.Products.Count, Is.EqualTo(2));
+            Assert.True(result.Products.All(p => p.Status == "Stocked"));
+        }
+
+        [Test]
+        public async Task AllProductsSearchTermTest()
+        {
+            var model = new AllProductsQueryModel();
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            await repo.AddRangeAsync(new List<Product>()
+            {
+                new Product(){Id = 1, Name="Product 1", ImageUrl="imgUrl1", Price = 10, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 2, Name="Product 2", ImageUrl="imgUrl2", Price = 20, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 3, Name="Test 1", ImageUrl="imgUrl3", Price = 40, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+                new Product(){Id = 4, Name="Test 2", ImageUrl="imgUrl4", Price = 50, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+            });
+
+            await repo.SaveChangesAsync();
+
+            model.SearchTerm = "Product";
+
+            var result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(2));
+            Assert.That(result.Products.Count, Is.EqualTo(2));
+            Assert.True(result.Products.All(p => p.Name.Contains("Product")));
+
+            model.SearchTerm = "Mario";
+
+            result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(2));
+            Assert.That(result.Products.Count, Is.EqualTo(2));
+            Assert.True(result.Products.All(p => p.Vendor.Contains("Mario")));
+        }
+
+        [Test]
+        public async Task AllProductsSortingTest()
+        {
+            var model = new AllProductsQueryModel();
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            await repo.AddRangeAsync(new List<Product>()
+            {
+                new Product(){Id = 1, Name="Product 1", ImageUrl="imgUrl1", Price = 10, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 2, Name="Product 2", ImageUrl="imgUrl2", Price = 20, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 3, Name="Test 1", ImageUrl="imgUrl3", Price = 40, Status = _statusUnavailable, Category = _category2, Vendor = _vendor2},
+            });
+
+            await repo.SaveChangesAsync();
+
+            model.Sorting = ProductSorting.Price;
+
+            var result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(3));
+            Assert.That(result.Products.Count, Is.EqualTo(3));
+            Assert.That(result.Products.FirstOrDefault().Id, Is.EqualTo(1));
+            Assert.That(result.Products.FirstOrDefault().Name, Is.EqualTo("Product 1"));
+            Assert.That(result.Products.FirstOrDefault().ImageUrl, Is.EqualTo("imgUrl1"));
+            Assert.That(result.Products.FirstOrDefault().Price, Is.EqualTo(10));
+            Assert.That(result.Products.FirstOrDefault().Status, Is.EqualTo(_statusStocked.Description));
+            Assert.That(result.Products.FirstOrDefault().Category, Is.EqualTo(_category1.Name));
+            Assert.That(result.Products.FirstOrDefault().Vendor, Is.EqualTo($"{_vendor.FirstName} {_vendor.LastName}"));
+
+
+            model.Sorting = ProductSorting.Newest;
+
+            result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(3));
+            Assert.That(result.Products.Count, Is.EqualTo(3));
+            Assert.That(result.Products.FirstOrDefault().Id, Is.EqualTo(3));
+            Assert.That(result.Products.FirstOrDefault().Name, Is.EqualTo("Test 1"));
+            Assert.That(result.Products.FirstOrDefault().ImageUrl, Is.EqualTo("imgUrl3"));
+            Assert.That(result.Products.FirstOrDefault().Price, Is.EqualTo(40));
+            Assert.That(result.Products.FirstOrDefault().Status, Is.EqualTo(_statusUnavailable.Description));
+            Assert.That(result.Products.FirstOrDefault().Category, Is.EqualTo(_category2.Name));
+            Assert.That(result.Products.FirstOrDefault().Vendor, Is.EqualTo($"{_vendor2.FirstName} {_vendor2.LastName}"));
+
+            model.Sorting = ProductSorting.AvailableFirst;
+
+            result = await productService.All(model.Category, model.Status, model.SearchTerm, model.Sorting, model.CurrentPage, AllProductsQueryModel.ProductsPerPage);
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(3));
+            Assert.That(result.Products.Count, Is.EqualTo(3));
+            Assert.That(result.Products.FirstOrDefault().Id, Is.EqualTo(2));
+            Assert.That(result.Products.FirstOrDefault().Name, Is.EqualTo("Product 2"));
+            Assert.That(result.Products.FirstOrDefault().ImageUrl, Is.EqualTo("imgUrl2"));
+            Assert.That(result.Products.FirstOrDefault().Price, Is.EqualTo(20));
+            Assert.That(result.Products.FirstOrDefault().Status, Is.EqualTo(_statusStocked.Description));
+            Assert.That(result.Products.FirstOrDefault().Category, Is.EqualTo(_category1.Name));
+            Assert.That(result.Products.FirstOrDefault().Vendor, Is.EqualTo($"{_vendor.FirstName} {_vendor.LastName}"));
+
+            Assert.That(result.TotalProductsCount, Is.EqualTo(3));
+            Assert.That(result.Products.Count, Is.EqualTo(3));
+            Assert.That(result.Products.LastOrDefault().Id, Is.EqualTo(3));
+            Assert.That(result.Products.LastOrDefault().Name, Is.EqualTo("Test 1"));
+            Assert.That(result.Products.LastOrDefault().ImageUrl, Is.EqualTo("imgUrl3"));
+            Assert.That(result.Products.LastOrDefault().Price, Is.EqualTo(40));
+            Assert.That(result.Products.LastOrDefault().Status, Is.EqualTo(_statusUnavailable.Description));
+            Assert.That(result.Products.LastOrDefault().Category, Is.EqualTo(_category2.Name));
+            Assert.That(result.Products.LastOrDefault().Vendor, Is.EqualTo($"{_vendor2.FirstName} {_vendor2.LastName}"));
+        }
+
+        [Test]
         public async Task EditProductTest()
         {
             var loggerMock = new Mock<ILogger<ProductService>>();
@@ -76,7 +318,7 @@ namespace E_CommerceMarketplace.UnitTests
             var repo = new Repository(applicationDbContext);
             productService = new ProductService(repo, logger);
 
-            _product.Category = _category;
+            _product.Category = _category1;
             _product.Status = _statusStocked;
             _product.Vendor = _vendor;
 
@@ -134,10 +376,10 @@ namespace E_CommerceMarketplace.UnitTests
 
             await repo.AddRangeAsync(new List<Product>()
             {
-                new Product(){Id = 1, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category, Vendor = _vendor},
-                new Product(){Id = 2, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category, Vendor = _vendor},
-                new Product(){Id = 3, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category, Vendor = _vendor},
-                new Product(){Id = 4, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category, Vendor = _vendor},
+                new Product(){Id = 1, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 2, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 3, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 4, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category1, Vendor = _vendor},
             });
 
             await repo.SaveChangesAsync();
@@ -158,10 +400,10 @@ namespace E_CommerceMarketplace.UnitTests
 
             await repo.AddRangeAsync(new List<Product>()
             {
-                new Product(){Id = 1, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category, Vendor = _vendor},
-                new Product(){Id = 2, Name="", ImageUrl="", Price = 1, Status = _statusUnavailable, Category = _category, Vendor = _vendor},
-                new Product(){Id = 3, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category, Vendor = _vendor},
-                new Product(){Id = 4, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category, Vendor = _vendor},
+                new Product(){Id = 1, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 2, Name="", ImageUrl="", Price = 1, Status = _statusUnavailable, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 3, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category1, Vendor = _vendor},
+                new Product(){Id = 4, Name="", ImageUrl="", Price = 1, Status = _statusStocked, Category = _category1, Vendor = _vendor},
             });
 
             await repo.SaveChangesAsync();
@@ -182,7 +424,7 @@ namespace E_CommerceMarketplace.UnitTests
             var repo = new Repository(applicationDbContext);
             productService = new ProductService(repo, logger);
 
-            _product.Category = _category;
+            _product.Category = _category1;
             _product.Status = _statusStocked;
             _product.Vendor = _vendor;
 
@@ -390,7 +632,7 @@ namespace E_CommerceMarketplace.UnitTests
             var repo = new Repository(applicationDbContext);
             var productService = new ProductService(repo, logger);
 
-            _product.Category = _category;
+            _product.Category = _category1;
 
             await repo.AddAsync(_product);
 
@@ -398,18 +640,18 @@ namespace E_CommerceMarketplace.UnitTests
 
             var categoryId = await productService.GetProductCategoryId(_product.Id);
 
-            Assert.That(categoryId, Is.EqualTo(_category.Id));
+            Assert.That(categoryId, Is.EqualTo(_category1.Id));
         }
 
         [Test]
-        public async Task GetProductDetailsById()
+        public async Task GetProductDetailsByIdTest()
         {
             var loggerMock = new Mock<ILogger<ProductService>>();
             logger = loggerMock.Object;
             var repo = new Repository(applicationDbContext);
             productService = new ProductService(repo, logger);
 
-            _product.Category = _category;
+            _product.Category = _category1;
             _product.Status = _statusStocked;
             _product.Vendor = _vendor;
 
@@ -451,6 +693,185 @@ namespace E_CommerceMarketplace.UnitTests
             Assert.AreEqual(expectedDetailsServiceModel.Vendor.PhoneNumber, result.Vendor.PhoneNumber);
         }
 
+        [Test]
+        public async Task GetProductsByVendorIdTest()
+        {
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            _product.Status = _statusStocked;
+            _product.Vendor = _vendor;
+
+            await repo.AddAsync(_product);
+
+            var newProduct = new Product()
+            {
+                Name = "Second product",
+                ImageUrl = "",
+                Price = 15,
+                Description = "",
+                Vendor = _vendor2
+            };
+
+            await repo.AddAsync(newProduct);
+
+            await repo.SaveChangesAsync();
+
+            var productsCollection = await productService.GetProductsByVendorId(_vendor.Id);
+
+            Assert.That(productsCollection.Count, Is.EqualTo(1));
+            Assert.That(productsCollection.FirstOrDefault().Id, Is.EqualTo(_product.Id));
+            Assert.That(productsCollection.FirstOrDefault().Vendor, Is.EqualTo($"{_vendor.FirstName} {_vendor.LastName}"));
+        }
+
+        [Test]
+        public async Task GetProductStatusIdTest()
+        {
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            _product.Status = _statusStocked;
+
+            await repo.AddAsync(_product);
+
+            await repo.SaveChangesAsync();
+
+            var statusId = await productService.GetProductStatusId(_product.Id);
+
+            Assert.That(statusId, Is.EqualTo(_product.Status_Id));
+
+            statusId = await productService.GetProductStatusId(5);
+
+            Assert.That(statusId, Is.EqualTo(0));
+        }
+
+        [Test]
+        public async Task GetUserProductsTest()
+        {
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            _product.Status = _statusStocked;
+            _product.Vendor = _vendor;
+
+            await repo.AddAsync(_product);
+        }
+
+        [Test]
+        public async Task HasVendorWithIdTrueTest()
+        {
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            _product.Status = _statusStocked;
+            _product.Vendor = _vendor;
+
+            await repo.AddAsync(_product);
+
+            await repo.SaveChangesAsync();
+
+            var hasVendor = await productService.HasVendorWithId(_product.Id, _vendor.User_Id);
+
+            Assert.That(hasVendor, Is.True);
+        }
+
+        [Test]
+        public async Task HasVendorWithIdFalseTest()
+        {
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            _product.Status = _statusStocked;
+            _product.Vendor = _vendor;
+
+            await repo.AddAsync(_product);
+
+            await repo.SaveChangesAsync();
+
+            var hasVendor = await productService.HasVendorWithId(_product.Id, "1234");
+
+            Assert.That(hasVendor, Is.False);
+        }
+
+        [Test]
+        public async Task IsProductAvailableTrueTest()
+        {
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            _product.Status = _statusStocked;
+
+            await repo.AddAsync(_product);
+
+            await repo.SaveChangesAsync();
+
+            var isAvailable = await productService.IsProductAvailable(_product.Id);
+
+            Assert.That(isAvailable, Is.True);
+        }
+
+        [Test]
+        public async Task IsProductAvailableFalseTest()
+        {
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            _product.Status = _statusUnavailable;
+
+            await repo.AddAsync(_product);
+
+            await repo.SaveChangesAsync();
+
+            var isAvailable = await productService.IsProductAvailable(_product.Id);
+
+            Assert.That(isAvailable, Is.False);
+        }
+
+        [Test]
+        public async Task StatusExistsTrueTest()
+        {
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            await repo.AddAsync(_statusUnavailable);
+            await repo.SaveChangesAsync();
+
+            var status = await productService.StatusExists(_statusUnavailable.Id);
+
+            Assert.IsTrue(status);
+        }
+
+        [Test]
+        public async Task StatusExistsFalseTest()
+        {
+            var loggerMock = new Mock<ILogger<ProductService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            productService = new ProductService(repo, logger);
+
+            await repo.AddAsync(_statusUnavailable);
+            await repo.SaveChangesAsync();
+
+            var status = await productService.StatusExists(5);
+
+            Assert.False(status);
+        }
 
         [TearDown]
         public void Test1()

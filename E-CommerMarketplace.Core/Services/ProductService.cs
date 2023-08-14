@@ -53,8 +53,8 @@ namespace E_CommerceMarketplace.Core.Services
             {
                 ProductSorting.Price => query
                     .OrderBy(h => h.Price),
-                ProductSorting.AvaiableFirst => query
-                    .OrderBy(h => h.Status.Id == 4)
+                ProductSorting.AvailableFirst => query
+                    .OrderBy(h => h.Status_Id == Status.Stocked.Id ? 0 : 1)
                     .ThenByDescending(h => h.Id),
                 _ => query.OrderByDescending(h => h.Id)
             };
@@ -69,6 +69,7 @@ namespace E_CommerceMarketplace.Core.Services
                     ImageUrl = p.ImageUrl,
                     Price = p.Price,
 					Status = p.Status.Description,
+					Category = p.Category.Name,
 					Vendor = p.Vendor.FirstName + " " + p.Vendor.LastName,
 					IsAvailable = p.Status_Id == Status.Stocked.Id
                 })
@@ -205,7 +206,7 @@ namespace E_CommerceMarketplace.Core.Services
         public async Task<IEnumerable<ProductHomeModel>> GetLastProducts()
 		{
 			return await repo.AllReadonly<Product>()
-				.OrderBy(p => p.Status_Id == Status.Stocked.Id)
+				.OrderBy(p => p.Status_Id == Status.Stocked.Id ? 0 : 1)
 				.ThenByDescending(p => p.Id)
 				.Take(3)
 				.Select(p => new ProductHomeModel

@@ -4,6 +4,6 @@
     {
         Newest = 0,
         Price = 1,
-        AvaiableFirst = 2,
+        AvailableFirst = 2,
     }
 }
