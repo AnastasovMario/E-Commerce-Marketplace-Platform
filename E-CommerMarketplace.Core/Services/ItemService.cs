@@ -24,37 +24,59 @@ namespace E_CommerceMarketplace.Core.Services
 
         public async Task Create(ItemServiceModel model, string userId)
 		{
-            var order = await orderService.GetCurrentOrderForUser(userId);
 
-            if (order == null)
+            try
             {
-                var newOrderId = await orderService.CreateOrder(userId);
-                var newOrder = await orderService.GetOrderDetails(newOrderId);
+                var order = await orderService.GetCurrentOrderForUser(userId);
 
-                order = newOrder;
+                if (order == null)
+                {
+                    var newOrderId = await orderService.CreateOrder(userId);
+                    var newOrder = await orderService.GetOrderDetails(newOrderId);
+
+                    order = newOrder;
+                }
+
+                var item = new Item()
+                {
+                    Quantity = model.Quantity,
+                    Product_Id = model.Product_Id,
+                    Total = Math.Round(model.Quantity * model.Price),
+                    Order_Id = order.Id
+                };
+
+                await repo.AddAsync(item);
+                await repo.SaveChangesAsync();
             }
-
-            var item = new Item()
+            catch (Exception ex)
             {
-                Quantity = model.Quantity,
-                Product_Id = model.Product_Id,
-                Total = Math.Round(model.Quantity * model.Price),
-                Order_Id = order.Id
-            };
-
-            await repo.AddAsync(item);
-            await repo.SaveChangesAsync();
+                logger.LogError(nameof(Create), ex);
+                throw new ApplicationException($"Database failed to save item", ex);
+            }
 		}
 
         public async Task<int> Edit(int itemId, ItemServiceModel model)
         {
-            var item = await repo.GetByIdAsync<Item>(itemId);
+            try
+            {
+                var item = await repo.GetByIdAsync<Item>(itemId);
 
-            item.Quantity = model.Quantity;
+                if (model.Quantity < 1)
+                {
+                    throw new ArgumentException($"Quantity cannot be less than 1.");
+                }
 
-            await repo.SaveChangesAsync();
+                item.Quantity = model.Quantity;
 
-            return item.Id;
+                await repo.SaveChangesAsync();
+
+                return item.Id;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(Edit), ex);
+                throw new ApplicationException(ex.Message);
+            } 
         }
 
         public async Task<bool> Exists(int itemId)

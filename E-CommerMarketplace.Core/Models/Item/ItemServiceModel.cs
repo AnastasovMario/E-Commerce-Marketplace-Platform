@@ -1,5 +1,6 @@
 ﻿using E_CommerceMarketplace.Core.Constants;
 using System.ComponentModel.DataAnnotations;
+using static E_CommerceMarketplace.Infrastructure.DatabseConstants.DataConstants;
 
 namespace E_CommerceMarketplace.Core.Models.Item
 {
@@ -18,7 +19,7 @@ namespace E_CommerceMarketplace.Core.Models.Item
 		public decimal Price { get; set; }
 
 		[Display(Name = "Quantity")]
-		[Range(ValidationConstants.MinimumQuantity, ValidationConstants.MaximumQuantity, ErrorMessage = "Quantity must be a positive number and less than 10")]
+		[Range(MinimumQuantity, MaximumQuantity, ErrorMessage = "Quantity must be a positive number and less than 10")]
 		public int Quantity { get; set; }
 	}
 }

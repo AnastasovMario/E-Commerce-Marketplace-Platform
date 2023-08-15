@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using static E_CommerceMarketplace.Infrastructure.DatabseConstants.DataConstants;
-using static E_CommerceMarketplace.Core.Constants.ValidationConstants;
 
 namespace E_CommerceMarketplace.Core.Models.Product
 {

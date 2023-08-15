@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static E_CommerceMarketplace.Infrastructure.DatabseConstants.DataConstants;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
@@ -10,7 +11,8 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
 		public int Id { get; set; }
 
 		[Required]
-		public int Quantity { get; set; }
+        [Range(MinimumQuantity, MaximumQuantity)]
+        public int Quantity { get; set; }
 
 		[Required]
 		[Column(TypeName = "money")]
