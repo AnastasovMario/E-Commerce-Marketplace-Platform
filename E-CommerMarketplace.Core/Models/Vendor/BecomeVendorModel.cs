@@ -1,28 +1,25 @@
-﻿using E_CommerceMarketplace.Infrastructure.Data.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using E_CommerceMarketplace.Infrastructure.DatabseConstants;
+﻿using System.ComponentModel.DataAnnotations;
+using static E_CommerceMarketplace.Infrastructure.DatabseConstants.DataConstants;
 
 namespace E_CommerceMarketplace.Core.Models.Vendor
 {
-
-	public class BecomeVendorModel
+    public class BecomeVendorModel
 	{
 
 		[Required]
-		[StringLength(DbConstants.PhoneNumberMaxLength, MinimumLength = DbConstants.PhoneNumberMinLength)]
+		[StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
 		[Phone]
 		[Display(Name = "Phone number")]
 		public string PhoneNumber { get; set; } = null!;
 
 		[Required]
 		[Display(Name = "First name")]
-		[StringLength(DbConstants.UserFirstNameMaxLength, MinimumLength = DbConstants.UserFirstNameMinLength)]
+		[StringLength(UserFirstNameMaxLength, MinimumLength = UserFirstNameMinLength)]
 		public string FirstName { get; set; } = null!;
 
 		[Required]
         [Display(Name = "Last name")]
-        [StringLength(DbConstants.UserLastNameMaxLength, MinimumLength = DbConstants.UserLastNameMinLength)]
+        [StringLength(UserLastNameMaxLength, MinimumLength = UserLastNameMinLength)]
 		public string LastName { get; set; } = null!;
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using E_CommerceMarketplace.Infrastructure.DatabseConstants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static E_CommerceMarketplace.Infrastructure.DatabseConstants.DataConstants;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
@@ -10,7 +11,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Models
         public int Id { get; init; }
 
         [Required]
-		[MaxLength(DbConstants.StatusLength)]
+		[MaxLength(StatusMinLength)]
 		public string Description { get; init; } = null!;
 
         [NotMapped]

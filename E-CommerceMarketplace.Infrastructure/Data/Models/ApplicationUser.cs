@@ -1,16 +1,17 @@
 ﻿using E_CommerceMarketplace.Infrastructure.DatabseConstants;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using static E_CommerceMarketplace.Infrastructure.DatabseConstants.DataConstants;
 
 namespace E_CommerceMarketplace.Infrastructure.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {
 
-        [MaxLength(DbConstants.UserFirstNameMaxLength)]
+        [MaxLength(UserFirstNameMaxLength)]
         public string? FirstName { get; set; }
 
-        [MaxLength(DbConstants.UserLastNameMaxLength)]
+        [MaxLength(UserLastNameMaxLength)]
         public string? LastName { get; set; }
 
         [Required]

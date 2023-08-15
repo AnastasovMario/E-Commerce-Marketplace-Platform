@@ -1,28 +1,28 @@
-﻿using E_CommerceMarketplace.Core.Constants;
-using E_CommerceMarketplace.Core.Contracts;
-using E_CommerceMarketplace.Infrastructure.DatabseConstants;
+﻿using E_CommerceMarketplace.Core.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using static E_CommerceMarketplace.Infrastructure.DatabseConstants.DataConstants;
+using static E_CommerceMarketplace.Core.Constants.ValidationConstants;
 
 namespace E_CommerceMarketplace.Core.Models.Product
 {
-	public class ProductModel : IProductModel
+    public class ProductModel : IProductModel
 	{
 		public int Id { get; set; }
 
 		[Required]
-		[MaxLength(DbConstants.ProductNameLength)]
+		[StringLength(ProductNameMaxLength, MinimumLength = ProductNameMinLength)]
 		[Display(Name = "Product Name")]
 		public string Name { get; set; } = null!;
 
 		[Required]
 		[Display(Name = "Price")]
 		[Precision(18, 2)]
-		[Range(ValidationConstants.MinimumPrice, ValidationConstants.MaximumPrice, ErrorMessage = "Price must be a positive number and less than {2} leva")]
+		[Range(MinimumPrice, MaximumPrice, ErrorMessage = "Price must be a positive number and less than {2} leva")]
 		public decimal Price { get; init; }
 
 		[Required]
-		[StringLength(DbConstants.ImageUrlMaxLength)]
+		[StringLength(ImageUrlMaxLength)]
 		[Display(Name = "Image URL")]
 		public string ImageUrl { get; set; } = null!;
 
@@ -30,7 +30,7 @@ namespace E_CommerceMarketplace.Core.Models.Product
 		[Display(Name = "Category")]
 		public int CategoryId { get; init; }
 
-		[MaxLength(DbConstants.DescriptionLength)]
+		[StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength)]
 		[Display(Name = "Description")]
 		public string? Description { get; set; }
 
