@@ -4,6 +4,7 @@ using E_CommerceMarketplace.Core.Models.Order;
 using E_CommerceMarketplace.Infrastructure.Common;
 using E_CommerceMarketplace.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace E_CommerceMarketplace.Core.Services
 {
@@ -11,11 +12,14 @@ namespace E_CommerceMarketplace.Core.Services
 	{
 		private readonly IRepository repo;
         private readonly IOrderService orderService;
+        private readonly ILogger logger;
 		public ItemService(IRepository _repo,
-            IOrderService _orderService)
+            IOrderService _orderService,
+            ILogger<ItemService> _logger)
 		{
 			repo = _repo;
             orderService = _orderService;
+            logger = _logger;
 		}
 
         public async Task Create(ItemServiceModel model, string userId)
