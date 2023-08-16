@@ -8,7 +8,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Status> builder)
         {
-            //builder.HasData(CreateStatuses());
+            builder.HasData(CreateStatuses());
         }
 
         public List<Status> CreateStatuses()

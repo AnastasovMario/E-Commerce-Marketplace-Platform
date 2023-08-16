@@ -14,7 +14,7 @@ namespace E_CommerceMarketplace.Infrastructure.Data.Configuration
 
 		public void Configure(EntityTypeBuilder<Product> builder)
 		{
-			//builder.HasData(CreateProducts());
+			builder.HasData(CreateProducts());
 		}
 
 		private List<Product> CreateProducts()
