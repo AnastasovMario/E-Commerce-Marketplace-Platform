@@ -23,12 +23,14 @@
                 <div class="header-buttons">
                     @if (Model.OrderItems.Any())
                     {
-                        <form asp-area="" asp-controller="Order" asp-action="Pay" asp-route-id="@Model.Id" method="post" class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-success">Pay Order</button>
-                        </form>
-                        <form asp-area="" asp-controller="Order" asp-action="Clear" asp-route-id="@Model.Id" method="post" class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-danger">Clear Order</button>
-                        </form>
+                        <div class="orderBtns">
+                            <form asp-area="" asp-controller="Order" asp-action="Pay" asp-route-id="@Model.Id" method="post" class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-success">Pay Order</button>
+                            </form>
+                            <form asp-area="" asp-controller="Order" asp-action="Clear" asp-route-id="@Model.Id" method="post" class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-danger">Clear Order</button>
+                            </form>
+                        </div>
                     }
                 </div>
             </div>

@@ -31,3 +31,8 @@ body {
 .custom-offset {
     margin-left: 17px;
 }
+
+.orderBtns {
+    display: flex;
+    flex-direction: row;
+}
