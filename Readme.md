@@ -129,38 +129,16 @@ Technical Documentation
 =====================================
 ### Brief information
     The application uses SqlServer DbContext + Identity for the user control.
-    The application uses POCO classes for the Configuration root json's.
-    The application uses JWT Bearer scheme and custom refresh tokens for the authentication/authorization.
     The application uses Repository pattern for getting data from the database.
     The application uses Swagger in Development Environment for the API documentation.
-    The application uses Email confirmation registration.
 
 ### Application setup on local machine
-    Step 1. Clone the repo and open the Store-Ge.Web.sln project file in the Store-Ge.Web folder
-    Step 2. Initialize user secrets for the project
-      The Keys needed for the project to work properly are:
-      -"SendGridSettings:SendGridApiKey"
-      -"JwtSettings:Secret"
-      -"DbUser"
-      -"DbPassword"
-      -"DbConfiguration:ConnectionString"
-      -"StoreGeAppSettings:DataProtectionKey"
-    Step 3. Register in https://sendgrid.com/ with free account and get the API key that's been given to you(don't give it to anyone else). Add the key to the "SendGridSettings:SendGridApiKey" secret
-    Step 4. The other secrets are up to you to give them random suitable value(strong highly unguessable values are recommended)
-    Step 5. If you run your SQL Server on Docker start it.
-    Step 6. Open the Store-Ge.UI project with VS Code and run the "ng serve -o" command in the terminal. This will serve the front end project and will be opened on port 4200.
-    Step 7. Start the Web project under the IIS Express profile
-    Step 8. Should be ready to use!
+    Step 1. Clone the repo and open the E-Commerce Marketplace Platform.sln project file in the E-Commerce-Marketplace-Platform folder
+    Step 2. If you run your SQL Server on Docker start it.
+    Step 3. Create a connection and initialize migration from the project "E-CommerceMarketplace.Infrastructure" in order to create the database.
+    Step 4. Start the Web project under the IIS Express profile
+    Step 5. Should be ready to use!
     
-### Application Flow
-<p>
-    <pre>                    - Registration Flow                                     - Functionality</pre>
-    <p>
-      <img height="400em" src="https://i.ibb.co/LCGWh18/store-ge-registration-flow.jpg"/></img>
-      <img height="600em" src="https://i.ibb.co/WpMJJ1t/store-ge-component-diagram.jpg"/></img>
-    </p>
-</p>
-
 Tech Stack:
 ==========================================
 
@@ -169,30 +147,14 @@ Tech Stack:
 <ul>
   <li>ASP.Net Core 6.0</li>
   <li>EntityFramework Core 6.0.1</li>
-  <li>Z.EntityFramework.Extensions.EFCore 6.16.1</li>
-  <li>AutoMapper 12.0</li>
-  <li>LinqKit 1.2.2</li>
-  <li>SendGrid 9.28.1</li>
-  <li>EPPlus 6.1.1</li>
   <li>Swashbuckle.AspNetCore.Swagger 6.4</li>
-  <li>Microsoft.AspNetCore.Identity 6.0.1</li>
-  <li>Microsoft.AspNetCore.Authentication.JwtBearer 6.0.9</li>
-</ul>
-
-### Front-End
-<p></p>
-<ul>
-  <li>Angular 14.2.6</li>
-  <li>Material 13.3.9</li>
-  <li>RxJs 7.5.7</li>
-  <li>TypeScript 4.6.4</li>
-  <li>JwtHelper</li>
 </ul>
 
 ### Database
 <p></p>
 <ul>
   <li>MSSQL Server</li>
+  <li>Docker</li>
 </ul>
 
 ### Tests
@@ -200,10 +162,11 @@ Tech Stack:
 <ul>
   <li>NUnit 3.13.3</li>
   <li>NUnit3TestAdapter 4.3.1</li>
-  <li>Moq 4.18.2</li>
-  <li>Microsoft.EntityFrameworkCore.InMemory 6.0.11</li>
-  <li>Microsoft.NET.Test.Sdk 17.4</li>
-  <li>coverlet.collector 3.2</li>
+  <li>Moq 4.20.69</li>
+  <li>NUnit.Analyzers</li>
+  <li>Microsoft.EntityFrameworkCore.InMemory 6.0.21</li>
+  <li>Microsoft.NET.Test.Sdk 17.3.2</li>
+  <li>coverlet.collector 3.1</li>
 </ul>
 
 ### Git tools
