@@ -140,6 +140,9 @@ Technical Documentation
     Step 5. Run both projects simultaneously for the APi to works.
     Step 6. Start the Web project under the IIS Express profile
     Step 7. Should be ready to use!
+
+### Tests
+    In order for the tests to work, you need to comment the seeding data in CategoryConfigurations, StatusConfigurations and ProductConfigurations.
     
 Tech Stack:
 ==========================================
