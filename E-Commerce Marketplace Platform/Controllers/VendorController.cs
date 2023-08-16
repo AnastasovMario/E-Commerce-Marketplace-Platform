@@ -32,7 +32,6 @@ namespace E_Commerce_Marketplace_Platform.Controllers
                 TempData[MessageConstants.ErrorMessage] = "Вие вече сте Продавач";
 
                 return RedirectToAction(nameof(HomeController.Index), "Home");
-                //throw new ArgumentException("Tried to become a vendor without permission");				
 			}
 
 			var model = new BecomeVendorModel();
@@ -81,6 +80,8 @@ namespace E_Commerce_Marketplace_Platform.Controllers
 			}
 
             await vendorService.Create(userId, model);
+
+			TempData[MessageConstants.SuccessMessage] = "Честито, вече сте продавач!";
 
 			return RedirectToAction(nameof(ProductController.All), "Product");
 		}

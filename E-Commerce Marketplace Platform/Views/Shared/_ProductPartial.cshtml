@@ -6,12 +6,13 @@
     <div class="card mb-3">
         <img class="card-img-top" src="@Model.ImageUrl" alt="House Image">
         <div class="card-body text-center">
-            <h4>@Model.Name</h4>
+            <h4> <u>@Model.Name</u></h4>
             <h6>
                 Price:
                 <b>@String.Format("{0:f2}", Model.Price) BGN</b>
             </h6>
-            <h6>Status: @Model.Status</h6>
+            <h6>Status: <b>@Model.Status</b></h6>
+            <h6>Category: <i>@Model.Category</i></h6>
             @if (await productService.HasVendorWithId(Model.Id, User.Id()) == false)
             {
                 <h6>Vendor: @Model.Vendor</h6>
