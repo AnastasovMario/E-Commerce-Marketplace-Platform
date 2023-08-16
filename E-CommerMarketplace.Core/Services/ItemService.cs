@@ -131,16 +131,18 @@ namespace E_CommerceMarketplace.Core.Services
         }
 
 
-        public async Task<IEnumerable<ItemServiceModel>> GetUsersBoughtProducts(string userId)
+        public async Task<IEnumerable<OrderItemViewModel>> GetUsersBoughtProducts(string userId)
         {
             return await repo.AllReadonly<Item>()
                 .Where(i => i.Order.User_Id == userId && i.Order.Sale_Id != null)
-                .Select(i => new ItemServiceModel
+                .Select(i => new OrderItemViewModel
                 {
                     Name = i.Product.Name,
                     ImageUrl = i.Product.ImageUrl,
                     Price = i.Product.Price,
                     Quantity = i.Quantity,
+                    Total = i.Product.Price * i.Quantity,
+                    IsSold = true,
                     Vendor = i.Product.Vendor.FirstName + " " + i.Product.Vendor.LastName
                 })
                 .ToListAsync();

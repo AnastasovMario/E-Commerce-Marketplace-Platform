@@ -21,7 +21,7 @@
     }
 </div>
 
-<h4>Mine Bought Products</h4>
+<h4>My Bought Products</h4>
 
 @if (!Model.BoughtItems.Any())
 {
@@ -31,6 +31,6 @@
 <div class="row">
     @foreach (var item in Model.BoughtItems)
     {
-        @await Html.PartialAsync("~/Views/Shared/_ItemFormPartial.cshtml", item)
+        @await Html.PartialAsync("~/Views/Shared/_OrderItemPartial.cshtml", item)
     }
 </div>

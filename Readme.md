@@ -136,8 +136,10 @@ Technical Documentation
     Step 1. Clone the repo and open the E-Commerce Marketplace Platform.sln project file in the E-Commerce-Marketplace-Platform folder
     Step 2. If you run your SQL Server on Docker start it.
     Step 3. Create a connection and initialize migration from the project "E-CommerceMarketplace.Infrastructure" in order to create the database.
-    Step 4. Start the Web project under the IIS Express profile
-    Step 5. Should be ready to use!
+    Step 4. Use the same connection string in the Web Api Project.
+    Step 5. Run both projects simultaneously for the APi to works.
+    Step 6. Start the Web project under the IIS Express profile
+    Step 7. Should be ready to use!
     
 Tech Stack:
 ==========================================

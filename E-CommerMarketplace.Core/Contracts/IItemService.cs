@@ -10,7 +10,7 @@ namespace E_CommerceMarketplace.Core.Contracts
 
 		Task<bool> IsItemBought(int itemId);
 
-		Task<IEnumerable<ItemServiceModel>> GetUsersBoughtProducts(string userId);
+		Task<IEnumerable<OrderItemViewModel>> GetUsersBoughtProducts(string userId);
 
 		Task Create(ItemServiceModel model, string userId);
 
