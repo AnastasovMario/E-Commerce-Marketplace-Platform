@@ -63,7 +63,7 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            if ((await vendorService.ExistsById(User.Id()) == false))
+            if (!User.IsInRole(AdminRolleName) && (await vendorService.ExistsById(User.Id()) == false))
             {
                 return RedirectToAction(nameof(VendorController.Become), "Vendor");
             }
@@ -226,27 +226,37 @@ namespace E_Commerce_Marketplace_Platform.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int Id)
         {
-            if ((await productService.Exists(Id)) == false)
+            try
             {
-                return RedirectToAction(nameof(All));
+                if ((await productService.Exists(Id)) == false)
+                {
+                    return RedirectToAction(nameof(All));
+                }
+
+                if ((await productService.HasVendorWithId(Id, User.Id())) == false)
+                {
+                    return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+                }
+
+                var product = await productService.GetProductDetailsById(Id);
+
+                var model = new ProductDetailsViewModel()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    ImageUrl = product.ImageUrl
+                };
+
+                return View(model);
             }
-
-            if ((await productService.HasVendorWithId(Id, User.Id())) == false)
+            catch (Exception ex)
             {
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+
+                logger.LogError(nameof(Delete), ex);
+                throw new ApplicationException(ex.Message);
             }
-
-            var product = await productService.GetProductDetailsById(Id);
-
-            var model = new ProductDetailsViewModel()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl
-            };
-
-            return View(model);
+            
         }
 
         [HttpPost]
