@@ -9,21 +9,21 @@ using Microsoft.Extensions.Logging;
 namespace E_CommerceMarketplace.Core.Services
 {
     public class ItemService : IItemService
-	{
-		private readonly IRepository repo;
+    {
+        private readonly IRepository repo;
         private readonly IOrderService orderService;
         private readonly ILogger logger;
-		public ItemService(IRepository _repo,
+        public ItemService(IRepository _repo,
             IOrderService _orderService,
             ILogger<ItemService> _logger)
-		{
-			repo = _repo;
+        {
+            repo = _repo;
             orderService = _orderService;
             logger = _logger;
-		}
+        }
 
         public async Task Create(ItemServiceModel model, string userId)
-		{
+        {
 
             try
             {
@@ -35,6 +35,11 @@ namespace E_CommerceMarketplace.Core.Services
                     var newOrder = await orderService.GetOrderDetails(newOrderId);
 
                     order = newOrder;
+                }
+
+                if (model.Quantity < 1)
+                {
+                    throw new ArgumentException($"Quantity cannot be less than 1.");
                 }
 
                 var item = new Item()
@@ -51,9 +56,9 @@ namespace E_CommerceMarketplace.Core.Services
             catch (Exception ex)
             {
                 logger.LogError(nameof(Create), ex);
-                throw new ApplicationException($"Database failed to save item", ex);
+                throw new ApplicationException(ex.Message);
             }
-		}
+        }
 
         public async Task<int> Edit(int itemId, ItemServiceModel model)
         {
@@ -76,7 +81,7 @@ namespace E_CommerceMarketplace.Core.Services
             {
                 logger.LogError(nameof(Edit), ex);
                 throw new ApplicationException(ex.Message);
-            } 
+            }
         }
 
         public async Task<bool> Exists(int itemId)
@@ -105,9 +110,9 @@ namespace E_CommerceMarketplace.Core.Services
         public async Task<IEnumerable<OrderItemViewModel>> GetItemsHistory(string userId)
         {
             var orderIds = await repo.AllReadonly<Order>()
-                .Where(o => o.User_Id == userId && o.Sale_Id != null)
-                .Select(o => o.Id)
-                .ToListAsync();
+            .Where(o => o.User_Id == userId && o.Sale_Id != null)
+            .Select(o => o.Id)
+            .ToListAsync();
 
             return await repo.AllReadonly<Item>()
                 .Where(i => orderIds.Contains(i.Order_Id))
@@ -125,8 +130,9 @@ namespace E_CommerceMarketplace.Core.Services
                 .ToListAsync();
         }
 
-		public async Task<IEnumerable<ItemServiceModel>> GetUsersBoughtProducts(string userId)
-		{
+
+        public async Task<IEnumerable<ItemServiceModel>> GetUsersBoughtProducts(string userId)
+        {
             return await repo.AllReadonly<Item>()
                 .Where(i => i.Order.User_Id == userId && i.Order.Sale_Id != null)
                 .Select(i => new ItemServiceModel
@@ -138,7 +144,7 @@ namespace E_CommerceMarketplace.Core.Services
                     Vendor = i.Product.Vendor.FirstName + " " + i.Product.Vendor.LastName
                 })
                 .ToListAsync();
-		}
+        }
 
         public async Task<bool> HasBuyerWithId(int itemId, string userId)
         {
@@ -154,8 +160,16 @@ namespace E_CommerceMarketplace.Core.Services
 
         public async Task Remove(int itemId)
         {
-            await repo.DeleteAsync<Item>(itemId);
-            await repo.SaveChangesAsync();
+            try
+            {
+                await repo.DeleteAsync<Item>(itemId);
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(Remove), ex);
+                throw new ApplicationException("Database failed to remove item", ex);
+            } 
         }
     }
 }
